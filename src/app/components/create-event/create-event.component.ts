@@ -45,13 +45,6 @@ export class CreateEventComponent {
       switch (tipo) {
         case 'locations':
           this.createEventForm.get('localitiesImage')?.setValue(files[0]);
-          // Mostrar información del archivo en la consola
-          console.log('Archivo de localizaciones:', files[0]);
-          console.log('Nombre:', files[0].name);
-          console.log('Tamaño:', files[0].size);
-          console.log('Tipo:', files[0].type);
-          console.log('Última modificación:', files[0].lastModified);
-          console.log('coso:', this.createEventForm.get('localitiesImage'));
           break;
         case 'cover':
           this.createEventForm.get('coverImage')?.setValue(files[0]);
