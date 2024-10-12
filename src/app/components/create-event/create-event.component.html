@@ -1,0 +1,44 @@
+<form [formGroup]="createEventForm" (ngSubmit)="createEvent()" novalidate="">
+    <div>
+        <label>Name: </label>
+        <input type="text" formControlName="name" />
+    </div>
+    <div>
+        <label>Address: </label>
+        <input type="text" formControlName="address" />
+    </div>
+    <div>
+        <label>City: </label>
+        <input type="text" formControlName="city" />
+    </div>
+    <div>
+        <label>Cover Image: </label>
+        <input type="file" (change)="onFileChange($event, 'cover')" />
+    </div>
+    <div>
+        <label>Localities Image: </label>
+        <input type="file" (change)="onFileChange($event, 'locations')" />
+    </div>
+    <div>
+        <label for="eventDate">Fecha del evento: </label>
+        <input type="datetime-local" id="eventDate" formControlName="date" />
+    </div>
+    <div>
+        <label>Description: </label>
+        <textarea formControlName="description"></textarea>
+    </div>
+    <div>
+        <label>Type: </label>
+        <select formControlName="type">
+            <option value="">Select a type</option>
+            @for (item of eventTypes; track $index) {
+            <option value="{{item}}">{{item}}</option>
+            }
+        </select>
+    </div>
+    <!-- Falta poner lo de las localidades ya esta en el .ts formBuilder.array([]) hay que consultar para que sirve -->
+
+
+
+    <button type="submit">Crear evento</button>
+</form>
