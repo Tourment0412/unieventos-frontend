@@ -1,0 +1,21 @@
+/* card.component.css */
+mat-card {
+    max-width: 400px; /* Establece un ancho máximo para la card */
+    margin: 20px auto; /* Centra la card horizontalmente */
+  }
+  
+  mat-card img {
+    width: 100%; /* La imagen ocupará el ancho completo de la card */
+    height: auto; /* Mantiene la proporción de la imagen */
+  }
+  mat-card-actions {
+    display: flex;
+    flex-direction: row; /* Coloca los botones en columnas */
+  }
+  
+  button {
+    
+    margin-left: 8px; /* Añade margen entre los botones */
+  }
+  
+  
