@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header p-4">
+            <h5 class="mb-0">
+                <i class="fa-solid fa-user-plus me-3"></i>Edicion de Perfil
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            <form class="row g-3" [formGroup]="editarPerilForm" (ngSubmit)="editarPerfil()">
+                <div class="col-6">
+                    <label>Name: </label>
+                    <input type="text" class="form-control" formControlName="name" />
+                </div>
+                <div class="col-6">
+                    <label>Phone: </label>
+                    <input type="number" class="form-control" formControlName="phone" />
+                </div>
+                <div class="col-6">
+                    <label>Address: </label>
+                    <input type="text" class="form-control" formControlName="address" />
+                </div>
+                <div class="col-6">
+                    <label>Password: </label>
+                    <input type="password" class="form-control" formControlName="password" />
+                </div>
+
+                <div class="col-6">
+                    <label>Repeat password: </label>
+                    <input type="password" class="form-control" formControlName="confirmaPassword" />
+                </div>
+                @if (editarPerilForm.hasError('passwordsMismatch')) {
+                <div class="alert alert-danger" role="alert">Las contraseñas no coinciden</div>
+
+                }
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary" [disabled]="editarPerilForm.invalid">
+                        <i class="fa-solid fa-plus me-2"></i>Editar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
