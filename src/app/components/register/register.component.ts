@@ -9,7 +9,7 @@ import { Validators } from '@angular/forms';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
