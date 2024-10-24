@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControlOptions, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControlOptions, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
@@ -15,6 +15,7 @@ export class CreateEventComponent {
 
   eventTypes: string[];
   createEventForm!: FormGroup;
+
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
     this.eventTypes = ['SPORT', 'CONCERT', 'CULTURAL', 'FASHION', 'BEAUTY', 'OTHER'];
@@ -52,6 +53,33 @@ export class CreateEventComponent {
       }
     }
   }
+
+  // Método que crea un subformulario para una localidad
+private createLocality(): FormGroup {
+  return this.formBuilder.group({
+    name: ['', Validators.required],
+    price: [0, [Validators.required, Validators.min(0)]],
+    tickersSold: [0, [Validators.required, Validators.min(0)]],
+    maxCapacity: [1, [Validators.required, Validators.min(1)]]
+  });
+}
+
+// Método para obtener el FormArray de localidades
+get locations(): FormArray {
+  return this.createEventForm.get('locations') as FormArray;
+}
+
+// Método para añadir una nueva localidad
+public addLocality() {
+  this.locations.push(this.createLocality());
+}
+
+// Método para eliminar una localidad específica
+public removeLocality(index: number) {
+  this.locations.removeAt(index);
+}
+
+
 
 
 }

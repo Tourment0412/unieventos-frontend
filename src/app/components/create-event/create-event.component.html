@@ -23,7 +23,7 @@
                     <label>Cover Image: </label>
                     <input type="file" class="form-control" (change)="onFileChange($event, 'cover')" />
                 </div>
-                <div>
+                <div class="col-6">
                     <label>Localities Image: </label>
                     <input type="file" class="form-control" (change)="onFileChange($event, 'locations')" />
                 </div>
@@ -37,16 +37,48 @@
                 </div>
                 <div class="col-6">
                     <label class="form-label">Tipo: </label>
-                    <select formControlName="tipo" class="form-select">
+                    <select formControlName="type" class="form-select">
                         <option value="">Seleccione un tipo</option>
                         @for (item of eventTypes; track $index) {
                         <option value="{{item}}">{{item}}</option>
                         }
                     </select>
                 </div>
-                <!-- Falta poner lo de las localidades ya esta en el .ts formBuilder.array([]) hay que consultar para que sirve -->
 
-
+                <!-- Sección de Localities antes del botón de Submit -->
+                <div class="col-12">
+                    <label>Localities:</label>
+                    <div formArrayName="locations">
+                        @for (locality of locations.value; track $index) {
+                            <div [formGroupName]="$index" class="mb-3">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="name">Name:</label>
+                                        <input type="text" class="form-control" formControlName="name" placeholder="Name" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="price">Price:</label>
+                                        <input type="number" class="form-control" formControlName="price" placeholder="Price" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="maxCapacity">Max Capacity:</label>
+                                        <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity" />
+                                    </div>
+                                    <div class="col-md-12 text-end mt-2">
+                                        <button type="button" class="btn btn-danger" (click)="removeLocality($index)">
+                                            Remove Locality
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                
+                    <div class="text-end mt-2">
+                        <button type="button" class="btn btn-success" (click)="addLocality()">Add Locality</button>
+                    </div>
+                </div>
+                <!-- Fin de la sección de Localities -->
 
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
@@ -54,6 +86,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
+</div>
