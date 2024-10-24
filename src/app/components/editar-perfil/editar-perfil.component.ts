@@ -19,7 +19,7 @@ export class EditarPerfilComponent {
   }
 
   private createForm() {
-    //TODO: verificar que en estas validaciones se incluyan las que ya se tenian escritas en DTO respectivo  
+    //TODO: verificar que en estas validaciones se incluyan las que ya se tenian escritas en DTO respectivo
     this.editarPerilForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.maxLength(10)]],
@@ -39,7 +39,7 @@ export class EditarPerfilComponent {
     const confirmaPassword = formGroup.get('confirmaPassword')?.value;
     // Si las contraseñas no coinciden, devuelve un error, de lo contrario, null
     return password == confirmaPassword ? null : { passwordsMismatch: true };
-    
+
   }
 
 
