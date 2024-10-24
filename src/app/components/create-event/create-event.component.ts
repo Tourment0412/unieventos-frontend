@@ -59,7 +59,6 @@ private createLocality(): FormGroup {
   return this.formBuilder.group({
     name: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(0)]],
-    tickersSold: [0, [Validators.required, Validators.min(0)]],
     maxCapacity: [1, [Validators.required, Validators.min(1)]]
   });
 }
