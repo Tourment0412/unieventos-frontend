@@ -19,8 +19,8 @@ export class GestionEventosComponent {
  seleccionados: EventoDTO[];
  textoBtnEliminar: String;
 
- constructor(public eventosService:EventosService, ) {
-   this.eventos = eventosService.listar();
+ constructor(public EventosService:EventosService, ) {
+   this.eventos = EventosService.listar();
    this.seleccionados = [];
    this.textoBtnEliminar = "Eliminar"
  }
@@ -75,7 +75,7 @@ export class GestionEventosComponent {
 
   public eliminarEventos() {
     this.seleccionados.forEach(e1 => {
-      this.eventosService.eliminar(e1.id);
+      this.EventosService.eliminar(e1.id);
       this.eventos = this.eventos.filter(e2 => e2.id !== e1.id);
     });
     this.seleccionados = [];
@@ -83,6 +83,7 @@ export class GestionEventosComponent {
 
 
    }
+
 
  }
 
