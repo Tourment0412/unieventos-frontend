@@ -3,6 +3,9 @@ import { AbstractControlOptions, FormArray, FormGroup, ReactiveFormsModule } fro
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { EventosService } from '../../servicios/EventosService';
+import Swal from 'sweetalert2';
+import { EventoDTO } from '../../dto/eventoDTO';
 
 @Component({
   selector: 'app-create-event',
@@ -15,6 +18,7 @@ export class CreateEventComponent {
 
   eventTypes: string[];
   createEventForm!: FormGroup;
+  eventosService: EventosService = new EventosService;
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
@@ -36,9 +40,11 @@ export class CreateEventComponent {
   }
 
   //Por ahora esta funcion solo imprime en conosola, luego será una que haga la solicitus HTTP
-  public createEvent() {
-    console.log(this.createEventForm.value);
-  }
+  public crearEvento(){
+    this.eventosService.crear(this.createEventForm.value as EventoDTO);
+    Swal.fire("Exito!", "Se ha creado un nuevo evento.", "success");
+   }
+
 
   public onFileChange(event: any, tipo: string) {
     if (event.target.files.length > 0) {
