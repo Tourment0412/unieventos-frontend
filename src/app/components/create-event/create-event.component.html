@@ -2,8 +2,6 @@
   <div class="card">
     <div class="card-header p-4">
 
-
-
       <h5 *ngIf="updateOnly">
         <i class="fas fa-edit"></i>
         <span>Actualización de eventos</span>
@@ -18,8 +16,6 @@
         <i class="fas fa-plus-circle"></i>
         <span>Creación de eventos</span>
       </h5>
-
-
 
     </div>
     <div class="card-body p-4">
@@ -121,7 +117,7 @@
 
         <div class="col-12 text-center">
           <!-- Botón para actualizar el evento -->
-          <button *ngIf="readOnly" type="button" class="btn btn-secondary" (click)="mostrarActualizarEvento()">
+          <button *ngIf="readOnly" type="button" class="btn btn-warning" (click)="mostrarActualizarEvento()">
             <i class="fa-solid fa-edit me-2"></i>Actualizar Evento
           </button>
           <!-- Botón para actualizar el evento -->
