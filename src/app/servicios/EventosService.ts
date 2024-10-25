@@ -37,7 +37,7 @@ export class EventosService {
  }
 
 
- public editar(id:string, editarEventoDTO:EventoDTO){
+ public actualizar(id:string, editarEventoDTO:EventoDTO){
    const indice = this.eventos.findIndex(evento => evento.id == id);
    if(indice != -1){
      this.eventos[indice] = editarEventoDTO;

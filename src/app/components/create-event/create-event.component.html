@@ -1,11 +1,26 @@
 <div class="container">
   <div class="card">
     <div class="card-header p-4">
-      <h5 class="mb-0">
-        <i class="fa-solid fa-user-plus me-3"></i>
-        <span *ngIf="!readOnly">Creación de eventos</span>
-        <span *ngIf="readOnly">Detalles de eventos</span>
+
+
+
+      <h5 *ngIf="updateOnly">
+        <i class="fas fa-edit"></i>
+        <span>Actualización de eventos</span>
       </h5>
+
+      <h5 *ngIf="readOnly">
+        <i class="fas fa-info-circle"></i>
+        <span>Detalles de eventos</span>
+      </h5>
+
+      <h5 *ngIf="!readOnly && !updateOnly">
+        <i class="fas fa-plus-circle"></i>
+        <span>Creación de eventos</span>
+      </h5>
+
+
+
     </div>
     <div class="card-body p-4">
       <form class="row g-3" [formGroup]="createEventForm" (ngSubmit)="crearEvento()" novalidate>
@@ -105,10 +120,19 @@
         <!-- Fin de la sección de Localities -->
 
         <div class="col-12 text-center">
+          <!-- Botón para actualizar el evento -->
+          <button *ngIf="readOnly" type="button" class="btn btn-secondary" (click)="mostrarActualizarEvento()">
+            <i class="fa-solid fa-edit me-2"></i>Actualizar Evento
+          </button>
+          <!-- Botón para actualizar el evento -->
+          <button *ngIf="updateOnly" type="button" class="btn btn-success" (click)="guardarCambios()">
+            <i class="fa-solid fa-save me-2"></i>Guardar Cambios
+          </button>
           <!-- Mostrar el botón solo si no está en modo de solo lectura -->
-          <button *ngIf="!readOnly" type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
+          <button *ngIf="!readOnly && !updateOnly" type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
             <i class="fa-solid fa-plus me-2"></i>Create event
           </button>
+
         </div>
       </form>
     </div>

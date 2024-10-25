@@ -4,7 +4,7 @@ import { EventosService } from '../../servicios/EventosService';
 import Swal from 'sweetalert2';
 import { EventoDTO } from '../../dto/eventoDTO';
 import { LocalidadDTO } from '../../dto/localidadDTO';
-import { CommonModule } from '@angular/common'; // Asegúrate de importar esto
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 
@@ -20,6 +20,7 @@ import { NgModule } from '@angular/core';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+
   ]
 
 })
@@ -27,8 +28,9 @@ import { NgModule } from '@angular/core';
 
 export class CreateEventComponent implements OnChanges{
 
-  @Input() event: EventoDTO | undefined;  // Input para recibir el evento
+  @Input() event: EventoDTO | undefined;
   @Input() readOnly: boolean = false;
+  @Input() updateOnly: boolean = false
   eventTypes: string[];
   createEventForm!: FormGroup;
   eventosService: EventosService = new EventosService;
@@ -50,9 +52,44 @@ export class CreateEventComponent implements OnChanges{
       date: [{ value: '', disabled: this.readOnly }, [Validators.required]],
       description: [{ value: '', disabled: this.readOnly }, [Validators.required]],
       type: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      locations: this.formBuilder.array([]) // Arreglo para localities
+      locations: this.formBuilder.array([])
     });
   }
+
+// Método para actualizar el evento
+public mostrarActualizarEvento() {
+  this.updateOnly=true;
+  this.readOnly = false;
+  this.toggleFormControls(this.readOnly);
+}
+
+public guardarCambios(){
+  if (this.createEventForm.valid) {
+    // Obtén el ID del evento actual, asegurándote de que exista
+    const id = this.event?.id; // Asegúrate de que este ID exista en tu objeto EventoDTO
+
+    if (!id) {
+      Swal.fire("Error!", "No se puede actualizar el evento. ID no encontrado.", "error");
+      return;
+    }
+
+    // Obtén los valores del formulario
+    const updatedEvent: EventoDTO = this.createEventForm.value as EventoDTO;
+
+    // Llama al método del servicio para actualizar el evento
+    this.eventosService.actualizar(id, updatedEvent);
+
+    // Notifica al usuario sobre el éxito de la operación
+    Swal.fire("Éxito!", "El evento ha sido actualizado.", "success");
+    this.readOnly = true;
+    this.updateOnly = false;
+    this.toggleFormControls(this.readOnly);
+  } else {
+    Swal.fire("Advertencia!", "Por favor, completa todos los campos requeridos.", "warning");
+  }
+
+}
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['event'] && this.event) {
@@ -61,6 +98,7 @@ export class CreateEventComponent implements OnChanges{
     if (changes['readOnly']) {
       this.toggleFormControls(this.readOnly);
     }
+
   }
 
   private toggleFormControls(disabled: boolean) {
@@ -98,46 +136,45 @@ export class CreateEventComponent implements OnChanges{
 
   convertToDateTimeLocalString(date: Date): string {
     const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);  // Meses empiezan en 0, por eso se suma 1
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     const hours = ('0' + date.getHours()).slice(-2);
     const minutes = ('0' + date.getMinutes()).slice(-2);
 
-    // Retornar la fecha en el formato correcto para datetime-local
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
 
+
   //Por ahora esta funcion solo imprime en conosola, luego será una que haga la solicitus HTTP
-  public crearEvento(){
-    if (this.readOnly) {
-      return; // Evita la creación si está en modo solo lectura
+  public crearEvento() {
+    if (this.createEventForm.valid) {
+      this.eventosService.crear(this.createEventForm.value as EventoDTO);
+      Swal.fire("Exito!", "Se ha creado un nuevo evento.", "success");
+    } else {
+      Swal.fire("Advertencia!", "Por favor, completa todos los campos requeridos.", "warning");
     }
-    this.eventosService.crear(this.createEventForm.value as EventoDTO);
-    Swal.fire("Exito!", "Se ha creado un nuevo evento.", "success");
-   }
+  }
 
 
    public onFileChange(event: any, tipo: string) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0]; // Solo el primer archivo
+      const file = event.target.files[0];
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-        // Dependiendo del tipo de imagen (cover o locations)
         switch (tipo) {
           case 'locations':
             this.createEventForm.get('localitiesImage')?.setValue(file);
-            this.localitiesImage = e.target.result; // Previsualizar la imagen
+            this.localitiesImage = e.target.result;
             break;
           case 'cover':
             this.createEventForm.get('coverImage')?.setValue(file);
-            this.coverImage = e.target.result; // Previsualizar la imagen
+            this.coverImage = e.target.result;
             break;
         }
       };
 
-      // Leer el archivo seleccionado como una URL
       reader.readAsDataURL(file);
     }
   }
