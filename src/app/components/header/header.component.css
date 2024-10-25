@@ -1,0 +1,29 @@
+/* Archivo CSS externo */
+
+/* Estilos personalizados para los botones */
+.btn-custom-primary {
+  background-color: #ff7f50; /* Color personalizado del botón de registro */
+  border-color: #ff7f50;
+  color: white;
+}
+.btn-custom-primary:hover {
+  background-color: #ff6347; /* Color al pasar el cursor */
+  border-color: #ff6347;
+}
+
+.btn-outline-custom {
+  color: #ff7f50;
+  border-color: #ff7f50;
+}
+.btn-outline-custom:hover {
+  background-color: #ff7f50;
+  color: white;
+}
+
+/* Estilos personalizados para los enlaces */
+.nav-link-custom {
+  color: #ff4500;
+}
+.nav-link-custom:hover {
+  color: #ff6347;
+}

@@ -1,0 +1,5 @@
+#carouselId .carousel-inner img {
+  width: 1000px; /* Cambia el ancho según lo necesites */
+  height: 350px; /* Cambia la altura según lo necesites */
+  object-fit: cover; /* Ajusta cómo la imagen se adapta al contenedor */
+}
