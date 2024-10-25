@@ -51,7 +51,7 @@ export class EventosService {
     nombre:'Evento 1',
     descripcion:'Descripcion del evento 1',
     fecha:new Date("2021-09-01 20:00:00"),
-    tipo:'Concierto',
+    tipo:'SPORT',
     direccion:'Calle 123',
     ciudad:'Bogota',
     localidades:[
@@ -76,10 +76,10 @@ export class EventosService {
     id:'2',
     nombre:'Evento 2',
     descripcion:'Descripcion del evento 2',
-    fecha:new Date(),
-    tipo:'Teatro',
+    fecha:new Date("2024-10-24T18:30:00"),
+    tipo:'CULTURAL',
     direccion:'Calle 123',
-    ciudad:'Bogota',
+    ciudad:'Armenia',
     localidades:[],
     imagenPortada:'https://picsum.photos/100?random=2',
     imagenLocalidades:'https://picsum.photos/100',
@@ -91,17 +91,16 @@ export class EventosService {
     id:'3',
     nombre:'Evento 3',
     descripcion:'Descripcion del evento 3',
-    fecha:new Date(),
-    tipo:'Deportivo',
+    fecha:new Date("2024-10-24T18:30:00"),
+    tipo:'CONCERT',
     direccion:'Calle 123',
-    ciudad:'Bogota',
+    ciudad:'Medellin',
     localidades:[],
     imagenPortada:'https://picsum.photos/100?random=3',
     imagenLocalidades:'https://picsum.photos/100',
     estado:'Activo'
   });
  }
-
 
 
 

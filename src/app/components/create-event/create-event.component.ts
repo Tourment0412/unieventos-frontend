@@ -1,18 +1,30 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { EventosService } from '../../servicios/EventosService';
 import Swal from 'sweetalert2';
 import { EventoDTO } from '../../dto/eventoDTO';
+import { LocalidadDTO } from '../../dto/localidadDTO';
+import { CommonModule } from '@angular/common'; // Asegúrate de importar esto
+import { NgModule } from '@angular/core';
+
+
+
 
 @Component({
 
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule],
   templateUrl: './create-event.component.html',
-  styleUrl: './create-event.component.css'
+  styleUrl: './create-event.component.css',
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+  ]
 
 })
+
+
 export class CreateEventComponent implements OnChanges{
 
   @Input() event: EventoDTO | undefined;  // Input para recibir el evento
@@ -20,6 +32,8 @@ export class CreateEventComponent implements OnChanges{
   eventTypes: string[];
   createEventForm!: FormGroup;
   eventosService: EventosService = new EventosService;
+  coverImage: string | ArrayBuffer | null = null;
+  localitiesImage: string | ArrayBuffer | null = null;
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
@@ -28,15 +42,15 @@ export class CreateEventComponent implements OnChanges{
 
   private createForm() {
     this.createEventForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      coverImage: ['', [Validators.required]],
-      localitiesImage: ['', [Validators.required]],
-      date: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      locations: this.formBuilder.array([])
+      name: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      address: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      city: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      coverImage: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      localitiesImage: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      date: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      description: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      type: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      locations: this.formBuilder.array([]) // Arreglo para localities
     });
   }
 
@@ -63,20 +77,36 @@ export class CreateEventComponent implements OnChanges{
         name: this.event.nombre,
         address: this.event.direccion,
         city: this.event.ciudad,
-        date: this.event.fecha,
+        date: this.convertToDateTimeLocalString(this.event.fecha),
         description: this.event.descripcion,
         type: this.event.tipo,
+        coverImage: this.event.imagenPortada,
+        localitiesImage: this.event.imagenLocalidades
       });
+      // Limpiar el FormArray antes de añadir nuevas localidades
+      const locationsArray = this.createEventForm.get('locations') as FormArray;
 
-      // Si tienes datos para localidades (localities), asegúrate de cargarlos también
       if (this.event.localidades) {
-        const locationsArray = this.createEventForm.get('locations') as FormArray;
         this.event.localidades.forEach(location => {
           locationsArray.push(this.createLocalityShow(location));
+          console.log(location)
+          console.log(locationsArray.value)
         });
       }
     }
   }
+
+  convertToDateTimeLocalString(date: Date): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);  // Meses empiezan en 0, por eso se suma 1
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+
+    // Retornar la fecha en el formato correcto para datetime-local
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
 
   //Por ahora esta funcion solo imprime en conosola, luego será una que haga la solicitus HTTP
   public crearEvento(){
@@ -88,25 +118,35 @@ export class CreateEventComponent implements OnChanges{
    }
 
 
-  public onFileChange(event: any, tipo: string) {
+   public onFileChange(event: any, tipo: string) {
     if (event.target.files.length > 0) {
-      const files = event.target.files;
-      switch (tipo) {
-        case 'locations':
-          this.createEventForm.get('localitiesImage')?.setValue(files[0]);
-          break;
-        case 'cover':
-          this.createEventForm.get('coverImage')?.setValue(files[0]);
-          break;
-      }
+      const file = event.target.files[0]; // Solo el primer archivo
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        // Dependiendo del tipo de imagen (cover o locations)
+        switch (tipo) {
+          case 'locations':
+            this.createEventForm.get('localitiesImage')?.setValue(file);
+            this.localitiesImage = e.target.result; // Previsualizar la imagen
+            break;
+          case 'cover':
+            this.createEventForm.get('coverImage')?.setValue(file);
+            this.coverImage = e.target.result; // Previsualizar la imagen
+            break;
+        }
+      };
+
+      // Leer el archivo seleccionado como una URL
+      reader.readAsDataURL(file);
     }
   }
 
-  private createLocalityShow(data: any): FormGroup {  // Método para crear localidad
+  private createLocalityShow(localidad: LocalidadDTO): FormGroup {  // Método para crear localidad
     return this.formBuilder.group({
-      name: [data.name, Validators.required],
-      price: [data.price, [Validators.required, Validators.min(0)]],
-      maxCapacity: [data.maxCapacity, [Validators.required, Validators.min(1)]]
+      name: [localidad.nombre, Validators.required],
+      price: [localidad.precio, [Validators.required, Validators.min(0)]],
+      maxCapacity: [localidad.capacidad, [Validators.required, Validators.min(1)]]
     });
   }
 

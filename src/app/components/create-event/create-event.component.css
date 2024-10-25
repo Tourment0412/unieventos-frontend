@@ -1,0 +1,19 @@
+.img-container {
+  position: relative; /* Permite que el hijo use la posición relativa */
+  margin-top: 10px; /* Espacio entre el label y la imagen */
+  overflow: visible; /* Permite que la imagen supere el contenedor */
+}
+
+.image-hover {
+  transition: transform 0.3s ease; /* Transición suave */
+  max-width: none; /* Sin límite en el ancho máximo */
+  height: auto; /* Mantiene la proporción */
+}
+
+.image-hover:hover {
+  transform: scale(3); /* Aumenta el tamaño al pasar el mouse */
+  z-index: 1000; /* Asegura que la imagen esté por encima de otros elementos */
+}
+
+
+

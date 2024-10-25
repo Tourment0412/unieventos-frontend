@@ -1,91 +1,116 @@
 <div class="container">
-    <div class="card">
-        <div class="card-header p-4">
-            <h5 class="mb-0">
-                <i class="fa-solid fa-user-plus me-3"></i>Create event
-            </h5>
-        </div>
-        <div class="card-body p-4">
-            <form class="row g-3" [formGroup]="createEventForm" (ngSubmit)="crearEvento()" novalidate="">
-                <div class="col-6">
-                    <label>Name: </label>
-                    <input type="text" class="form-control" formControlName="name" />
-                </div>
-                <div class="col-6">
-                    <label>Address: </label>
-                    <input type="text" class="form-control" formControlName="address" />
-                </div>
-                <div class="col-6">
-                    <label>City: </label>
-                    <input type="text" class="form-control" formControlName="city" />
-                </div>
-                <div class="col-6">
-                    <label>Cover Image: </label>
-                    <input type="file" class="form-control" (change)="onFileChange($event, 'cover')" />
-                </div>
-                <div class="col-6">
-                    <label>Localities Image: </label>
-                    <input type="file" class="form-control" (change)="onFileChange($event, 'locations')" />
-                </div>
-                <div class="col-6">
-                    <label for="eventDate">Fecha del evento: </label>
-                    <input type="datetime-local" class="form-control" id="eventDate" formControlName="date" />
-                </div>
-                <div class="col-6">
-                    <label>Description: </label>
-                    <textarea class="form-control" formControlName="description"></textarea>
-                </div>
-                <div class="col-6">
-                    <label class="form-label">Tipo: </label>
-                    <select formControlName="type" class="form-select">
-                        <option value="">Seleccione un tipo</option>
-                        @for (item of eventTypes; track $index) {
-                        <option value="{{item}}">{{item}}</option>
-                        }
-                    </select>
-                </div>
-
-                <!-- Sección de Localities antes del botón de Submit -->
-                <div class="col-12">
-                    <label>Localities:</label>
-                    <div formArrayName="locations">
-                        @for (locality of locations.value; track $index) {
-                            <div [formGroupName]="$index" class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label for="name">Name:</label>
-                                        <input type="text" class="form-control" formControlName="name" placeholder="Name" />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="price">Price:</label>
-                                        <input type="number" class="form-control" formControlName="price" placeholder="Price" />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="maxCapacity">Max Capacity:</label>
-                                        <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity" />
-                                    </div>
-                                    <div class="col-md-12 text-end mt-2">
-                                        <button type="button" class="btn btn-danger" (click)="removeLocality($index)">
-                                            Remove Locality
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="text-end mt-2">
-                        <button type="button" class="btn btn-success" (click)="addLocality()">Add Locality</button>
-                    </div>
-                </div>
-                <!-- Fin de la sección de Localities -->
-
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
-                        <i class="fa-solid fa-plus me-2"></i>Create event
-                    </button>
-                </div>
-            </form>
-        </div>
+  <div class="card">
+    <div class="card-header p-4">
+      <h5 class="mb-0">
+        <i class="fa-solid fa-user-plus me-3"></i>
+        <span *ngIf="!readOnly">Creación de eventos</span>
+        <span *ngIf="readOnly">Detalles de eventos</span>
+      </h5>
     </div>
+    <div class="card-body p-4">
+      <form class="row g-3" [formGroup]="createEventForm" (ngSubmit)="crearEvento()" novalidate>
+        <div class="col-6">
+          <label>Name:</label>
+          <input type="text" class="form-control" formControlName="name" [readonly]="readOnly" />
+        </div>
+        <div class="col-6">
+          <label>Address:</label>
+          <input type="text" class="form-control" formControlName="address" [readonly]="readOnly" />
+        </div>
+        <div class="col-6">
+          <label>City:</label>
+          <input type="text" class="form-control" formControlName="city" [readonly]="readOnly" />
+        </div>
+
+        <div class="col-6">
+          <label>Cover Image:</label>
+          <input *ngIf="!readOnly" type="file" class="form-control" (change)="onFileChange($event, 'cover')" />
+
+          <div class="img-container">
+            <img *ngIf="readOnly && (coverImage || createEventForm.get('coverImage')?.value)"
+                 [src]="coverImage || createEventForm.get('coverImage')?.value"
+                 alt="Cover Image"
+                 class="img-fluid image-hover" />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <label>Localities Image:</label>
+          <input *ngIf="!readOnly" type="file" class="form-control" (change)="onFileChange($event, 'locations')" />
+
+          <div class="img-container">
+            <img *ngIf="readOnly && (localitiesImage || createEventForm.get('localitiesImage')?.value)"
+                 [src]="localitiesImage || createEventForm.get('localitiesImage')?.value"
+                 alt="Localities Image"
+                 class="img-fluid image-hover" />
+          </div>
+        </div>
+
+
+        <div class="col-6">
+          <label for="eventDate">Event Date:</label>
+          <input type="datetime-local" class="form-control" id="eventDate" formControlName="date" [readonly]="readOnly" />
+        </div>
+        <div class="col-6">
+          <label>Description:</label>
+          <textarea class="form-control" formControlName="description" [readonly]="readOnly"></textarea>
+        </div>
+        <div class="col-6">
+          <label class="form-label">Type:</label>
+          <select formControlName="type" class="form-select" [disabled]="readOnly">
+            <option value="">Select a type</option>
+            <option *ngFor="let item of eventTypes" [value]="item">{{ item }}</option>
+          </select>
+        </div>
+
+        <!-- Sección de Localities antes del botón de Submit -->
+        <div class="col-12">
+          <label>Localities:</label>
+          <div formArrayName="locations">
+            <!-- Iterar sobre las localidades -->
+            <ng-container *ngFor="let locality of locations.controls; let i = index">
+              <div [formGroupName]="i" class="mb-3">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Name" [readonly]="readOnly" />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control" formControlName="price" placeholder="Price" [readonly]="readOnly" />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="maxCapacity">Max Capacity:</label>
+                    <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity" [readonly]="readOnly" />
+                  </div>
+                  <!-- Botón de "Remover Localidad" solo si no está en modo de solo lectura -->
+                  <div class="col-md-12 text-end mt-2">
+                    <button *ngIf="!readOnly" type="button" class="btn btn-danger" (click)="removeLocality(i)">
+                      Remove Locality
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Botón de "Agregar Localidad" solo si no está en modo de solo lectura -->
+          <div class="text-end mt-2">
+            <button *ngIf="!readOnly" type="button" class="btn btn-success" (click)="addLocality()">
+              Add Locality
+            </button>
+          </div>
+        </div>
+
+        <!-- Fin de la sección de Localities -->
+
+        <div class="col-12 text-center">
+          <!-- Mostrar el botón solo si no está en modo de solo lectura -->
+          <button *ngIf="!readOnly" type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
+            <i class="fa-solid fa-plus me-2"></i>Create event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
