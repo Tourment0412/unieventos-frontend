@@ -1,0 +1,59 @@
+/* Estilos generales del contenedor de las tarjetas */
+.container {
+    padding: 20px;
+}
+
+/* Estilos para cada tarjeta individual */
+.card {
+    border: 1px solid #857e81; /* Borde de color gris oscuro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.3s ease; /* Suavizado en hover */
+    background-color: #f8f4fa; /* Fondo de tarjeta claro */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Sutil elevación al hacer hover */
+}
+
+/* Estilos de la imagen en la tarjeta */
+.card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 225px;
+    object-fit: cover; /* Recorta la imagen para ajustarse al contenedor */
+}
+
+/* Título de la tarjeta */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #857e81;
+    margin-bottom: 8px;
+}
+
+/* Descripción de la tarjeta */
+.card-text {
+    font-size: 1rem;
+    color: #857e81;
+    margin-bottom: 12px;
+}
+
+/* Estilos de los botones */
+.btn-group .btn-outline-secondary {
+    border-color: #c794fa;
+    color: #c794fa;
+    transition: all 0.3s ease;
+}
+
+.btn-group .btn-outline-secondary:hover {
+    background-color: #c794fa; /* Fondo morado claro */
+    color: white; /* Texto blanco en hover */
+    border-color: #c794fa;
+}
+
+/* Estilos del texto de fecha en la tarjeta */
+.text-body-secondary {
+    font-size: 0.9rem;
+    color: #857e81; /* Color gris oscuro */
+}

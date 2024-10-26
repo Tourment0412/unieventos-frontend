@@ -2,28 +2,30 @@
 
 /* Estilos personalizados para los botones */
 .btn-custom-primary {
-  background-color: #ff7f50; /* Color personalizado del botón de registro */
-  border-color: #ff7f50;
+  background-color: #c794fa; /* Color personalizado del botón de registro */
+  border-color: #c794fa;
   color: white;
 }
 .btn-custom-primary:hover {
-  background-color: #ff6347; /* Color al pasar el cursor */
-  border-color: #ff6347;
+  background-color: #d9bbf8; /* Color al pasar el cursor */
+  border-color: #d9bbf8;
 }
 
 .btn-outline-custom {
-  color: #ff7f50;
-  border-color: #ff7f50;
+  color: #857e81;
+  border-color: #857e81;
 }
 .btn-outline-custom:hover {
-  background-color: #ff7f50;
+  background-color: #c794fa;
   color: white;
 }
 
 /* Estilos personalizados para los enlaces */
 .nav-link-custom {
-  color: #ff4500;
+  color: #c794fa;
 }
 .nav-link-custom:hover {
-  color: #ff6347;
+  color: #d9bbf8;
 }
+
+
