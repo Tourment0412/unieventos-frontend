@@ -22,7 +22,7 @@ export class GestionEventosComponent {
  constructor(public EventosService:EventosService, ) {
    this.eventos = EventosService.listar();
    this.seleccionados = [];
-   this.textoBtnEliminar = "Eliminar"
+   this.textoBtnEliminar = ""
  }
 
  public seleccionar(evento: EventoDTO, estado: boolean) {

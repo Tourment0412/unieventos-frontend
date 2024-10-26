@@ -1,0 +1,59 @@
+/* Estilo general del contenedor */
+.container {
+  max-width: 90%;
+  margin: auto;
+}
+
+/* Botones */
+.btn-success {
+  background-color: #c794fa;
+  border-color: #c794fa;
+  color: white;
+}
+.btn-success:hover {
+  background-color: #b08bd1;
+  border-color: #b08bd1;
+}
+
+.btn-danger {
+  background-color: white;
+  border-color: black;
+  color: black;
+}
+.btn-danger:hover {
+  background-color: red;
+  border-color: black;
+}
+
+/* Animación de efecto en hover para botón de eliminación */
+.btn-danger.anim-e:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+/* Estilos de la tabla */
+.table {
+  background-color: #ffffff;
+  color: #c794fa;
+}
+.table th {
+  background-color: #b08bd1;
+  color: white;
+  font-weight: normal;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f7f3f9;
+}
+.table-hover tbody tr:hover {
+  background-color: #eae3f1;
+}
+
+/* Enlace de "Ver detalle" */
+.table a {
+  color: #c794fa;
+  text-decoration: none;
+}
+.table a:hover {
+  color: #b08bd1;
+  text-decoration: underline;
+}
