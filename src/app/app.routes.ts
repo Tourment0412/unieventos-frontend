@@ -10,6 +10,7 @@ import { EditarPerfilComponent } from './components/editar-perfil/editar-perfil.
 import { GestionEventosComponent } from './components/gestion-eventos/gestion-eventos.component';
 import { DetalleEventoComponent } from './components/detalle-evento/detalle-evento.component';
 import { ShoppingCarComponent } from './components/shopping-car/shopping-car.component';
+import { correoRecuperacionComponent } from './components/correo-recuperacion/correo-recuperacion.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'detalle-evento/:id', component: DetalleEventoComponent },
     { path: 'editar-evento/:id', component: CreateEventComponent },
     { path: 'shopping-car', component: ShoppingCarComponent },
+    { path: 'correo-recuperacion', component: correoRecuperacionComponent},
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components
