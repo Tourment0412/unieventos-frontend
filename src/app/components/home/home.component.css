@@ -1,3 +1,25 @@
+/* Barra de filtros */
+.filter-bar {
+  background-color: #f8f9fa; /* Color claro para contraste */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-bar .form-control,
+.filter-bar .form-select {
+  border-radius: 4px;
+}
+
+.filter-bar .btn-primary {
+  background-color: #c794fa;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.filter-bar .btn-primary:hover {
+  background-color: #d9bbf8;
+}
+
 #carouselId .carousel-inner img {
   width: 1000px; /* Cambia el ancho según lo necesites */
   height: 350px; /* Cambia la altura según lo necesites */

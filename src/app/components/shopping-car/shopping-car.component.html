@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <h2>Carrito de Compras</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre del Evento</th>
+            <th>Tipo de Evento</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Concierto de Rock</td>
+            <td>Concierto</td>
+            <td>$50.00</td>
+            <td>
+              <input type="number" class="form-control" value="2" min="1" />
+            </td>
+            <td>$100.00</td>
+            <td>
+              <button class="btn btn-danger btn-sm" type="button">Eliminar</button>
+            </td>
+          </tr>
+          <!-- Repetir filas para otros artículos -->
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5>Resumen de Pago</h5>
+          <div class="mb-3">
+            <label for="subtotal" class="form-label">Subtotal</label>
+            <input type="text" class="form-control" id="subtotal" value="$100.00" readonly />
+          </div>
+          <div class="mb-3">
+            <label for="couponCode" class="form-label">Código de Cupón</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="couponCode" placeholder="Ingresa tu cupón" />
+              <button class="btn btn-primary" type="button">Aplicar</button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="discount" class="form-label">Descuento Aplicado</label>
+            <input type="text" class="form-control" id="discount" value="$0.00" readonly />
+          </div>
+          <div class="mb-3">
+            <label for="totalToPay" class="form-label">Total a Pagar</label>
+            <input type="text" class="form-control" id="totalToPay" value="$100.00" readonly />
+          </div>
+          <button class="btn btn-success" type="button">Realizar Pago</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

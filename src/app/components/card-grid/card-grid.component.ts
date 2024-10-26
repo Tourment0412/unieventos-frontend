@@ -31,7 +31,8 @@ export class CardGridComponent {
       date: new Date('2024-10-20T14:00:00'),
       address: '789 Art Gallery, New York',
       coverImage: 'https://firebasestorage.googleapis.com/v0/b/unieventos-images-service.appspot.com/o/c377ede7-6538-469a-a288-635e19d0f8d0-WhatsApp Image 2024-10-24 at 1.51.22 PM.jpeg?alt=media'
-    }
+    },
+
   ];
 
   constructor() {}

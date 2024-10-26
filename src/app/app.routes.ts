@@ -9,6 +9,7 @@ import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-
 import { EditarPerfilComponent } from './components/editar-perfil/editar-perfil.component';
 import { GestionEventosComponent } from './components/gestion-eventos/gestion-eventos.component';
 import { DetalleEventoComponent } from './components/detalle-evento/detalle-evento.component';
+import { ShoppingCarComponent } from './components/shopping-car/shopping-car.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
     { path: "gestion-eventos", component: GestionEventosComponent },
     { path: 'detalle-evento/:id', component: DetalleEventoComponent },
     { path: 'editar-evento/:id', component: CreateEventComponent },
+    { path: 'shopping-car', component: ShoppingCarComponent },
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components
