@@ -1,24 +1,46 @@
 <div class="container">
   <div class="card">
+    <!-- Encabezado de la tarjeta -->
     <div class="card-header p-4">
-
       <h5 *ngIf="updateOnly">
         <i class="fas fa-edit me-3"></i>
         <span>Actualización de eventos</span>
       </h5>
-
       <h5 *ngIf="readOnly">
         <i class="fas fa-info-circle me-3"></i>
         <span>Detalles de eventos</span>
       </h5>
-
       <h5 *ngIf="!readOnly && !updateOnly">
         <i class="fas fa-plus-circle"></i>
         <span>Creación de eventos</span>
       </h5>
-
     </div>
+
+    <!-- Contenedor de imágenes, solo visible en modo de solo lectura -->
     <div class="card-body p-4">
+      <div class="col-12 mb-4" *ngIf="readOnly">
+        <div class="img-wrapper d-flex justify-content-between">
+          <!-- Imagen de portada -->
+          <div class="cover-image">
+            <label>Cover Image:</label>
+            <img *ngIf="coverImage || createEventForm.get('coverImage')?.value"
+                 [src]="coverImage || createEventForm.get('coverImage')?.value"
+                 alt="Cover Image"
+                 class="img-fluid image-hover" />
+          </div>
+
+          <!-- Imagen de localidades -->
+          <div class="localities-image">
+            <label>Localities Image:</label>
+            <img *ngIf="localitiesImage || createEventForm.get('localitiesImage')?.value"
+                 [src]="localitiesImage || createEventForm.get('localitiesImage')?.value"
+                 alt="Localities Image"
+                 class="img-fluid image-hover" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
       <form class="row g-3" [formGroup]="createEventForm" (ngSubmit)="crearEvento()" novalidate>
         <div class="col-6">
           <label>Name:</label>
@@ -33,30 +55,15 @@
           <input type="text" class="form-control" formControlName="city" [readonly]="readOnly" />
         </div>
 
-        <div class="col-6">
+        <!-- Entradas de archivo en modo edición -->
+        <div class="col-6" *ngIf="!readOnly">
           <label>Cover Image:</label>
-          <input *ngIf="!readOnly" type="file" class="form-control" (change)="onFileChange($event, 'cover')" />
-
-          <div class="img-container">
-            <img *ngIf="readOnly && (coverImage || createEventForm.get('coverImage')?.value)"
-                 [src]="coverImage || createEventForm.get('coverImage')?.value"
-                 alt="Cover Image"
-                 class="img-fluid image-hover" />
-          </div>
+          <input type="file" class="form-control" (change)="onFileChange($event, 'cover')" />
         </div>
-
-        <div class="col-6">
+        <div class="col-6" *ngIf="!readOnly">
           <label>Localities Image:</label>
-          <input *ngIf="!readOnly" type="file" class="form-control" (change)="onFileChange($event, 'locations')" />
-
-          <div class="img-container">
-            <img *ngIf="readOnly && (localitiesImage || createEventForm.get('localitiesImage')?.value)"
-                 [src]="localitiesImage || createEventForm.get('localitiesImage')?.value"
-                 alt="Localities Image"
-                 class="img-fluid image-hover" />
-          </div>
+          <input type="file" class="form-control" (change)="onFileChange($event, 'locations')" />
         </div>
-
 
         <div class="col-6">
           <label for="eventDate">Event Date:</label>
@@ -78,7 +85,6 @@
         <div class="col-12">
           <label>Localities:</label>
           <div formArrayName="locations">
-            <!-- Iterar sobre las localidades -->
             <ng-container *ngFor="let locality of locations.controls; let i = index">
               <div [formGroupName]="i" class="mb-3">
                 <div class="row">
@@ -94,7 +100,6 @@
                     <label for="maxCapacity">Max Capacity:</label>
                     <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity" [readonly]="readOnly" />
                   </div>
-                  <!-- Botón de "Remover Localidad" solo si no está en modo de solo lectura -->
                   <div class="col-md-12 text-end mt-2">
                     <button *ngIf="!readOnly" type="button" class="btn btn-danger" (click)="removeLocality(i)">
                       Remove Locality
@@ -104,8 +109,6 @@
               </div>
             </ng-container>
           </div>
-
-          <!-- Botón de "Agregar Localidad" solo si no está en modo de solo lectura -->
           <div class="text-end mt-2">
             <button *ngIf="!readOnly" type="button" class="btn btn-success" (click)="addLocality()">
               Add Locality
@@ -113,26 +116,18 @@
           </div>
         </div>
 
-        <!-- Fin de la sección de Localities -->
-
         <div class="col-12 text-center">
-          <!-- Botón para actualizar el evento -->
           <button *ngIf="readOnly" type="button" class="btn btn-warning" (click)="mostrarActualizarEvento()">
             <i class="fa-solid fa-edit me-2"></i>Actualizar Evento
           </button>
-          <!-- Botón para actualizar el evento -->
           <button *ngIf="updateOnly" type="button" class="btn btn-success" (click)="guardarCambios()">
             <i class="fa-solid fa-save me-2"></i>Guardar Cambios
           </button>
-          <!-- Mostrar el botón solo si no está en modo de solo lectura -->
           <button *ngIf="!readOnly && !updateOnly" type="submit" class="btn btn-primary" [disabled]="createEventForm.invalid">
             <i class="fa-solid fa-plus me-2"></i>Create event
           </button>
-
         </div>
       </form>
     </div>
   </div>
 </div>
-
-
