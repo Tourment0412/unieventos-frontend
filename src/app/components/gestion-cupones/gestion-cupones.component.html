@@ -1,0 +1,82 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Gestión de Cupones</h2>
+  <div class="row">
+    <!-- Sección Izquierda: Formulario para crear/actualizar cupones -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Crear/Actualizar Cupón</h5>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre del Cupón</label>
+              <input type="text" id="nombre" class="form-control" [(ngModel)]="nuevoCupon.nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="descuento" class="form-label">Descuento (%)</label>
+              <input type="number" id="descuento" class="form-control" [(ngModel)]="nuevoCupon.descuento" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
+              <input type="date" id="fechaVencimiento" class="form-control" [(ngModel)]="nuevoCupon.fechaVencimiento" required>
+            </div>
+            <div class="mb-3">
+              <label for="tipo" class="form-label">Tipo</label>
+              <select id="tipo" class="form-select" [(ngModel)]="nuevoCupon.tipo" required>
+                <option value="" disabled selected>Seleccione un tipo</option>
+                <option value="Porcentaje">Porcentaje</option>
+                <option value="Monto Fijo">Monto Fijo</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="crearCupon()">Crear Cupón</button>
+            <button type="button" class="btn btn-secondary" (click)="actualizarCupon()" [disabled]="!cuponSeleccionado">Actualizar Cupón</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Derecha: Tabla de cupones existentes -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Lista de Cupones</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Descuento (%)</th>
+                  <th>Fecha de Vencimiento</th>
+                  <th>Estado</th>
+                  <th>Tipo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cupon of cupones; let i = index">
+                  <td>{{ cupon.codigo }}</td>
+                  <td>{{ cupon.nombre }}</td>
+                  <td>{{ cupon.descuento }}</td>
+                  <td>{{ cupon.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <span [ngClass]="{'text-success': cupon.estado === 'Activo', 'text-danger': cupon.estado === 'Inactivo'}">
+                      {{ cupon.estado }}
+                    </span>
+                  </td>
+                  <td>{{ cupon.tipo }}</td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="eliminarCupon(cupon.codigo)">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,12 +22,10 @@ export class correoRecuperacionComponent {
     });
   }
 
-  // Método que se ejecuta al enviar el formulario
   public sendVerificationCode() {
     if (this.recoveryForm.valid) {
       const email = this.recoveryForm.get('email')?.value;
       console.log(`Enviando código de verificación al correo: ${email}`);
-      // Aquí puedes incluir el servicio para enviar el correo electrónico
     } else {
       console.log("Formulario inválido");
     }
@@ -35,6 +33,6 @@ export class correoRecuperacionComponent {
 
 
   public redirectToForm() {
-    window.location.href = '/cambiar-password'; // Cambia '/cambiar-password' por la URL del formulario al que deseas redirigir
+    window.location.href = '/cambiar-password';
   }
 }

@@ -1,6 +1,8 @@
 /* Contenedor principal de ambos componentes */
 .main-container {
   display: flex;
+  margin: auto;
+  width: 400px;
   flex-direction: column; /* Alinear los elementos verticalmente */
   align-items: center; /* Centrar horizontalmente */
 }
@@ -72,8 +74,9 @@
 
 /* Estilo para el botón */
 .btn-custom {
-  background-color: #65558f;
-  border: none;
+  background-color: #65558f; /* Color personalizado del botón de registro */
+  border-color: #65558f;
+  color: white;
 }
 
 .btn-custom:hover {

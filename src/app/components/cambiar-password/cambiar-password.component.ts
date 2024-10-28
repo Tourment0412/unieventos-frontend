@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { AbstractControlOptions, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { C, N } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-cambiar-password',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './cambiar-password.component.html',
   styleUrls: ['./cambiar-password.component.css']
 })

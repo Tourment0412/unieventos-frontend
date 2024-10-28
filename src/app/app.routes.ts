@@ -12,6 +12,7 @@ import { DetalleEventoComponent } from './components/detalle-evento/detalle-even
 import { ShoppingCarComponent } from './components/shopping-car/shopping-car.component';
 import { correoRecuperacionComponent } from './components/correo-recuperacion/correo-recuperacion.component';
 import { HistorialComprasComponent } from './components/history/historial-compras.component';
+import { GestionCuponesComponent } from './components/gestion-cupones/gestion-cupones.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
     { path: 'shopping-car', component: ShoppingCarComponent },
     { path: 'correo-recuperacion', component: correoRecuperacionComponent},
     { path: 'historial', component: HistorialComprasComponent },
+    { path: 'gestion-cupones', component: GestionCuponesComponent },
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components
