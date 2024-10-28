@@ -11,6 +11,7 @@ import { GestionEventosComponent } from './components/gestion-eventos/gestion-ev
 import { DetalleEventoComponent } from './components/detalle-evento/detalle-evento.component';
 import { ShoppingCarComponent } from './components/shopping-car/shopping-car.component';
 import { correoRecuperacionComponent } from './components/correo-recuperacion/correo-recuperacion.component';
+import { HistorialComprasComponent } from './components/history/historial-compras.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -25,6 +26,7 @@ export const routes: Routes = [
     { path: 'editar-evento/:id', component: CreateEventComponent },
     { path: 'shopping-car', component: ShoppingCarComponent },
     { path: 'correo-recuperacion', component: correoRecuperacionComponent},
+    { path: 'historial', component: HistorialComprasComponent },
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components

@@ -1,0 +1,48 @@
+/* Contenedor general */
+.container {
+  max-width: 90%;
+  margin: auto;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #65558f;
+  border-color: #65558f;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #544574;
+  border-color: #544574;
+}
+
+.btn-primary.anim-e:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+/* Estilo de la tabla */
+.table {
+  background-color: #ffffff;
+  color: #65558f;
+}
+.table th {
+  background-color: #b08bd1;
+  color: white;
+  font-weight: normal;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f7f3f9;
+}
+.table-hover tbody tr:hover {
+  background-color: #eae3f1;
+}
+
+/* Enlace de "Ver detalle" */
+.table a {
+  color: #65558f;
+  text-decoration: none;
+}
+.table a:hover {
+  color: #544574;
+  text-decoration: underline;
+}

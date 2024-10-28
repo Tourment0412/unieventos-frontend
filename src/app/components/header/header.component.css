@@ -20,12 +20,25 @@
   color: white;
 }
 
-/* Estilos personalizados para los enlaces */
 .nav-link-custom {
   color: #c794fa;
 }
 .nav-link-custom:hover {
   color: #d9bbf8;
+}
+
+.dropdown-menu {
+  border: 1px solid #c794fa;
+  border-radius: 0.5rem;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+}
+
+.dropdown-item:hover {
+  background-color: #d9bbf8;
+  color: white;
 }
 
 

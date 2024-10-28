@@ -9,7 +9,7 @@
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
       <li><a routerLink="" class="nav-link px-2 nav-link-custom">Inicio</a></li>
-      <li><a routerLink="" class="nav-link px-2 nav-link-custom">Historial de eventos</a></li>
+      <li><a routerLink="/historial" class="nav-link px-2 nav-link-custom">Historial</a></li>
       <li><a routerLink="/gestion-eventos" class="nav-link px-2 nav-link-custom">Gestión de eventos</a></li>
     </ul>
 
@@ -17,8 +17,23 @@
       <a routerLink="/shopping-car" class="btn btn-outline-custom me-2">
         <i class="fa-solid fa-shopping-cart"></i> <!-- Icono del carrito -->
       </a>
+
       <button type="button" routerLink="/login" class="btn btn-outline-custom me-2">Login</button>
       <button type="button" routerLink="/register" class="btn btn-custom-primary">Registro</button>
+    </div>
+
+    <div class="col-md-2 text-end ms-0">
+      <div class="dropdown d-inline">
+        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user-circle fs-4 me-2"></i>
+          <span class="me-3">{{ nombreUsuario }}</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" routerLink="/perfil">Ver información de perfil</a></li>
+          <li><a class="dropdown-item" routerLink="/cupones">Información sobre cupones</a></li>
+          <li><a class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</a></li>
+        </ul>
+      </div>
     </div>
   </header>
 </div>

@@ -11,11 +11,14 @@ import { RouterModule } from '@angular/router';
 export class HeaderComponent {
 
   title: string;
+  nombreUsuario: string = 'Juan Pérez';
 
-
-  constructor() { 
+  constructor() {
     this.title ='Unieventos'
 
+  }
+
+  cerrarSesion() {
   }
 
 }
