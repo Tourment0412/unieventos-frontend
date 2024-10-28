@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { EventosService } from '../../servicios/EventosService';
+import { EventosService } from '../../services/EventosService';
 import Swal from 'sweetalert2';
 import { EventoDTO } from '../../dto/eventoDTO';
 import { LocalidadDTO } from '../../dto/localidadDTO';

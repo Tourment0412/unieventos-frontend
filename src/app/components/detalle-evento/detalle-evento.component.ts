@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventoDTO } from '../../dto/eventoDTO';
 import { ActivatedRoute } from '@angular/router';
-import { EventosService } from '../../servicios/EventosService';
+import { EventosService } from '../../services/EventosService';
 import { CommonModule } from '@angular/common';
 import { CreateEventComponent } from '../create-event/create-event.component';
 

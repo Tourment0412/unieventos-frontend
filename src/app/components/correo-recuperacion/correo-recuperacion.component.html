@@ -9,7 +9,7 @@
   <div class="changePasswordDiv">
 
     <div class="card p-4 shadow-sm mx-auto" style="max-width: 400px;" style="color:white;">
-      <form class="p-4 rounded correoRecuperacion" style="background-color: #c1bbd2; max-width: 400px;">
+      <form class="p-4 rounded correoRecuperacion" [formGroup]="recoveryForm" style="background-color: #c1bbd2; max-width: 400px;">
         <h5 class="card-title text-center">Ingrese su correo</h5>
         <p >Se le enviará un email a su correo electrónico con un código de verificación.</p>
 
