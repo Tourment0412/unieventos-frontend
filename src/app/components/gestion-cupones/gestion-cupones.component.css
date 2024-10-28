@@ -14,8 +14,10 @@
   min-width: 100px;
 }
 
-.btn-primary, .btn-secondary {
-  margin-right: 5px;
+.btn-custom {
+  background-color: #65558f; /* Color personalizado del botón de registro */
+  border-color: #65558f;
+  color: white;
 }
 
 /* Colores personalizados */

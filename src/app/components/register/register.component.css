@@ -1,0 +1,9 @@
+.btn-custom {
+  background-color: #65558f; /* Color personalizado del botón de registro */
+  border-color: #65558f;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #d9bbf8;
+}

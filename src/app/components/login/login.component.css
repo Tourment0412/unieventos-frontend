@@ -1,0 +1,27 @@
+.container {
+  width: 400px;
+  max-width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-custom {
+  background-color: #65558f; /* Color personalizado del botón de registro */
+  border-color: #65558f;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #d9bbf8;
+}
+
+.btn-link{
+  color: #c794fa;
+}
+.btn-link:hover {
+  color: #d9bbf8;
+}

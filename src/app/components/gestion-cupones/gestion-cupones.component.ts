@@ -30,14 +30,14 @@ export class GestionCuponesComponent implements OnInit {
       nombre: ['', [Validators.required]],
       descuento: ['', [Validators.required, Validators.maxLength(10)]],
       fechaVencimiento: ['', [Validators.required]],
-      tipo: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
+      tipo: ['', [Validators.required]],
     });
   }
 
   cargarCupones() {
     this.cupones = [
-      { codigo: 'CUPON1', nombre: 'Descuento Verano', descuento: 20, fechaVencimiento: new Date('2024-12-31'), estado: 'Activo', tipo: 'Porcentaje' },
-      { codigo: 'CUPON2', nombre: 'Descuento Invierno', descuento: 15, fechaVencimiento: new Date('2025-01-31'), estado: 'Inactivo', tipo: 'Monto Fijo' },
+      { codigo: 'CUPON1', nombre: 'Descuento Verano', descuento: 20, fechaVencimiento: '2024-12-31', estado: 'Activo', tipo: 'Porcentaje' },
+      { codigo: 'CUPON2', nombre: 'Descuento Invierno', descuento: 15, fechaVencimiento: '2025-01-31', estado: 'Inactivo', tipo: 'Monto Fijo' },
     ];
   }
 
@@ -49,7 +49,7 @@ export class GestionCuponesComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.cupones.push(this.nuevoCupon);
+        this.cupones.push({ ...this.crearCuponForm.value, codigo: this.generarCodigoCupon() }); // Genera un código único si es necesario
         this.resetForm();
       }
     });
@@ -59,7 +59,7 @@ export class GestionCuponesComponent implements OnInit {
     if (this.cuponSeleccionado) {
       const index = this.cupones.findIndex(c => c.codigo === this.cuponSeleccionado!.codigo);
       if (index !== -1) {
-        this.cupones[index] = { ...this.nuevoCupon, codigo: this.cuponSeleccionado.codigo };
+        this.cupones[index] = { ...this.crearCuponForm.value, codigo: this.cuponSeleccionado.codigo };
         this.resetForm();
       }
     }
@@ -71,11 +71,26 @@ export class GestionCuponesComponent implements OnInit {
 
   seleccionarCupon(cupon: any) {
     this.cuponSeleccionado = cupon;
-    this.nuevoCupon = { ...cupon };
+    this.crearCuponForm.patchValue({
+      nombre: cupon.nombre,
+      descuento: cupon.descuento,
+      fechaVencimiento: cupon.fechaVencimiento, // Asegúrate de que este sea un string en formato 'YYYY-MM-DD'
+      tipo: cupon.tipo
+    });
+  }
+
+  generarCodigoCupon(): string {
+    return `CUPON${this.cupones.length + 1}`; // Ejemplo de generación de código
   }
 
   resetForm() {
-    this.nuevoCupon = { codigo: '', nombre: '', descuento: 0, fechaVencimiento: new Date(), estado: 'Activo', tipo: 'Porcentaje' };
+    this.crearCuponForm.reset();
+    this.crearCuponForm.patchValue({
+      nombre: '',
+      descuento: 0,
+      fechaVencimiento: '', // Dejarlo vacío para que no haya problemas con el formato
+      tipo: 'Porcentaje'
+    });
     this.cuponSeleccionado = null;
   }
 }
