@@ -1,7 +1,8 @@
 <div class="container mt-5">
   <h2 class="mb-4">Gestión de Cupones</h2>
   <div class="row">
-    <!-- Sección Izquierda: Formulario para crear/actualizar cupones -->
+    <form class="row g-3" [formGroup]="crearCuponForm" (ngSubmit)="crearCupon()">
+        <!-- Sección Izquierda: Formulario para crear/actualizar cupones -->
     <div class="col-md-4">
       <div class="card mb-4">
         <div class="card-header">
@@ -11,26 +12,26 @@
           <form>
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre del Cupón</label>
-              <input type="text" id="nombre" class="form-control" [(ngModel)]="nuevoCupon.nombre" required>
+              <input type="text" id="nombre" class="form-control" > <!-- [(ngModel)]="nuevoCupon.nombre" required> -->
             </div>
             <div class="mb-3">
               <label for="descuento" class="form-label">Descuento (%)</label>
-              <input type="number" id="descuento" class="form-control" [(ngModel)]="nuevoCupon.descuento" required>
+              <input type="number" id="descuento" class="form-control"> <!-- [(ngModel)]="nuevoCupon.descuento" required> -->
             </div>
             <div class="mb-3">
               <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
-              <input type="date" id="fechaVencimiento" class="form-control" [(ngModel)]="nuevoCupon.fechaVencimiento" required>
+              <input type="date" id="fechaVencimiento" class="form-control" > <!-- [(ngModel)]="nuevoCupon.fechaVencimiento" required> -->
             </div>
             <div class="mb-3">
               <label for="tipo" class="form-label">Tipo</label>
-              <select id="tipo" class="form-select" [(ngModel)]="nuevoCupon.tipo" required>
+              <select id="tipo" class="form-select" > <!-- [(ngModel)]="nuevoCupon.tipo" required> -->
                 <option value="" disabled selected>Seleccione un tipo</option>
                 <option value="Porcentaje">Porcentaje</option>
                 <option value="Monto Fijo">Monto Fijo</option>
               </select>
             </div>
             <button type="button" class="btn btn-primary" (click)="crearCupon()">Crear Cupón</button>
-            <button type="button" class="btn btn-secondary" (click)="actualizarCupon()" [disabled]="!cuponSeleccionado">Actualizar Cupón</button>
+            <button type="button" class="btn btn-secondary" (click)="actualizarCupon()" >Actualizar Cupón</button> <!--[disabled]="!cuponSeleccionado"-->
           </form>
         </div>
       </div>
@@ -78,5 +79,8 @@
         </div>
       </div>
     </div>
+    </form>
+
+
   </div>
 </div>
