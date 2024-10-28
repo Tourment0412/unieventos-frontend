@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventosService } from '../../services/EventosService';
+import { EventosService } from '../../services/eventos.service';
 import { RouterModule } from '@angular/router';
 import { EventoDTO } from '../../dto/eventoDTO';
 import Swal from 'sweetalert2';
