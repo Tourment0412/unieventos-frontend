@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
   styleUrls: ['./correo-recuperacion.component.css']
 })
 export class correoRecuperacionComponent {
+recovery() {
+throw new Error('Method not implemented.');
+}
   recoveryForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {

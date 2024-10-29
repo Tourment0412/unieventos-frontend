@@ -1,10 +1,10 @@
 /* Contenedor principal de ambos componentes */
 .main-container {
   display: flex;
-  margin: auto;
-  width: 400px;
   flex-direction: column; /* Alinear los elementos verticalmente */
   align-items: center; /* Centrar horizontalmente */
+  margin: auto;
+  width: 400px; /* Ancho fijo */
 }
 
 /* Contenedor para los círculos decorativos */
@@ -38,7 +38,7 @@
 .line {
   position: absolute;
   top: 35px; /* Justo debajo de los círculos */
-  left: calc(50% - 20px); /* Centrado entre los círculos */
+  left: calc(50% - 30px); /* Centrado entre los círculos */
   height: 2px; /* Grosor de la línea */
   width: 60px; /* Longitud de la línea */
   background-color: #65558f; /* Color de la línea */
@@ -46,7 +46,7 @@
 
 /* Fondo y bordes de la tarjeta */
 .card {
-  background-color: #c1bbd2;
+  background-color: rgba(255, 12, 12, 0.5);
   border: none;
   border-radius: 20px;
 }
@@ -55,6 +55,7 @@
 .card-title {
   color: #65558f;
   font-weight: bold;
+  text-align: center; /* Centrar el título */
 }
 
 /* Labels */
@@ -83,6 +84,15 @@
   background-color: #52407e;
 }
 
+/* Espaciado para la sección de cambio de contraseña */
 .changePasswordDiv {
   margin-top: 50px; /* Ajusta el valor según sea necesario */
+}
+
+/* Opcional: Ajustar el formulario */
+.correoRecuperacion {
+  background-color: #c1bbd2; /* Fondo del formulario */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 15px; /* Bordes redondeados del formulario */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
 }
