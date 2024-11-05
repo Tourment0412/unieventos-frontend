@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
+import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-correo-recuperacion',
@@ -9,12 +13,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
   styleUrls: ['./correo-recuperacion.component.css']
 })
 export class correoRecuperacionComponent {
-recovery() {
-throw new Error('Method not implemented.');
-}
-  recoveryForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  recoveryForm!: FormGroup;
+  isLoading: boolean=false;
+
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private dataService: DataService, private router: Router) {
     this.createForm();
   }
 
@@ -25,17 +28,33 @@ throw new Error('Method not implemented.');
     });
   }
 
-  public sendVerificationCode() {
-    if (this.recoveryForm.valid) {
-      const email = this.recoveryForm.get('email')?.value;
-      console.log(`Enviando código de verificación al correo: ${email}`);
-    } else {
-      console.log("Formulario inválido");
-    }
+  public sendValidationCode() {
+    this.isLoading = true;
+    this.authService.enviarCodigoRecuperacion(this.recoveryForm.get('email')?.value).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        Swal.fire({
+          title: 'Correo enviado',
+          text: 'Codigo de recuperacion enviado con exito',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        })
+        this.dataService.setData(this.recoveryForm.get('email')?.value);
+        this.router.navigate(['/cambiar-password']);
+      },
+      error: error => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error.respuesta,
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        })
+      }
+    })
   }
 
-
-  public redirectToForm() {
-    window.location.href = '/cambiar-password';
-  }
 }
+
+
+
+

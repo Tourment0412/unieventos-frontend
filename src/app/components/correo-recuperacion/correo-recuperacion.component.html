@@ -8,7 +8,7 @@
 
   <div class="changePasswordDiv">
     <div class="card-body">
-      <form class="p-4 rounded correoRecuperacion" [formGroup]="recoveryForm" (ngSubmit)="recovery()">
+      <form class="p-4 rounded correoRecuperacion" [formGroup]="recoveryForm" (ngSubmit)="sendValidationCode()">
         <h5 class="card-title text-center">Ingrese su correo</h5>
         <p>Se le enviará un email a su correo electrónico con un código de verificación.</p>
 
@@ -19,10 +19,17 @@
 
         <!-- Botón de envío -->
         <div class="text-center mb-3">
-          <button type="button" class="btn btn-custom w-100 custom-button" (click)="redirectToForm()">
+          <button type="submit" class="btn btn-custom w-100 custom-button" >
             Enviar Código
           </button>
         </div>
+        @if(isLoading){
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        }
       </form>
     </div>
   </div>
