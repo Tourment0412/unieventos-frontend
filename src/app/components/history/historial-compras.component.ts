@@ -4,6 +4,8 @@ import { EventosService } from '../../services/eventos.service';
 import { RouterModule } from '@angular/router';
 import { EventoDTO } from '../../dto/eventoDTO';
 import Swal from 'sweetalert2';
+import { ClienteService } from '../../services/cliente.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-historial-compras',
@@ -14,6 +16,12 @@ import Swal from 'sweetalert2';
 })
 
 export class HistorialComprasComponent {
+  
+  ordenes: []= []; 
+
+  constructor(private clienteService: ClienteService, private tokenService: TokenService) {
+    this.ordenes = [];
+  }
   historialCompras = [
     // Ejemplo de datos para mostrar el formato en el HTML
     { fecha: new Date(), metodoPago: 'Tarjeta', descuento: 10, total: 50000, estado: 'Aprobado', seleccionado: false },
@@ -62,5 +70,18 @@ export class HistorialComprasComponent {
 
   hayComprasSeleccionadas() {
     return this.historialCompras.some(compra => compra.seleccionado);
+  }
+
+  //Pregunar si con esto es sugiciente
+  public listarHistorialOrdenesCompra() {
+    const codigoCliente = this.tokenService.getIDCuenta();
+    this.clienteService.listarHistorialCompras(codigoCliente).subscribe({
+      next: data => {
+        this.ordenes = data.reply;
+      },
+      error: error => {
+        Swal.fire("Error!", error.error.respuesta, "error");
+      }
+    });
   }
 }
