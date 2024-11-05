@@ -25,3 +25,6 @@
   height: 350px; /* Cambia la altura según lo necesites */
   object-fit: cover; /* Ajusta cómo la imagen se adapta al contenedor */
 }
+li::marker {
+  color: transparent;
+}
