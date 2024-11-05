@@ -4,6 +4,11 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { C, N } from '@angular/cdk/keycodes';
+import { DataService } from '../../services/data.service';
+import { CambiarContraDTO } from '../../dto/cambiar-contra-dto';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cambiar-password',
@@ -14,24 +19,43 @@ import { C, N } from '@angular/cdk/keycodes';
 })
 export class CambiarPasswordComponent {
   changePasswordForm!: FormGroup;
+  email: string;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private dataService: DataService, private authService: AuthService, private router: Router) {
+    this.email = this.dataService.getData()
     this.createForm();
   }
 
   public changePassword() {
-    if (this.changePasswordForm.valid) {
-      console.log(this.changePasswordForm.value);
-    } else {
-      console.error("Formulario inválido.");
-    }
+    const cambiarContra = this.changePasswordForm.value as CambiarContraDTO
+    this.authService.cambiarContrasenia(cambiarContra).subscribe({
+      next: (data) => {
+        Swal.fire({
+          title: 'Contraseña cambiada',
+          text: 'La contraseña se ha cambiado, intente ingresar de nuevo',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        })
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error.respuesta,
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        })
+      }
+    });
+
   }
 
   private createForm() {
     this.changePasswordForm = this.formBuilder.group(
       {
-        code: ['', [Validators.required]],
-        password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
+        email: [this.email, [Validators.required, Validators.email]],
+        verificationCode: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
         passwordConfirmation: ['', [Validators.required]]
       },
       { validators: this.passwordsMatchValidator } as AbstractControlOptions
@@ -40,7 +64,7 @@ export class CambiarPasswordComponent {
 
   // Validador para confirmar que las contraseñas coincidan
   passwordsMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.get('password')?.value;
+    const password = formGroup.get('newPassword')?.value;
     const passwordConfirmation = formGroup.get('passwordConfirmation')?.value;
     // Devuelve un error si las contraseñas no coinciden
     return password === passwordConfirmation ? null : { passwordsMismatch: true };
