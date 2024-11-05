@@ -4,6 +4,10 @@ import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { LoginDTO } from '../../dto/login-dto';
+import { TokenService } from '../../services/token.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +20,7 @@ export class LoginComponent {
 
 
   loginForm!: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private tokenService: TokenService) {
     this.createForm();
   }
 
@@ -24,11 +28,24 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
-      
+
     });
   }
 
   public login() {
-    console.log(this.loginForm.value);
+    const loginDTO = this.loginForm.value as LoginDTO;
+    this.authService.iniciarSesion(loginDTO).subscribe({
+      next: (data) => {
+        this.tokenService.login(data.reply.token);
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.error.reply.message,
+        });
+      },
+
+    });
   }
 }
