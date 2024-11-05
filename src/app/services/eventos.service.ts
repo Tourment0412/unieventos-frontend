@@ -13,7 +13,6 @@ export class EventosService {
 
  constructor() {
    this.eventos = [];
-   this.crearEventosPrueba();
  }
 
 
@@ -43,68 +42,6 @@ export class EventosService {
      this.eventos[indice] = editarEventoDTO;
    }
  }
-
-
- public crearEventosPrueba(){
-  this.eventos.push({
-    id:'1',
-    nombre:'Evento 1',
-    descripcion:'Descripcion del evento 1',
-    fecha:new Date("2021-09-01 20:00:00"),
-    tipo:'SPORT',
-    direccion:'Calle 123',
-    ciudad:'Bogota',
-    localidades:[
-      {
-        nombre:'Localidad 1',
-        precio:10000,
-        capacidad:100
-      },
-      {
-        nombre:'Localidad 2',
-        precio:20000,
-        capacidad:100
-      }
-    ],
-    imagenPortada:'https://picsum.photos/100?random=1',
-    imagenLocalidades:'https://picsum.photos/100',
-    estado:'Activo'
-  });
-
-
-  this.eventos.push({
-    id:'2',
-    nombre:'Evento 2',
-    descripcion:'Descripcion del evento 2',
-    fecha:new Date("2024-10-24T18:30:00"),
-    tipo:'CULTURAL',
-    direccion:'Calle 123',
-    ciudad:'Armenia',
-    localidades:[],
-    imagenPortada:'https://picsum.photos/100?random=2',
-    imagenLocalidades:'https://picsum.photos/100',
-    estado:'Activo'
-  });
-
-
-  this.eventos.push({
-    id:'3',
-    nombre:'Evento 3',
-    descripcion:'Descripcion del evento 3',
-    fecha:new Date("2024-10-24T18:30:00"),
-    tipo:'CONCERT',
-    direccion:'Calle 123',
-    ciudad:'Medellin',
-    localidades:[],
-    imagenPortada:'https://picsum.photos/100?random=3',
-    imagenLocalidades:'https://picsum.photos/100',
-    estado:'Activo'
-  });
- }
-
-
-
-
 
 
 
