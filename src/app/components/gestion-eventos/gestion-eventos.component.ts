@@ -69,7 +69,7 @@ export class GestionEventosComponent {
     Swal.fire({
       title: "Estás seguro?",
       text: "Esta acción cambiará el estado de los eventos a Inactivos.",
-      icon: "error",
+      icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",

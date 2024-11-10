@@ -140,7 +140,8 @@
         </div>
 
         <div class="col-12 text-center">
-          <button *ngIf="updateOnly" type="button" class="btn btn-success" (click)="guardarCambios()">
+          <button *ngIf="updateOnly" type="button" class="btn btn-success" 
+          [disabled]="createEventForm.invalid" (click)="guardarCambios()">
             <i class="fa-solid fa-save me-2"></i>Guardar Cambios
           </button>
           <button *ngIf="!updateOnly" type="submit" class="btn btn-primary"
