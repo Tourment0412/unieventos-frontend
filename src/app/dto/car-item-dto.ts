@@ -1,8 +1,11 @@
 export interface CarItemDTO {
-  id: number;
-  name: string;
+  idUser: String;
+  idEvent: String,
+  locationName: String;
+  eventName: string;
   price: number;
-  type: string;
+  eventType: string;
   quantity: number;
   total: number;
+
 }

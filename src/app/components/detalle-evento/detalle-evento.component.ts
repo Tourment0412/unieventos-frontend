@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
 import { EventoDTO } from '../../dto/eventoDTO';
 import { MensajeDTO } from '../../dto/mensaje-dto';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import Swal from 'sweetalert2';
 import { CarItemDTO } from '../../dto/car-item-dto';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-detalle-evento',
@@ -25,7 +27,9 @@ export class DetalleEventoComponent  {
   constructor (
     private route: ActivatedRoute,
     private clienteService: ClienteService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private tokenService: TokenService
   ) {
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -111,15 +115,28 @@ export class DetalleEventoComponent  {
 
   agregarAlCarrito(localidad: any, index: number): void {
     const carItem: CarItemDTO = {
-      id: localidad.id,
-      name: localidad.name,
+      idUser: this.obtenerIdUsuario(),
+      idEvent: this.evento?.id ?? '',
+      locationName: localidad.name,
+      eventName: this.evento?.name ?? '',
       price: localidad.price,
-      type: localidad.type,
+      eventType: this.evento?.type ?? '',
       quantity: this.localidadesCantidad[index].quantity,
       total: localidad.price * this.localidadesCantidad[index].quantity,
     };
 
-    // Aquí puedes agregar el `carItem` al carrito
-    console.log('Item agregado al carrito:', carItem);
+    this.clienteService.agregarItemCarrito(carItem).subscribe({
+      next: data => {
+        Swal.fire("Exito!", "Se ha agregado el item al carrito", "success");
+      },
+      error: error => {
+        Swal.fire("Error!", error.error.respuesta, "error");
+      }
+    })
+
+  }
+
+  private obtenerIdUsuario(): string {
+    return this.tokenService.getIDCuenta();
   }
 }

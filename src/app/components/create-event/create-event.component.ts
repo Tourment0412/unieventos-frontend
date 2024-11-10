@@ -47,7 +47,7 @@ export class CreateEventComponent {
   imagenPortada?: File;
   imagenLocalidades?: File;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, 
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder,
     private publicoService: PublicoService, private adminService: AdminService, private router: Router) {
 
     this.route.params.subscribe((params) => {
@@ -141,7 +141,7 @@ export class CreateEventComponent {
         coverImage: this.event.coverImage,
         localitiesImage: this.event.localitiesImage
       });
-      // Limpiar el FormArray antes de añadir nuevas localidades
+
       const locationsArray = this.createEventForm.get('locations') as FormArray;
 
       if (this.event.locations) {
