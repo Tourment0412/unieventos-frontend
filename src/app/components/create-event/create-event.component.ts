@@ -9,8 +9,9 @@ import { NgModule } from '@angular/core';
 import { PublicoService } from '../../services/publico.service';
 import { AdminService } from '../../services/admin.service';
 import { CrearEventoDTO } from '../../dto/crear-evento-dto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalityDTO } from '../../dto/locality-dto';
+import { EditarEventoDTO } from '../../dto/editar-evento-dto';
 
 
 
@@ -46,11 +47,12 @@ export class CreateEventComponent {
   imagenPortada?: File;
   imagenLocalidades?: File;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private publicoService: PublicoService, private adminService: AdminService) {
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, 
+    private publicoService: PublicoService, private adminService: AdminService, private router: Router) {
 
     this.route.params.subscribe((params) => {
       this.codigoEvento = params['id'];
-      if(this.codigoEvento){
+      if (this.codigoEvento) {
         console.log("Hola");
         this.updateOnly = true;
         this.getEvent();
@@ -66,15 +68,15 @@ export class CreateEventComponent {
     this.listarEstados();
   }
 
-  public getEvent(){
+  public getEvent() {
     this.adminService.obtenerEvento(this.codigoEvento).subscribe({
       next: (data) => {
         this.event = data.reply;
         console.log(this.event);
         this.loadEventData()
-        
-        
-        
+
+
+
       },
       error: (error) => {
         console.error(error);
@@ -84,43 +86,46 @@ export class CreateEventComponent {
 
   private createForm() {
     this.createEventForm = this.formBuilder.group({
-      name: ["" , [Validators.required]],
-      address: ["" , [Validators.required]],
-      city: [ "" , [Validators.required]],
-      coverImage: [  "" , [Validators.required]],
-      localitiesImage: [  "" , [Validators.required]],
-      date: [  "" , [Validators.required]],
-      description: [  "" , [Validators.required]],
-      type: [ "" , [Validators.required]],
-      status: [ "" ],
+      name: ["", [Validators.required]],
+      address: ["", [Validators.required]],
+      city: ["", [Validators.required]],
+      coverImage: ["", [Validators.required]],
+      localitiesImage: ["", [Validators.required]],
+      date: ["", [Validators.required]],
+      description: ["", [Validators.required]],
+      type: ["", [Validators.required]],
+      status: [""],
       locations: this.formBuilder.array([])
     });
   }
 
 
   public guardarCambios() {
-    if (this.createEventForm.valid) {
-      // Obtén el ID del evento actual, asegurándote de que exista
-      const id = this.event?.id; // Asegúrate de que este ID exista en tu objeto EventoDTO
-
-      if (!id) {
-        Swal.fire("Error!", "No se puede actualizar el evento. ID no encontrado.", "error");
-        return;
+    const editarEventoDTO = this.createEventForm.value as EditarEventoDTO;
+    editarEventoDTO.id = this.codigoEvento;
+    this.adminService.actualizarEvento(editarEventoDTO).subscribe({
+      next: data => {
+        Swal.fire("Exito!", "Se ha actualizado el evento.", "success");
+        this.router.navigate(['/gestion-eventos']);
+      },
+      error: error => {
+        Swal.fire("Error!", error.error.respuesta, "error");
       }
+    })
 
-      // Obtén los valores del formulario
-      const updatedEvent: EventoDTO = this.createEventForm.value as EventoDTO;
+  }
 
-      // Llama al método del servicio para actualizar el evento
-      this.eventosService.actualizar(id, updatedEvent);
-
-      // Notifica al usuario sobre el éxito de la operación
-      Swal.fire("Éxito!", "El evento ha sido actualizado.", "success");
-      this.updateOnly = false;
-    } else {
-      Swal.fire("Advertencia!", "Por favor, completa todos los campos requeridos.", "warning");
-    }
-
+  public crearEvento() {
+    const crearEventoDTO = this.createEventForm.value as CrearEventoDTO;
+    this.adminService.crearEvento(crearEventoDTO).subscribe({
+      next: data => {
+        Swal.fire("Exito!", "Se ha creado un nuevo evento.", "success");
+        this.router.navigate(['/gestion-eventos']);
+      },
+      error: error => {
+        Swal.fire("Error!", error.error.respuesta, "error");
+      }
+    });
   }
 
   private loadEventData() {
@@ -161,17 +166,7 @@ export class CreateEventComponent {
 
 
 
-  public crearEvento() {
-    const crearEventoDTO = this.createEventForm.value as CrearEventoDTO;
-    this.adminService.crearEvento(crearEventoDTO).subscribe({
-      next: data => {
-        Swal.fire("Exito!", "Se ha creado un nuevo evento.", "success");
-      },
-      error: error => {
-        Swal.fire("Error!", error.error.respuesta, "error");
-      }
-    });
-  }
+
 
 
   public onFileChange(event: any, tipo: string) {
@@ -233,7 +228,7 @@ export class CreateEventComponent {
     });
   }
 
-  public listarEstados(){
+  public listarEstados() {
     this.publicoService.listarEstados().subscribe({
       next: (data) => {
         this.estados = data.reply

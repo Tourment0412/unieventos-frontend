@@ -16,7 +16,7 @@ export class AdminService {
     return this.http.post<MensajeDTO>(`${this.adminURL}/event/create`, crearEventoDTO);
   }
   public actualizarEvento(editarEventoDTO: EditarEventoDTO): Observable<MensajeDTO> {
-    return this.http.put<MensajeDTO>(`${this.adminURL}/evento/editar`, editarEventoDTO);
+    return this.http.put<MensajeDTO>(`${this.adminURL}/event/update`, editarEventoDTO);
   }
   public obtenerEvento(id: string): Observable<MensajeDTO> {
     return this.http.get<MensajeDTO>(`${this.adminURL}/event/get/${id}`);
