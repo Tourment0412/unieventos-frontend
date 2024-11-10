@@ -15,20 +15,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Concierto de Rock</td>
-            <td>Concierto</td>
-            <td>$50.00</td>
+          <tr *ngFor="let item of itemsCarrito; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.eventName }}</td>
+            <td>{{ item.eventType }}</td>
+            <td>{{ item.price | currency }}</td>
             <td>
-              <input type="number" class="form-control" value="2" min="1" />
+              <input type="number" class="form-control" [value]="item.quantity" min="1" (change)="actualizarCantidad(item, $event.target.value)" />
             </td>
-            <td>$100.00</td>
+            <td>{{ item.price * item.quantity | currency:'COP' }}</td>
             <td>
-              <button class="btn btn-danger btn-sm" type="button">Eliminar</button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="eliminarItem(i)">Eliminar</button>
             </td>
           </tr>
-          <!-- Repetir filas para otros artículos -->
         </tbody>
       </table>
     </div>
@@ -38,22 +37,22 @@
           <h5>Resumen de Pago</h5>
           <div class="mb-3">
             <label for="subtotal" class="form-label">Subtotal</label>
-            <input type="text" class="form-control" id="subtotal" value="$100.00" readonly />
+            <input type="text" class="form-control" id="subtotal" [value]="subtotal | currency" readonly />
           </div>
           <div class="mb-3">
             <label for="couponCode" class="form-label">Código de Cupón</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="couponCode" placeholder="Ingresa tu cupón" />
-              <button class="btn btn-primary" type="button">Aplicar</button>
+              <input type="text" class="form-control" id="couponCode" #couponInput placeholder="Ingresa tu cupón" />
+              <button class="btn btn-primary" type="button" (click)="aplicarDescuento(couponInput.value)">Aplicar</button>
             </div>
           </div>
           <div class="mb-3">
             <label for="discount" class="form-label">Descuento Aplicado</label>
-            <input type="text" class="form-control" id="discount" value="$0.00" readonly />
+            <input type="text" class="form-control" id="discount" [value]="descuento | currency" readonly />
           </div>
           <div class="mb-3">
             <label for="totalToPay" class="form-label">Total a Pagar</label>
-            <input type="text" class="form-control" id="totalToPay" value="$100.00" readonly />
+            <input type="text" class="form-control" id="totalToPay" [value]="total | currency" readonly />
           </div>
           <button class="btn btn-success" type="button">Realizar Pago</button>
         </div>
