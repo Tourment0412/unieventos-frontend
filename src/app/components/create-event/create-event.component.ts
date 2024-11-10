@@ -37,6 +37,7 @@ export class CreateEventComponent {
   updateOnly: boolean = false
   eventTypes: string[];
   ciudades: string[];
+  estados: string[];
   codigoEvento: string = '';
   createEventForm!: FormGroup;
 
@@ -59,8 +60,10 @@ export class CreateEventComponent {
     this.createForm();
     this.eventTypes = [];
     this.ciudades = [];
+    this.estados = [];
     this.listarCiudades();
     this.listarTipos();
+    this.listarEstados();
   }
 
   public getEvent(){
@@ -69,6 +72,9 @@ export class CreateEventComponent {
         this.event = data.reply;
         console.log(this.event);
         this.loadEventData()
+        
+        
+        
       },
       error: (error) => {
         console.error(error);
@@ -86,6 +92,7 @@ export class CreateEventComponent {
       date: [  "" , [Validators.required]],
       description: [  "" , [Validators.required]],
       type: [ "" , [Validators.required]],
+      status: [ "" ],
       locations: this.formBuilder.array([])
     });
   }
@@ -125,6 +132,7 @@ export class CreateEventComponent {
         date: this.event.date,
         description: this.event.description,
         type: this.event.type,
+        status: this.event.status,
         coverImage: this.event.coverImage,
         localitiesImage: this.event.localitiesImage
       });
@@ -224,6 +232,17 @@ export class CreateEventComponent {
       },
     });
   }
+
+  public listarEstados(){
+    this.publicoService.listarEstados().subscribe({
+      next: (data) => {
+        this.estados = data.reply
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
   public subirImagen(tipo: string) {
     const formData = new FormData();
     const imagen = tipo == 'portada' ? this.imagenPortada : this.imagenLocalidades;
@@ -234,6 +253,7 @@ export class CreateEventComponent {
       next: (data) => {
         this.createEventForm.get(formControl)?.setValue(data.reply);
         Swal.fire("Exito!", "Se ha subido la imagen.", "success");
+        console.log(data.reply);
       },
       error: (error) => {
         Swal.fire("Error!", error.error.respuesta, "error");

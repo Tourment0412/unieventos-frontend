@@ -13,7 +13,7 @@ export class AdminService {
   private adminURL = "http://localhost:8080/api/admin";
   constructor(private http: HttpClient) { }
   public crearEvento(crearEventoDTO: CrearEventoDTO): Observable<MensajeDTO> {
-    return this.http.post<MensajeDTO>(`${this.adminURL}/evento/crear`, crearEventoDTO);
+    return this.http.post<MensajeDTO>(`${this.adminURL}/event/create`, crearEventoDTO);
   }
   public actualizarEvento(editarEventoDTO: EditarEventoDTO): Observable<MensajeDTO> {
     return this.http.put<MensajeDTO>(`${this.adminURL}/evento/editar`, editarEventoDTO);
