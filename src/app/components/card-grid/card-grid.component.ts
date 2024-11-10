@@ -22,6 +22,7 @@ export class CardGridComponent {
 
   irADetalleEvento(eventoId: string): void {
     this.router.navigate(['/detalle-evento', eventoId]);
+    
   }
 
 }

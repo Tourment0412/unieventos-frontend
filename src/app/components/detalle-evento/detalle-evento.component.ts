@@ -1,56 +1,125 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
+import { ClienteService } from '../../services/cliente.service';
 import { EventoDTO } from '../../dto/eventoDTO';
 import { MensajeDTO } from '../../dto/mensaje-dto';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, FormArray, Validators, FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CarItemDTO } from '../../dto/car-item-dto';
 
 @Component({
   selector: 'app-detalle-evento',
   templateUrl: './detalle-evento.component.html',
   styleUrls: ['./detalle-evento.component.css'],
   standalone: true,
-  imports: [CommonModule],  // Solo CommonModule
+  imports: [CommonModule,  FormsModule],
 })
-export class DetalleEventoComponent implements OnInit {
-  evento: EventoDTO | null = null;
-  private eventoSubscription: Subscription | null = null; // Para manejar la suscripción
+export class DetalleEventoComponent  {
+  evento?: EventoDTO;
+  carItem?: CarItemDTO;
+  localidadesCantidad: { quantity: number }[] = [];
+  detailEventForm: FormGroup;
 
-  constructor(
+  constructor (
     private route: ActivatedRoute,
-    private adminService: AdminService
-  ) {}
+    private clienteService: ClienteService,
+    private formBuilder: FormBuilder
+  ) {
 
-  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     console.log("Evento ID:", id);
 
     if (id) {
-      this.eventoSubscription = this.adminService.obtenerEvento(id).subscribe(
-        (response: MensajeDTO) => {
-          if (response && !response.error) {
-            this.evento = response.reply;
-            console.log("Evento cargado:", this.evento);
-          } else {
-            console.log('Error al cargar el evento:', response);
-          }
-        },
-        (error) => {
-          console.log('Error al obtener evento:', error);
-        }
-      );
+      this.getEvent(id);
+    }
+
+    this.detailEventForm = this.formBuilder.group({
+      name: [''],
+      address: [''],
+      city: [''],
+      date: [''],
+      description: [''],
+      type: [''],
+      status: [''],
+      coverImage: [''],
+      localitiesImage: [''],
+      locations: this.formBuilder.array([])  // El array de localidades
+    });
+  }
+
+
+  public getEvent(id: string): void {
+    this.clienteService.obtenerEvento(id).subscribe({
+      next: (data) => {
+        this.evento = data.reply;
+        console.log(this.evento);
+        this.loadEventData()
+
+
+
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    })
+  }
+
+  private loadEventData(): void {
+    if (this.evento) {
+      this.localidadesCantidad = this.evento.locations.map(() => ({ quantity: 0 }));
+      this.detailEventForm.patchValue({
+        name: this.evento.name,
+        address: this.evento.address,
+        city: this.evento.city,
+        date: this.evento.date,
+        description: this.evento.description,
+        type: this.evento.type,
+        status: this.evento.status,
+        coverImage: this.evento.coverImage,
+        localitiesImage: this.evento.localitiesImage
+      });
+
+      const locationsArray = this.detailEventForm.get('locations') as FormArray;
+
+      if (this.evento.locations) {
+        this.evento.locations.forEach(location => {
+          locationsArray.push(this.createLocalityShow(location));
+        });
+      }
     }
   }
 
-  ngOnDestroy(): void {
-    // Asegúrate de limpiar la suscripción cuando el componente se destruya
-    if (this.eventoSubscription) {
-      this.eventoSubscription.unsubscribe();
-    }
+  private createLocalityShow(localidad: any): FormGroup {
+    return this.formBuilder.group({
+      id: [localidad.id],
+      name: [localidad.name, Validators.required],
+      price: [localidad.price, [Validators.required, Validators.min(0)]],
+      maxCapacity: [localidad.maxCapacity, [Validators.required, Validators.min(1)]],
+      quantity: [0, [Validators.required, Validators.min(1)]], // Definimos una cantidad inicial
+      total: [0], // Total basado en la cantidad seleccionada
+    });
   }
 
-  agregarAlCarrito(localidad: any): void {
-    console.log('Localidad agregada al carrito:', localidad);
+
+  updateTotal(localidad: any, index: number): void {
+    const quantity = this.localidadesCantidad[index].quantity;
+    localidad.total = localidad.price * quantity;
+
+  }
+
+  agregarAlCarrito(localidad: any, index: number): void {
+    const carItem: CarItemDTO = {
+      id: localidad.id,
+      name: localidad.name,
+      price: localidad.price,
+      type: localidad.type,
+      quantity: this.localidadesCantidad[index].quantity,
+      total: localidad.price * this.localidadesCantidad[index].quantity,
+    };
+
+    // Aquí puedes agregar el `carItem` al carrito
+    console.log('Item agregado al carrito:', carItem);
   }
 }

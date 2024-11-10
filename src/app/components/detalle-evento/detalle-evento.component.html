@@ -1,28 +1,68 @@
 <div class="container my-4" *ngIf="evento">
-  <div class="row">
-    <div class="col-md-4">
-      <img [src]="evento.coverImage" alt="{{ evento.name }}" class="img-fluid rounded shadow">
+  <div class="row mb-4 text-center">
+    <div class="col-md-12">
+      <!-- Imagen centrada y con un ancho reducido -->
+      <img [src]="evento.coverImage" alt="{{ evento.name }}" class="img-fluid rounded shadow mx-auto d-block w-75">
     </div>
-    <div class="col-md-8">
+  </div>
+
+  <div class="row mb-4 text-center">
+    <div class="col-md-12">
       <h1 class="display-4">{{ evento.name }}</h1>
       <p class="lead">{{ evento.description }}</p>
-      <p><strong>Fecha:</strong> {{ evento.date | date:'mediumDate' }}</p>
-      <p><strong>Tipo:</strong> {{ evento.type }}</p>
-      <p><strong>Ubicación:</strong> {{ evento.address }}, {{ evento.city }}</p>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <div class="p-3 border bg-light rounded">
+        <strong>Fecha:</strong> {{ evento.date | date:'mediumDate' }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-3 border bg-light rounded">
+        <strong>Tipo:</strong> {{ evento.type }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-3 border bg-light rounded">
+        <strong>Ubicación:</strong> {{ evento.address }}, {{ evento.city }}
+      </div>
     </div>
   </div>
 
   <hr class="my-4">
 
-  <h2>Localidades Disponibles</h2>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let localidad of evento.locations">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">{{ localidad.name }}</h5>
-          <p class="card-text">Precio: {{ localidad.price | currency }}</p>
-          <p class="card-text">Capacidad: {{ localidad.maxCapacity }}</p>
-          <button class="btn btn-primary" (click)="agregarAlCarrito(localidad)">Agregar al carrito</button>
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <img [src]="evento.localitiesImage" alt="Imagen de las localidades" class="img-fluid rounded shadow w-100">
+    </div>
+
+    <div class="col-md-6">
+      <h2>Localidades Disponibles</h2>
+      <div class="row">
+        <div class="col-12" *ngFor="let localidad of evento.locations; let i = index">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ localidad.name }}</h5>
+              <p class="card-text">Precio: {{ localidad.price | currency }}</p>
+              <p class="card-text">Capacidad: {{ localidad.maxCapacity }}</p>
+
+              <div class="mb-3">
+                <label for="quantity-{{ localidad.name }}" class="form-label">Cantidad de entradas</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity-{{ localidad.name }}"
+                  [(ngModel)]="localidadesCantidad[i].quantity"
+                  [min]="1"
+                  [max]="localidad.maxCapacity"
+                  (change)="updateTotal(localidad, i)">
+              </div>
+
+              <button class="btn btn-primary" (click)="agregarAlCarrito(localidad, i)">Agregar al carrito</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -15,4 +15,8 @@ export class ClienteService {
   public listarHistorialCompras(clientId: string): Observable<MensajeDTO> {
     return this.http.get<MensajeDTO>(`${this.clienteURL}/order/history/${clientId}`);
   }
+
+  public obtenerEvento(id: string): Observable<MensajeDTO> {
+    return this.http.get<MensajeDTO>(`${this.clienteURL}/event/get/${id}`);
+  }
 }
