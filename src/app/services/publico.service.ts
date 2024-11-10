@@ -20,6 +20,10 @@ export class PublicoService {
     return this.http.get<MensajeDTO>(`${this.publicoURL}/event/get-cities`);
   }
 
+  public listarEstados(): Observable<MensajeDTO> {
+    return this.http.get<MensajeDTO>(`${this.publicoURL}/event/get-statuses`);
+  }
+
   public listarEventos(pagina: number): Observable<MensajeDTO> {
     return this.http.get<MensajeDTO>(`${this.publicoURL}/event/get-all/${pagina}`);
   }

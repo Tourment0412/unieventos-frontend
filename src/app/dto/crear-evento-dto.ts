@@ -13,6 +13,7 @@ export interface CrearEventoDTO {
 
     description: string,
     type:string,
+    status:string,
     //no se si deba dejar esto como un DTO de localidades o algo asi para enviar la lista o solo como un arreglo generico
     locations: LocalityDTO[]
    

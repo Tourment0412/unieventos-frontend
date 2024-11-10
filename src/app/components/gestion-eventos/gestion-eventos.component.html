@@ -32,7 +32,6 @@
                             <th>Imagen</th>
                             <th>Ciudad</th>
                             <th>Fecha</th>
-                            <th>Estado</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -53,13 +52,10 @@
                                     style="max-width: 100px;">
                             </td>
                             <td>
-                                <p>{{item.description}}</p>
+                                <p>{{item.city}}</p>
                             </td>
                             <td>
                                 <p>{{item.date}}</p>
-                            </td>
-                            <td>
-                                <p>{{item.status}}</p>
                             </td>
                             <td>
                                 <a routerLink="/editar-evento/{{item.id}}">Editar evento</a>

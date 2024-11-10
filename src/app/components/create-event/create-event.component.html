@@ -48,8 +48,13 @@
           <input type="text" class="form-control" formControlName="address"/>
         </div>
         <div class="col-6">
-          <label>City:</label>
-          <input type="text" class="form-control" formControlName="city" />
+          <label class="form-label">City:</label>
+          <select formControlName="city" class="form-select">
+            <option value="">Select a city</option>
+            @for (item of ciudades; track $index) {
+            <option value={{item}}>{{ item }}</option>
+            }
+          </select>
         </div>
 
         <!-- Entradas de archivo en modo edición -->
@@ -87,6 +92,17 @@
             }
           </select>
         </div>
+        @if (updateOnly) {
+          <div class="col-6">
+            <label class="form-label">Status:</label>
+            <select formControlName="status" class="form-select" >
+              <option value="">Select a Status</option>
+              @for (item of estados; track $index) {
+              <option value={{item}}>{{ item }}</option>
+              }
+            </select>
+          </div>
+        }
 
         <!-- Sección de Localities antes del botón de Submit -->
         <div class="col-12">
