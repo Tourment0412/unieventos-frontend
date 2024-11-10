@@ -17,6 +17,7 @@ import { VerificarCuentaComponent } from './components/verificar-cuenta/verifica
 import { LoginGuard } from './guards/permiso.service';
 import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 import { RolesGuard } from './guards/roles.service';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,7 @@ export const routes: Routes = [
         { expectedRole: ["ADMIN"] } },
     { path: 'validar-cuenta',  component: VerificarCuentaComponent },
     { path: 'home-admin', component: HomeAdminComponent },
+    { path: 'user-info', component: UserInfoComponent},
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components

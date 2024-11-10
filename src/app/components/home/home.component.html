@@ -70,26 +70,28 @@
 </div>
 
  <!-- Filtros de Búsqueda -->
- <div class="d-flex justify-content-between align-items-center my-3 p-3 filter-bar">
+ <form class="d-flex justify-content-between align-items-center my-3 p-3 filter-bar" [formGroup]="filterForm" (ngSubmit)="filter()">
   <input
     type="text"
     class="form-control me-2"
     placeholder="Buscar por nombre"
     aria-label="Buscar por nombre"
+    formControlName="name"
   />
   <input
     type="text"
     class="form-control me-2"
     placeholder="Buscar por ciudad"
     aria-label="Buscar por ciudad"
+    formControlName="city"
   />
-  <select class="form-select me-2" aria-label="Filtrar por tipo">
+  <select class="form-select me-2" aria-label="Filtrar por tipo" formControlName="evenType">
     <option selected>Tipo de evento</option>
     <option value="concert">Concierto</option>
     <option value="conference">Conferencia</option>
     <option value="exhibition">Exhibición</option>
   </select>
-  <button class="btn btn-primary" type="button">Aplicar filtros</button>
-</div>
+  <button class="btn btn-primary" type="submit">Aplicar filtros</button>
+</form>
 
 <app-card-grid [events]="eventos"></app-card-grid>

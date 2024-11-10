@@ -22,7 +22,7 @@ export class AdminService {
     return this.http.get<MensajeDTO>(`${this.adminURL}/event/get/${id}`);
   }
   public eliminarEvento(id: string): Observable<MensajeDTO> {
-    return this.http.delete<MensajeDTO>(`${this.adminURL}/evento/eliminar/${id}`);
+    return this.http.delete<MensajeDTO>(`${this.adminURL}/event/delete/${id}`);
   }
   public listarEventosAdmin(pagina: number): Observable<MensajeDTO> {
     return this.http.get<MensajeDTO>(`${this.adminURL}/event/get-all/${pagina}`);
