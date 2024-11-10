@@ -20,7 +20,8 @@ export class HomeAdminComponent {
   public obtenerEventos() {
     this.adminService.listarEventosAdmin(0).subscribe({
       next: (data) => {
-        this.eventos = data.reply
+        this.eventos = data.reply.events;
+        
       },
       error: (error) => {
         console.error(error);
