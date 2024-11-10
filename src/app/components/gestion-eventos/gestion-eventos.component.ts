@@ -20,21 +20,14 @@ export class GestionEventosComponent {
   seleccionados: EventoDTO[];
   textoBtnEliminar: String;
   currentPage: number = 0;
-  pages: number[] = [0];
-  eventosSiguientePag: EventoDTO[];
+  pages: number[] = [];
 
   eventsAvailable: boolean = true;
 
   constructor(public EventosService: EventosService, private adminService: AdminService) {
     //this.eventos = EventosService.listar();
     this.eventos = [];
-    this.eventosSiguientePag=[];
     this.obtenerEventos(this.currentPage);
-    this.obtenerEventosSig(this.currentPage);
-    this.actualizarEventsAvailable();
-    console.log(this.eventosSiguientePag);
-    console.log(this.eventsAvailable);
-    
     
     this.seleccionados = [];
     this.textoBtnEliminar = ""
@@ -102,12 +95,8 @@ export class GestionEventosComponent {
 
   public nextPage() {
     this.currentPage++;
-    this.pages.push(this.currentPage);
     this.obtenerEventos(this.currentPage);
-    this.obtenerEventosSig(this.currentPage);
     this.actualizarEventsAvailable();
-    
-
   }
 
   public previousPage() {
@@ -115,28 +104,17 @@ export class GestionEventosComponent {
     this.obtenerEventos(this.currentPage);
   }
   public actualizarEventsAvailable() {
-    this.eventsAvailable = this.eventosSiguientePag.length > 0;
+    this.eventsAvailable = this.currentPage < this.pages.length-1;
   }
-
-
-
 
   //TODO aca tambien debo de la variable para manejar la paginacion correspondiente 
   public obtenerEventos(page: number) {
     this.adminService.listarEventosAdmin(page).subscribe({
       next: (data) => {
-        this.eventos = data.reply
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-  }
-
-  public obtenerEventosSig(page: number) {
-    this.adminService.listarEventosAdmin(page+1).subscribe({
-      next: (data) => {
-        this.eventosSiguientePag = data.reply
+        this.pages = new Array(data.reply.totalPages);
+        this.eventos = data.reply.events;
+        this.currentPage=page;
+        this.actualizarEventsAvailable();
       },
       error: (error) => {
         console.error(error);

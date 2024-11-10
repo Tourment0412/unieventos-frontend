@@ -14,23 +14,33 @@ import { correoRecuperacionComponent } from './components/correo-recuperacion/co
 import { HistorialComprasComponent } from './components/history/historial-compras.component';
 import { GestionCuponesComponent } from './components/gestion-cupones/gestion-cupones.component';
 import { VerificarCuentaComponent } from './components/verificar-cuenta/verificar-cuenta.component';
+import { LoginGuard } from './guards/permiso.service';
+import { HomeAdminComponent } from './components/home-admin/home-admin.component';
+import { RolesGuard } from './guards/roles.service';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'create-event', component: CreateEventComponent},
+    { path: 'login', component: LoginComponent,  canActivate: [LoginGuard] },
+    { path: 'register', component: RegisterComponent,  canActivate: [LoginGuard] },
+    { path: 'create-event', component: CreateEventComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["ADMIN"] }  },
     { path: 'card', component: CardComponent},
     { path: 'cambiar-password', component: CambiarPasswordComponent},
     { path: 'editar-perfil', component: EditarPerfilComponent},
-    { path: "gestion-eventos", component: GestionEventosComponent },
+    { path: "gestion-eventos", component: GestionEventosComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["ADMIN"] } },
     { path: 'detalle-evento/:id', component: DetalleEventoComponent },
-    { path: 'editar-evento/:id', component: CreateEventComponent },
-    { path: 'shopping-car', component: ShoppingCarComponent },
+    { path: 'editar-evento/:id', component: CreateEventComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["ADMIN"] } },
+    { path: 'shopping-car', component: ShoppingCarComponent , canActivate: [RolesGuard], data:
+        { expectedRole: ["CLIENT"] }},
     { path: 'correo-recuperacion', component: correoRecuperacionComponent},
-    { path: 'historial', component: HistorialComprasComponent },
-    { path: 'gestion-cupones', component: GestionCuponesComponent },
+    { path: 'historial', component: HistorialComprasComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["CLIENT"] } },
+    { path: 'gestion-cupones', component: GestionCuponesComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["ADMIN"] } },
     { path: 'validar-cuenta',  component: VerificarCuentaComponent },
+    { path: 'home-admin', component: HomeAdminComponent },
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components

@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, For
 import { EventosService } from '../../services/eventos.service';
 import Swal from 'sweetalert2';
 import { EventoDTO } from '../../dto/eventoDTO';
-import { LocalidadDTO } from '../../dto/localidadDTO';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { PublicoService } from '../../services/publico.service';
 import { AdminService } from '../../services/admin.service';
 import { CrearEventoDTO } from '../../dto/crear-evento-dto';
 import { ActivatedRoute } from '@angular/router';
+import { LocalityDTO } from '../../dto/locality-dto';
 
 
 
@@ -30,11 +31,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 
-export class CreateEventComponent implements OnChanges {
+export class CreateEventComponent {
 
-  @Input() event: EventoDTO | undefined;
-  @Input() readOnly: boolean = false;
-  @Input() updateOnly: boolean = false
+  event?: EventoDTO;
+  updateOnly: boolean = false
   eventTypes: string[];
   ciudades: string[];
   codigoEvento: string = '';
@@ -49,8 +49,11 @@ export class CreateEventComponent implements OnChanges {
     
     this.route.params.subscribe((params) => {
       this.codigoEvento = params['id'];
-      this.getEvent();
-      //usar update only
+      if(this.codigoEvento){
+        console.log("Hola");
+        this.updateOnly = true;
+        this.getEvent();
+      }
     });
 
     this.createForm();
@@ -64,7 +67,8 @@ export class CreateEventComponent implements OnChanges {
     this.adminService.obtenerEvento(this.codigoEvento).subscribe({
       next: (data) => {
         this.event = data.reply;
-        this.createForm();
+        console.log(this.event);
+        this.loadEventData()
       },
       error: (error) => {
         console.error(error);
@@ -74,24 +78,18 @@ export class CreateEventComponent implements OnChanges {
 
   private createForm() {
     this.createEventForm = this.formBuilder.group({
-      name: [{ value: this.event != null ? this.event.name : "" , disabled: this.readOnly }, [Validators.required]],
-      address: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      city: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      coverImage: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      localitiesImage: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      date: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      description: [{ value: '', disabled: this.readOnly }, [Validators.required]],
-      type: [{ value: '', disabled: this.readOnly }, [Validators.required]],
+      name: ["" , [Validators.required]],
+      address: ["" , [Validators.required]],
+      city: [ "" , [Validators.required]],
+      coverImage: [  "" , [Validators.required]],
+      localitiesImage: [  "" , [Validators.required]],
+      date: [  "" , [Validators.required]],
+      description: [  "" , [Validators.required]],
+      type: [ "" , [Validators.required]],
       locations: this.formBuilder.array([])
     });
   }
 
-  // Método para actualizar el evento
-  public mostrarActualizarEvento() {
-    this.updateOnly = true;
-    this.readOnly = false;
-    this.toggleFormControls(this.readOnly);
-  }
 
   public guardarCambios() {
     if (this.createEventForm.valid) {
@@ -111,51 +109,30 @@ export class CreateEventComponent implements OnChanges {
 
       // Notifica al usuario sobre el éxito de la operación
       Swal.fire("Éxito!", "El evento ha sido actualizado.", "success");
-      this.readOnly = true;
       this.updateOnly = false;
-      this.toggleFormControls(this.readOnly);
     } else {
       Swal.fire("Advertencia!", "Por favor, completa todos los campos requeridos.", "warning");
     }
 
   }
 
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['event'] && this.event) {
-      this.loadEventData();
-    }
-    if (changes['readOnly']) {
-      this.toggleFormControls(this.readOnly);
-    }
-
-  }
-
-  private toggleFormControls(disabled: boolean) {
-    if (disabled) {
-      this.createEventForm.disable();
-    } else {
-      this.createEventForm.enable();
-    }
-  }
-
   private loadEventData() {
     if (this.event) {
       this.createEventForm.patchValue({
         name: this.event.name,
-        address: this.event.direccion,
-        city: this.event.ciudad,
-        date: this.convertToDateTimeLocalString(this.event.fecha),
-        description: this.event.descripcion,
-        type: this.event.tipo,
+        address: this.event.address,
+        city: this.event.city,
+        date: this.event.date,
+        description: this.event.description,
+        type: this.event.type,
         coverImage: this.event.coverImage,
-        localitiesImage: this.event.imagenLocalidades
+        localitiesImage: this.event.localitiesImage
       });
       // Limpiar el FormArray antes de añadir nuevas localidades
       const locationsArray = this.createEventForm.get('locations') as FormArray;
 
-      if (this.event.localidades) {
-        this.event.localidades.forEach(location => {
+      if (this.event.locations) {
+        this.event.locations.forEach(location => {
           locationsArray.push(this.createLocalityShow(location));
           console.log(location)
           console.log(locationsArray.value)
@@ -195,11 +172,11 @@ export class CreateEventComponent implements OnChanges {
       tipo == 'localidades' ? (this.imagenLocalidades = file) : (this.imagenPortada = file);
     }
   }
-  private createLocalityShow(localidad: LocalidadDTO): FormGroup {  // Método para crear localidad
+  private createLocalityShow(localidad: LocalityDTO): FormGroup {  // Método para crear localidad
     return this.formBuilder.group({
-      name: [localidad.nombre, Validators.required],
-      price: [localidad.precio, [Validators.required, Validators.min(0)]],
-      maxCapacity: [localidad.capacidad, [Validators.required, Validators.min(1)]]
+      name: [localidad.name, Validators.required],
+      price: [localidad.price, [Validators.required, Validators.min(0)]],
+      maxCapacity: [localidad.maxCapacity, [Validators.required, Validators.min(1)]]
     });
   }
 

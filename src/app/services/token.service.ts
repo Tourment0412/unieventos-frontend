@@ -33,12 +33,18 @@ export class TokenService {
 
   public login(token: string) {
     this.setToken(token);
-    this.router.navigate(["/"]);
+    const rol = this.getRol();
+    let destino = rol == "ADMIN" ? "/home-admin" : "/";
+    this.router.navigate([destino]).then(() => {
+    window.location.reload();
+    });
   }
 
   public logout() {
     window.sessionStorage.clear();
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/login"]).then(() => {
+      window.location.reload();
+    });
   }
 
   private decodePayload(token: string): any {
@@ -61,11 +67,28 @@ export class TokenService {
     const token = this.getToken();
     if (token) {
       const values = this.decodePayload(token);
-      return values.rol;
+      return values.role;
+    }
+    return "";
+  }
+  public getEmail(): string {
+    const token = this.getToken();
+    if (token) {
+      const values = this.decodePayload(token);
+      return values.email;
     }
     return "";
   }
 
-  
+  public getNombre(): string {
+    const token = this.getToken();
+    if (token) {
+      const values = this.decodePayload(token);
+      return values.name;
+    }
+    return "";
+  }
+
+
 
 }

@@ -6,6 +6,7 @@ import { LoginDTO } from '../dto/login-dto';
 import { CrearCuentaDTO } from '../dto/crear-cuenta-dto';
 import { ActivateAccountDTO } from '../dto/activate-account-dto';
 import { CambiarContraDTO } from '../dto/cambiar-contra-dto';
+import { TokenDTO } from '../dto/token-dto';
 
 
 @Injectable({
@@ -25,6 +26,10 @@ export class AuthService {
 
   public iniciarSesion(loginDTO: LoginDTO): Observable<MensajeDTO> {
     return this.http.post<MensajeDTO>(`${this.authURL}/login`, loginDTO);
+  }
+
+  public refresh(token: TokenDTO): Observable<MensajeDTO> {
+    return this.http.post<MensajeDTO>(`${this.authURL}/refresh`, token);
   }
 
   public validarCodigoRegistro(activateAccountDTO: ActivateAccountDTO): Observable<MensajeDTO> {

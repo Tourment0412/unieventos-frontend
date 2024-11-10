@@ -14,26 +14,33 @@
     </ul>
 
     <div class="col-md-3 text-end">
+      @if(isLogged){
       <a routerLink="/shopping-car" class="btn btn-outline-custom me-2">
         <i class="fa-solid fa-shopping-cart"></i> <!-- Icono del carrito -->
       </a>
-
+    }
+    </div>
+    <div class="col-md-3 d-flex text-end align-items-center">
+    @if(!isLogged){
+    
       <button type="button" routerLink="/login" class="btn btn-outline-custom me-2">Login</button>
       <button type="button" routerLink="/register" class="btn btn-custom-primary">Registro</button>
-    </div>
-
-    <div class="col-md-2 text-end ms-0">
+    
+    }@else {
       <div class="dropdown d-inline">
-        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+          aria-expanded="false">
           <i class="fa-solid fa-user-circle fs-4 me-2"></i>
           <span class="me-3">{{ nombreUsuario }}</span>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
           <li><a class="dropdown-item" routerLink="/perfil">Ver información de perfil</a></li>
           <li><a class="dropdown-item" routerLink="/cupones">Información sobre cupones</a></li>
-          <li><a class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</a></li>
+          <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
         </ul>
       </div>
-    </div>
+    }
+  </div>
+    
   </header>
 </div>

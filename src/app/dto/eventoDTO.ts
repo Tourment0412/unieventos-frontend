@@ -1,17 +1,17 @@
-import { LocalidadDTO } from "./localidadDTO";
+import { LocalityDTO } from "./locality-dto";
 
 
 export interface EventoDTO {
    id:string,
    name:string,
-   descripcion:string,
-   fecha:Date,
-   tipo:string,
-   direccion:string,
-   ciudad:string,
-   localidades:LocalidadDTO[],
+   description:string,
+   date:Date,
+   type:string,
+   address:string,
+   city:string,
+   locations:LocalityDTO[],
    coverImage:string,
-   imagenLocalidades:string,
-   estado:string
+   localitiesImage:string,
+   status:string
 }
 

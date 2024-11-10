@@ -6,11 +6,8 @@
         <i class="fas fa-edit me-3"></i>
         <span>Actualización de eventos</span>
       </h5>
-      <h5 *ngIf="readOnly">
-        <i class="fas fa-info-circle me-3"></i>
-        <span>Detalles de eventos</span>
-      </h5>
-      <h5 *ngIf="!readOnly && !updateOnly">
+      
+      <h5 *ngIf="!updateOnly">
         <i class="fas fa-plus-circle"></i>
         <span>Creación de eventos</span>
       </h5>
@@ -18,7 +15,7 @@
 
     <!-- Contenedor de imágenes, solo visible en modo de solo lectura -->
     <div class="card-body p-4">
-      <div class="col-12 mb-4" *ngIf="readOnly">
+      <div class="col-12 mb-4" *ngIf="updateOnly">
         <div class="img-wrapper d-flex justify-content-between">
           <!-- Imagen de portada -->
           <div class="cover-image">
@@ -44,15 +41,15 @@
       <form class="row g-3" [formGroup]="createEventForm" novalidate>
         <div class="col-6">
           <label>Name:</label>
-          <input type="text" class="form-control" formControlName="name" [readonly]="readOnly" />
+          <input type="text" class="form-control" formControlName="name" />
         </div>
         <div class="col-6">
           <label>Address:</label>
-          <input type="text" class="form-control" formControlName="address" [readonly]="readOnly" />
+          <input type="text" class="form-control" formControlName="address"/>
         </div>
         <div class="col-6">
           <label>City:</label>
-          <input type="text" class="form-control" formControlName="city" [readonly]="readOnly" />
+          <input type="text" class="form-control" formControlName="city" />
         </div>
 
         <!-- Entradas de archivo en modo edición -->
@@ -75,16 +72,15 @@
 
         <div class="col-6">
           <label for="eventDate">Event Date:</label>
-          <input type="datetime-local" class="form-control" id="eventDate" formControlName="date"
-            [readonly]="readOnly" />
+          <input type="datetime-local" class="form-control" id="eventDate" formControlName="date" />
         </div>
         <div class="col-6">
           <label>Description:</label>
-          <textarea class="form-control" formControlName="description" [readonly]="readOnly"></textarea>
+          <textarea class="form-control" formControlName="description" ></textarea>
         </div>
         <div class="col-6">
           <label class="form-label">Type:</label>
-          <select formControlName="type" class="form-select" [disabled]="readOnly">
+          <select formControlName="type" class="form-select" >
             <option value="">Select a type</option>
             @for (item of eventTypes; track $index) {
             <option value={{item}}>{{ item }}</option>
@@ -101,21 +97,18 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="name">Name:</label>
-                    <input type="text" class="form-control" formControlName="name" placeholder="Name"
-                      [readonly]="readOnly" />
+                    <input type="text" class="form-control" formControlName="name" placeholder="Name" />
                   </div>
                   <div class="col-md-3">
                     <label for="price">Price:</label>
-                    <input type="number" class="form-control" formControlName="price" placeholder="Price"
-                      [readonly]="readOnly" />
+                    <input type="number" class="form-control" formControlName="price" placeholder="Price"/>
                   </div>
                   <div class="col-md-3">
                     <label for="maxCapacity">Max Capacity:</label>
-                    <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity"
-                      [readonly]="readOnly" />
+                    <input type="number" class="form-control" formControlName="maxCapacity" placeholder="Max Capacity" />
                   </div>
                   <div class="col-md-12 text-end mt-2">
-                    <button *ngIf="!readOnly" type="button" class="btn btn-danger" (click)="removeLocality(i)">
+                    <button *ngIf="updateOnly" type="button" class="btn btn-danger" (click)="removeLocality(i)">
                       Remove Locality
                     </button>
                   </div>
@@ -124,20 +117,17 @@
             </ng-container>
           </div>
           <div class="text-end mt-2">
-            <button *ngIf="!readOnly" type="button" class="btn btn-success" (click)="addLocality()">
+            <button type="button" class="btn btn-success" (click)="addLocality()">
               Add Locality
             </button>
           </div>
         </div>
 
         <div class="col-12 text-center">
-          <button *ngIf="readOnly" type="button" class="btn btn-warning" (click)="mostrarActualizarEvento()">
-            <i class="fa-solid fa-edit me-2"></i>Actualizar Evento
-          </button>
           <button *ngIf="updateOnly" type="button" class="btn btn-success" (click)="guardarCambios()">
             <i class="fa-solid fa-save me-2"></i>Guardar Cambios
           </button>
-          <button *ngIf="!readOnly && !updateOnly" type="submit" class="btn btn-primary"
+          <button *ngIf="!updateOnly" type="submit" class="btn btn-primary"
             [disabled]="createEventForm.invalid" (click)="crearEvento()">
             <i class="fa-solid fa-plus me-2"></i>Create event
           </button>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-header',
@@ -11,14 +12,21 @@ import { RouterModule } from '@angular/router';
 export class HeaderComponent {
 
   title: string;
-  nombreUsuario: string = 'Juan Pérez';
+  nombreUsuario: string = "";
+  isLogged = false;
+  email: string = "";
 
-  constructor() {
-    this.title ='Unieventos'
-
+  constructor(private tokenService: TokenService) {
+    this.title = 'Unieventos';
+    this.isLogged = this.tokenService.isLogged();
+    if (this.isLogged) {
+      this.email = this.tokenService.getEmail();
+      this.nombreUsuario = this.tokenService.getNombre();
+    }
   }
 
-  cerrarSesion() {
+  public logout() {
+    this.tokenService.logout();
   }
 
 }
