@@ -46,7 +46,7 @@ export class CreateEventComponent {
   imagenLocalidades?: File;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private publicoService: PublicoService, private adminService: AdminService) {
-    
+
     this.route.params.subscribe((params) => {
       this.codigoEvento = params['id'];
       if(this.codigoEvento){

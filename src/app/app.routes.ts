@@ -18,6 +18,7 @@ import { LoginGuard } from './guards/permiso.service';
 import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 import { RolesGuard } from './guards/roles.service';
 
+
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent,  canActivate: [LoginGuard] },

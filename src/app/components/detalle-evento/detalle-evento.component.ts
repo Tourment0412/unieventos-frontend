@@ -1,44 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { EventoDTO } from '../../dto/eventoDTO';
-import { ActivatedRoute } from '@angular/router';
-import { EventosService } from '../../services/eventos.service';
 import { CommonModule } from '@angular/common';
-import { CreateEventComponent } from '../create-event/create-event.component';
+import { ActivatedRoute } from '@angular/router';
+import { AdminService } from '../../services/admin.service';
+import { EventoDTO } from '../../dto/eventoDTO';
+import { MensajeDTO } from '../../dto/mensaje-dto';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detalle-evento',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './detalle-evento.component.html',
-  styleUrl: './detalle-evento.component.css'
+  styleUrls: ['./detalle-evento.component.css'],
+  standalone: true,
+  imports: [CommonModule],  // Solo CommonModule
 })
 export class DetalleEventoComponent implements OnInit {
+  evento: EventoDTO | null = null;
+  private eventoSubscription: Subscription | null = null; // Para manejar la suscripción
 
-  codigoEvento: string = '';
-  evento: EventoDTO | undefined;
+  constructor(
+    private route: ActivatedRoute,
+    private adminService: AdminService
+  ) {}
 
-  constructor(private route: ActivatedRoute, private eventosService: EventosService) {
-    this.route.params.subscribe((params) => {
-      this.codigoEvento = params['id'];
-      this.obtenerEvento();
-    });
-  }
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log("Evento ID:", id);
 
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.codigoEvento = params['id'];
-      this.obtenerEvento(); // Mueve la llamada aquí
-    });
-  }
-
-  public obtenerEvento() {
-    const eventoConsultado = this.eventosService.obtener(this.codigoEvento);
-    if (eventoConsultado !== undefined) {
-      this.evento = eventoConsultado;
-    } else {
-      console.error('Evento no encontrado');
+    if (id) {
+      this.eventoSubscription = this.adminService.obtenerEvento(id).subscribe(
+        (response: MensajeDTO) => {
+          if (response && !response.error) {
+            this.evento = response.reply;
+            console.log("Evento cargado:", this.evento);
+          } else {
+            console.log('Error al cargar el evento:', response);
+          }
+        },
+        (error) => {
+          console.log('Error al obtener evento:', error);
+        }
+      );
     }
   }
 
+  ngOnDestroy(): void {
+    // Asegúrate de limpiar la suscripción cuando el componente se destruya
+    if (this.eventoSubscription) {
+      this.eventoSubscription.unsubscribe();
+    }
+  }
 
+  agregarAlCarrito(localidad: any): void {
+    console.log('Localidad agregada al carrito:', localidad);
+  }
 }

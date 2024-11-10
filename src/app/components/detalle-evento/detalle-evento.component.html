@@ -1,3 +1,30 @@
-<div class="container">
-  <p>{{evento | json}}</p>
+<div class="container my-4" *ngIf="evento">
+  <div class="row">
+    <div class="col-md-4">
+      <img [src]="evento.coverImage" alt="{{ evento.name }}" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-md-8">
+      <h1 class="display-4">{{ evento.name }}</h1>
+      <p class="lead">{{ evento.description }}</p>
+      <p><strong>Fecha:</strong> {{ evento.date | date:'mediumDate' }}</p>
+      <p><strong>Tipo:</strong> {{ evento.type }}</p>
+      <p><strong>Ubicación:</strong> {{ evento.address }}, {{ evento.city }}</p>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <h2>Localidades Disponibles</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let localidad of evento.locations">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ localidad.name }}</h5>
+          <p class="card-text">Precio: {{ localidad.price | currency }}</p>
+          <p class="card-text">Capacidad: {{ localidad.maxCapacity }}</p>
+          <button class="btn btn-primary" (click)="agregarAlCarrito(localidad)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
