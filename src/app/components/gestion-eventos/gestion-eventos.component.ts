@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { EventosService } from '../../services/eventos.service';
 import { RouterModule } from '@angular/router';
 import { EventoDTO } from '../../dto/eventoDTO';
@@ -15,6 +15,7 @@ import { AdminService } from '../../services/admin.service';
 })
 export class GestionEventosComponent {
 
+  @ViewChildren('check') checkboxes!: QueryList<any>;
 
   eventos: EventoDTO[];
   seleccionados: EventoDTO[];
@@ -28,10 +29,18 @@ export class GestionEventosComponent {
     //this.eventos = EventosService.listar();
     this.eventos = [];
     this.obtenerEventos(this.currentPage);
-    
+
     this.seleccionados = [];
     this.textoBtnEliminar = ""
-    
+
+  }
+
+  private reiniciarCheckboxes() {
+    if (this.checkboxes) {
+      this.checkboxes.forEach((checkbox) => {
+        checkbox.nativeElement.checked = false;
+      });
+    }
   }
 
   public seleccionar(evento: EventoDTO, estado: boolean) {
@@ -67,16 +76,21 @@ export class GestionEventosComponent {
 
   public confirmarEliminacion() {
     Swal.fire({
-      title: "Estás seguro?",
-      text: "Esta acción cambiará el estado de los eventos a Inactivos.",
+      title: "Estas seguro?",
+      text: "No podras revertir esto!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminalo!"
     }).then((result) => {
       if (result.isConfirmed) {
         this.eliminarEventos();
-        Swal.fire("Eliminados!", "Los eventos seleccionados han sido eliminados.", "success");
+        Swal.fire({
+          title: "Eliminado!",
+          text: "Se han eliminado los eventos seleccionados.",
+          icon: "success"
+        });
       }
     });
   }
@@ -84,11 +98,18 @@ export class GestionEventosComponent {
 
   public eliminarEventos() {
     this.seleccionados.forEach(e1 => {
-      this.EventosService.eliminar(e1.id);
-      this.eventos = this.eventos.filter(e2 => e2.id !== e1.id);
+      this.adminService.eliminarEvento(e1.id).subscribe({
+        next: (data) => {
+          this.seleccionados = [];
+          this.actualizarMensaje();
+          this.reiniciarCheckboxes();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
     });
-    this.seleccionados = [];
-    this.actualizarMensaje();
+
 
 
   }
@@ -104,7 +125,7 @@ export class GestionEventosComponent {
     this.obtenerEventos(this.currentPage);
   }
   public actualizarEventsAvailable() {
-    this.eventsAvailable = this.currentPage < this.pages.length-1;
+    this.eventsAvailable = this.currentPage < this.pages.length - 1;
   }
 
   //TODO aca tambien debo de la variable para manejar la paginacion correspondiente 
@@ -113,7 +134,7 @@ export class GestionEventosComponent {
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);
         this.eventos = data.reply.events;
-        this.currentPage=page;
+        this.currentPage = page;
         this.actualizarEventsAvailable();
       },
       error: (error) => {
