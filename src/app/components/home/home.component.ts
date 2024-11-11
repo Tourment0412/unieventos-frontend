@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {RouterModule} from '@angular/router';
 import {LoginDTO} from '../../dto/login-dto';
 import {EventFilterDTO} from '../../dto/event-filter-dto';
+import {EventoDTO} from '../../dto/eventoDTO';
 
 @Component({
   selector: 'app-home',
@@ -15,20 +16,29 @@ import {EventFilterDTO} from '../../dto/event-filter-dto';
 })
 export class HomeComponent {
 
-
+  currentPage: number = 0;
   filterForm!: FormGroup;
   eventos: [] = [];
+  seleccionados: EventoDTO[];
+  eventsAvailable: boolean = true;
+  pages: number[] = [];
   constructor(private publicoService: PublicoService,private formBuilder: FormBuilder) {
     this.eventos = [];
-    this.obtenerEventos(0);
+    this.obtenerEventos(this.currentPage);
     this.createForm();
+
+    this.seleccionados = [];
   }
 
   //This cero must be changed for a number variable to work correctly with pagination.
   public obtenerEventos(page: number) {
     this.publicoService.listarEventos(page).subscribe({
       next: (data) => {
-        this.eventos = data.reply
+        console.log(data);
+        this.pages = new Array(data.reply.totalPages);
+        this.eventos = data.reply.events;
+        this.currentPage=page;
+        this.actualizarEventsAvailable();
       },
       error: (error) => {
         console.error(error);
@@ -56,6 +66,23 @@ export class HomeComponent {
       },
     });
   }
+
+  public nextPage() {
+    this.currentPage++;
+    this.obtenerEventos(this.currentPage);
+    this.actualizarEventsAvailable();
+  }
+
+  public previousPage() {
+    this.currentPage--;
+    this.obtenerEventos(this.currentPage);
+  }
+
+  public actualizarEventsAvailable() {
+    this.eventsAvailable = this.currentPage < this.pages.length-1;
+  }
+
+
 
 }
 
