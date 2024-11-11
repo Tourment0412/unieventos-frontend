@@ -18,6 +18,7 @@ import { LoginGuard } from './guards/permiso.service';
 import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 import { RolesGuard } from './guards/roles.service';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { HayCuponesComponent } from './components/hay-cupones/hay-cupones.component';
 
 
 export const routes: Routes = [
@@ -28,6 +29,7 @@ export const routes: Routes = [
         { expectedRole: ["ADMIN"] }  },
     { path: 'card', component: CardComponent},
     { path: 'cambiar-password', component: CambiarPasswordComponent},
+
     { path: "gestion-eventos", component: GestionEventosComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN"] } },
     { path: 'detalle-evento/:id', component: DetalleEventoComponent },
@@ -44,6 +46,8 @@ export const routes: Routes = [
     { path: 'home-admin', component: HomeAdminComponent },
     { path: 'user-info', component: UserInfoComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN", "CLIENT"] }},
+    { path: 'hay-cupones', component: HayCuponesComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["CLIENT"] }},
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components

@@ -54,8 +54,8 @@ export class CambiarPasswordComponent {
     this.changePasswordForm = this.formBuilder.group(
       {
         email: [this.email, [Validators.required, Validators.email]],
-        verificationCode: ['', [Validators.required]],
-        newPassword: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
+        verificationCode: ['', [Validators.required], Validators.minLength(6), Validators.maxLength(6)],
+        newPassword: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(7)]],
         passwordConfirmation: ['', [Validators.required]]
       },
       { validators: this.passwordsMatchValidator } as AbstractControlOptions

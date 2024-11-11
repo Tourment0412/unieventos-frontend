@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControlOptions, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms'
@@ -30,17 +30,27 @@ export class RegisterComponent {
   private createForm() {
     //TODO: verificar que en estas validaciones se incluyan las que ya se tenian escritas en DTO respectivo  
     this.registerForm = this.formBuilder.group({
-      dni: ['', [Validators.required]],
-      name: ['', [Validators.required]],
+      dni: ['', [Validators.required, Validators.maxLength(10)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.maxLength(10)]],
-      password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
+      address: ['', [Validators.required, Validators.maxLength(255)]],
+      phone: ['', [Validators.required, this.numberLengthValidator(10, 15)]],
+      password: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(7)]],
       confirmaPassword: ['', [Validators.required]]
     },
       { validators: this.passwordsMatchValidator } as AbstractControlOptions
 
     );
+  }
+
+  numberLengthValidator(minLength: number, maxLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && (value.toString().length < minLength || value.toString().length > maxLength)) {
+        return { numberLength: true };
+      }
+      return null;
+    };
   }
 
   public register() {

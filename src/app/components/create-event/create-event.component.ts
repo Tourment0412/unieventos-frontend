@@ -86,13 +86,13 @@ export class CreateEventComponent {
 
   private createForm() {
     this.createEventForm = this.formBuilder.group({
-      name: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      city: ["", [Validators.required]],
+      name: ["", [Validators.required, Validators.maxLength(100)]],
+      address: ["", [Validators.required, Validators.maxLength(200)]],
+      city: ["", [Validators.required, Validators.maxLength(50)]],
       coverImage: ["", [Validators.required]],
       localitiesImage: ["", [Validators.required]],
       date: ["", [Validators.required]],
-      description: ["", [Validators.required]],
+      description: ["", [Validators.required, Validators.maxLength(500)]],
       type: ["", [Validators.required]],
       status: [""],
       locations: this.formBuilder.array([])
