@@ -44,7 +44,14 @@ export class HeaderComponent {
     } else {
       return false;
     }
+  }
 
+  public organizarMargenSesion() {
+    if (this.tokenService.getRol()=="ADMIN") {
+      return "margin-left: -50px";
+    } else {
+      return "";
+    }
   }
 
 }
