@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { CarItemDTO } from '../../dto/car-item-dto';
 import { UpdateCarItemDTO } from '../../dto/update-car-item-dto';
 import { TokenService } from '../../services/token.service';
+import { PublicoService } from '../../services/publico.service';
 
 @Component({
   selector: 'app-detalle-evento',
@@ -28,6 +29,7 @@ export class DetalleEventoComponent  {
   constructor (
     private route: ActivatedRoute,
     private clienteService: ClienteService,
+    private publicoService: PublicoService,
     private formBuilder: FormBuilder,
     private router: Router,
     private tokenService: TokenService
@@ -56,14 +58,11 @@ export class DetalleEventoComponent  {
 
 
   public getEvent(id: string): void {
-    this.clienteService.obtenerEvento(id).subscribe({
+    this.publicoService.obtenerEvento(id).subscribe({
       next: (data) => {
         this.evento = data.reply;
         console.log(this.evento);
         this.loadEventData()
-
-
-
       },
       error: (error) => {
         console.error(error);
@@ -115,14 +114,28 @@ export class DetalleEventoComponent  {
   }
 
   agregarAlCarrito(localidad: any, index: number): void {
-    // Verificar si la cantidad es mayor que cero
+    if (!this.tokenService.getToken()) {
+      Swal.fire({
+        title: "No estás logueado",
+        text: "Para agregar al carrito, debes iniciar sesión.",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Iniciar sesión",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/login']);
+        }
+      });
+      return;
+    }
+
     const cantidad = this.localidadesCantidad[index].quantity;
     if (cantidad <= 0) {
       Swal.fire("Error!", "Debe seleccionar al menos una entrada", "error");
       return;
     }
 
-    // Crear el objeto del carrito
     const carItem: CarItemDTO = {
       idUser: this.obtenerIdUsuario(),
       idEvent: this.evento?.id ?? '',

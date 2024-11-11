@@ -124,7 +124,9 @@ export class ShoppingCarComponent {
       next: (data) => {
         Swal.fire('Éxito', 'Cantidad actualizada en el carrito', 'success');
         this.obtenerItemsCarrito();
-        this.aplicarCupon();
+        if (this.couponCode){
+          this.aplicarCupon();
+        }
       },
       error: (error) => {
         console.error('Error al actualizar la cantidad', error);
