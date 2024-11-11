@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="card">
+<div class="container mt-5">
+  <div class="card shadow-sm">
     <!-- Encabezado del historial de compras -->
     <div class="card-header ps-5 pt-4 pb-4">
       <h5 class="mb-0"><i class="fa-solid fa-receipt me-3"></i>Historial de Compras</h5>
@@ -33,11 +33,11 @@
         <table class="table table-striped table-hover">
           <thead>
             <tr>
-              <th></th>
+              <th><input type="checkbox" (change)="seleccionarTodo($event)" [checked]="todosSeleccionados()"/></th>
               <th>#</th>
-              <th>Fecha</th>
+              <th>Fecha de Compra</th>
               <th>Método de Pago</th>
-              <th>Descuento</th>
+              <th>Fecha de Pago</th>
               <th>Total a Pagar</th>
               <th>Estado del Pago</th>
               <th>Detalles</th>
@@ -45,33 +45,35 @@
           </thead>
           <tbody class="table-group-divider">
             <tr *ngFor="let compra of historialCompras; let i = index">
-              <!-- Checkbox de selección -->
+              <!-- Checkbox de selección individual -->
               <td>
                 <input
                   type="checkbox"
                   class="form-check-input"
                   (change)="seleccionarCompra(compra, $event)"
                   [checked]="compra.seleccionado"
-                  [disabled]="compra.estado !== 'Aprobado'"
                 />
               </td>
-              <!-- Detalles de la compra -->
+              <!-- Otros detalles de la compra -->
               <td>{{ i + 1 }}</td>
-              <td>{{ compra.fecha | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ compra.metodoPago }}</td>
-              <td>{{ compra.descuento ? compra.descuento + '%' : 'N/A' }}</td>
+              <td>{{ compra.orderDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ compra.paymentType }}</td>
+              <td>{{ compra.paymentDate | date: 'dd/MM/yyyy'}}</td>
               <td>{{ compra.total | currency: 'COP':'symbol':'1.0-0' }}</td>
               <td>
-                <span [ngClass]="{'text-success': compra.estado === 'Aprobado', 'text-danger': compra.estado !== 'Aprobado'}">
-                  {{ compra.estado }}
+                <span [ngClass]="{'text-success': compra.status === 'approved', 'text-danger': compra.status !== 'approved'}">
+                  {{ compra.status || 'No Pagada' }}
                 </span>
               </td>
               <td>
-                <a href="javascript:void(0)" (click)="verDetalles(compra)">Ver detalle</a>
+                <a href="javascript:void(0)" (click)="verDetalles(compra.id)">
+                  <i class="fa-solid fa-eye"></i> Ver detalle
+                </a>
               </td>
             </tr>
           </tbody>
         </table>
+
       </div>
     </div>
   </div>

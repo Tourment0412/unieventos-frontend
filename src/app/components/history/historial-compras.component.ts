@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'
-import { EventosService } from '../../services/eventos.service';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { EventoDTO } from '../../dto/eventoDTO';
-import Swal from 'sweetalert2';
 import { ClienteService } from '../../services/cliente.service';
 import { TokenService } from '../../services/token.service';
+import Swal from 'sweetalert2';
+import { OrderItemDTO } from '../../dto/order-item-dto';
+import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-historial-compras',
@@ -14,31 +15,22 @@ import { TokenService } from '../../services/token.service';
   standalone: true,
   styleUrls: ['./historial-compras.component.css']
 })
+export class HistorialComprasComponent implements OnInit {
 
-export class HistorialComprasComponent {
-  
-  ordenes: []= []; 
-
-  constructor(private clienteService: ClienteService, private tokenService: TokenService) {
-    this.ordenes = [];
-  }
-  historialCompras = [
-    // Ejemplo de datos para mostrar el formato en el HTML
-    { fecha: new Date(), metodoPago: 'Tarjeta', descuento: 10, total: 50000, estado: 'Aprobado', seleccionado: false },
-    { fecha: new Date(), metodoPago: 'Efectivo', descuento: 5, total: 30000, estado: 'Pendiente', seleccionado: false },
-  ];
-
+  historialCompras: any[] = [];
   comprasSeleccionadas: any[] = [];
+  constructor(private clienteService: ClienteService, private tokenService: TokenService, private router: Router, private dataService: DataService) {}
 
+  ngOnInit() {
+    this.listarHistorialOrdenesCompra();
+  }
 
   isEnviarEntradasDisabled() {
-    return !this.comprasSeleccionadas.some(compra => compra.estado.toLowerCase() === 'aprobado');
+    return !this.comprasSeleccionadas.some(compra => compra.estado && compra.estado.toLowerCase() === 'approved');
   }
 
   seleccionarCompra(compra: any, event: Event) {
     const isSelected = (event.target as HTMLInputElement).checked;
-
-    // Actualizar el estado de "seleccionado" en el objeto de compra
     compra.seleccionado = isSelected;
 
     if (isSelected) {
@@ -49,39 +41,75 @@ export class HistorialComprasComponent {
         this.comprasSeleccionadas.splice(index, 1);
       }
     }
+
+    this.historialCompras = [...this.historialCompras];
   }
+
+  seleccionarTodo(event: Event) {
+    const seleccionado = (event.target as HTMLInputElement).checked;
+
+    this.comprasSeleccionadas = [];
+
+    this.historialCompras.forEach(compra => {
+      compra.seleccionado = seleccionado;
+
+      if (seleccionado) {
+        this.comprasSeleccionadas.push(compra);
+      }
+    });
+  }
+
+
+todosSeleccionados() {
+  return this.historialCompras.every(compra => compra.seleccionado);
+}
 
   enviarEntradasAmigo() {
     console.log("Entradas enviadas:", this.comprasSeleccionadas);
+    // Aquí puedes implementar la lógica de envío de entradas
   }
 
-  verDetalles(compra: any) {
-    console.log("Detalles de la compra:", compra);
+  verDetalles(idOrden: string) {
+    console.log("Detalles de la compra:", idOrden);
+    const orden = this.historialCompras.find(order => order.id === idOrden);
+    if (orden) {
+      this.dataService.setData(orden);
+      this.router.navigate(['/order-details', idOrden]);
+    } else {
+      console.error("Orden no encontrada");
+    }
   }
+
   cancelarCompras() {
     const comprasACancelar = this.historialCompras.filter(compra => compra.seleccionado);
     comprasACancelar.forEach(compra => {
       compra.estado = 'Cancelado';
     });
 
-    // Opcional: Actualiza el estado de las compras seleccionadas
-    this.historialCompras = [...this.historialCompras]; // Forzar actualización de la vista
+    this.historialCompras = [...this.historialCompras];
   }
 
   hayComprasSeleccionadas() {
     return this.historialCompras.some(compra => compra.seleccionado);
   }
 
-  //Pregunar si con esto es sugiciente
   public listarHistorialOrdenesCompra() {
     const codigoCliente = this.tokenService.getIDCuenta();
     this.clienteService.listarHistorialCompras(codigoCliente).subscribe({
-      next: data => {
-        this.ordenes = data.reply;
+      next: (data) => {
+
+        this.historialCompras = data.reply.map((orderItemDTO: OrderItemDTO) => ({
+          ...orderItemDTO,
+          estado: orderItemDTO.status || 'No Pagada',
+          seleccionado: false
+        }));
       },
-      error: error => {
+      error: (error) => {
         Swal.fire("Error!", error.error.respuesta, "error");
       }
     });
   }
+
+
+
 }

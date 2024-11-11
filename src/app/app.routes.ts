@@ -18,6 +18,7 @@ import { LoginGuard } from './guards/permiso.service';
 import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 import { RolesGuard } from './guards/roles.service';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 
 export const routes: Routes = [
@@ -44,6 +45,7 @@ export const routes: Routes = [
     { path: 'home-admin', component: HomeAdminComponent },
     { path: 'user-info', component: UserInfoComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN", "CLIENT"] }},
+    { path: 'order-details/:id', component: OrderDetailsComponent },
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components
