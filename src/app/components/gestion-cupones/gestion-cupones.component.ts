@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Validators, FormBuilder } from '@angular/forms';
+import { CouponItemDTO } from '../../dto/coupon-item-dto';
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-gestion-cupones',
@@ -11,34 +13,90 @@ import { Validators, FormBuilder } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class GestionCuponesComponent implements OnInit {
-  cupones: any[] = [];
+export class GestionCuponesComponent {
+  cupones: CouponItemDTO[];
   nuevoCupon: any = { codigo: '', nombre: '', descuento: 0, fechaVencimiento: new Date(), estado: 'Activo', tipo: 'Porcentaje' };
   cuponSeleccionado: any | null = null;
   crearCuponForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  pages: number[] = [];
+  currentPage: number = 0;
+
+  couponsAvailable: boolean = true;
+
+  tipos: string[];
+  estados: string[];
+
+  constructor(private formBuilder: FormBuilder, private adminService: AdminService) {
+    this.cupones = [];
+    this.tipos=[];
+    this.estados= [];
+
+    this.listarTiposCupones();
+    this.listarEstadosCupones();
     this.couponForm();
+  
+    this.cargarCupones(this.currentPage);
+    
   }
 
-  ngOnInit(): void {
-    this.cargarCupones();
-  }
+
 
   private couponForm() {
     this.crearCuponForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      descuento: ['', [Validators.required, Validators.maxLength(10)]],
-      fechaVencimiento: ['', [Validators.required]],
-      tipo: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      discount: ['', [Validators.required, Validators.maxLength(10)]],
+      expirationDate: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      status: ['']
     });
   }
 
-  cargarCupones() {
-    this.cupones = [
-      { codigo: 'CUPON1', nombre: 'Descuento Verano', descuento: 20, fechaVencimiento: '2024-12-31', estado: 'Activo', tipo: 'Porcentaje' },
-      { codigo: 'CUPON2', nombre: 'Descuento Invierno', descuento: 15, fechaVencimiento: '2025-01-31', estado: 'Inactivo', tipo: 'Monto Fijo' },
-    ];
+  cargarCupones(page: number) {
+    this.adminService.obtenerCuponesAdmin(page).subscribe({
+      next: (data) => {
+        this.pages = new Array(data.reply.totalPages);
+        this.cupones = data.reply.coupons;
+        this.currentPage = page;
+        this.actualizarCuponesAvailable();
+      }, error: (error) => {
+
+      },
+    });
+  }
+
+  public listarTiposCupones(){
+    this.adminService.listarTiposCupon().subscribe({
+      next: (data) => {
+        this.tipos = data.reply;
+      }, error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  public listarEstadosCupones(){
+    this.adminService.listarEstadosCupon().subscribe({  
+      next: (data) => {
+        this.estados = data.reply;
+      }, error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  public actualizarCuponesAvailable() {
+    this.couponsAvailable = this.currentPage < this.pages.length - 1;
+  }
+  public previousPage() {
+    this.currentPage--;
+    this.cargarCupones(this.currentPage);
+  }
+
+  public nextPage() {
+    this.currentPage++;
+    this.cargarCupones(this.currentPage);
+    this.actualizarCuponesAvailable();
   }
 
   crearCupon() {
@@ -49,33 +107,70 @@ export class GestionCuponesComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.cupones.push({ ...this.crearCuponForm.value, codigo: this.generarCodigoCupon() }); // Genera un código único si es necesario
-        this.resetForm();
+        const cuponData= this.crearCuponForm.value as CouponItemDTO;
+        cuponData.discount= cuponData.discount/100;
+        
+        this.adminService.crearCupon(cuponData).subscribe({
+          next: (data) => {
+            Swal.fire('¡Cupón creado!', 'El cupón ha sido creado exitosamente', 'success');
+            this.cargarCupones(this.currentPage);
+            this.resetForm();
+          },
+          error: (error) => {
+            Swal.fire('¡Error!', 'Ha ocurrido un error al crear el cupón', 'error');
+          }
+        });
+        
       }
     });
   }
 
   actualizarCupon() {
-    if (this.cuponSeleccionado) {
-      const index = this.cupones.findIndex(c => c.codigo === this.cuponSeleccionado!.codigo);
-      if (index !== -1) {
-        this.cupones[index] = { ...this.crearCuponForm.value, codigo: this.cuponSeleccionado.codigo };
-        this.resetForm();
+    Swal.fire({
+      title: '¿Desea actualizar el cupón?',
+      showDenyButton: true,
+      confirmButtonText: 'Actualizar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const cuponData= this.crearCuponForm.value as CouponItemDTO;
+        cuponData.discount= cuponData.discount/100;
+        cuponData.id= this.cuponSeleccionado.id;
+        this.adminService.actualizarCupon(cuponData).subscribe({
+          next: (data) => {
+            Swal.fire('¡Cupón actualizado!', 'El cupón ha sido actualizado exitosamente', 'success');
+            this.cargarCupones(this.currentPage);
+            this.resetForm();
+          },
+          error: (error) => {
+            Swal.fire('¡Error!', 'Ha ocurrido un error al actualizar el cupón', 'error');
+          }
+        });
       }
-    }
+    });
   }
 
-  eliminarCupon(codigo: string) {
-    this.cupones = this.cupones.filter(c => c.codigo !== codigo);
+  eliminarCupon(id: string) {
+    this.adminService.eliminarCupon(id).subscribe({
+      next: (data) => {
+        Swal.fire('¡Cupón eliminado!', 'El cupón ha sido eliminado exitosamente', 'success');
+        this.cargarCupones(this.currentPage);
+        this.resetForm();
+      },error: (error) => {
+        Swal.fire('¡Error!', 'Ha ocurrido un error al eliminar el cupón', 'error');
+      },
+    })
+
   }
 
   seleccionarCupon(cupon: any) {
     this.cuponSeleccionado = cupon;
     this.crearCuponForm.patchValue({
-      nombre: cupon.nombre,
-      descuento: cupon.descuento,
-      fechaVencimiento: cupon.fechaVencimiento, // Asegúrate de que este sea un string en formato 'YYYY-MM-DD'
-      tipo: cupon.tipo
+      name: cupon.name,
+      discount: cupon.discount*100,
+      expirationDate: cupon.expirationDate, // Asegúrate de que este sea un string en formato 'YYYY-MM-DD'
+      type: cupon.type,
+      status: cupon.status
     });
   }
 
@@ -89,7 +184,6 @@ export class GestionCuponesComponent implements OnInit {
       nombre: '',
       descuento: 0,
       fechaVencimiento: '', // Dejarlo vacío para que no haya problemas con el formato
-      tipo: 'Porcentaje'
     });
     this.cuponSeleccionado = null;
   }
