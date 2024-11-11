@@ -22,6 +22,7 @@ export class HomeComponent {
   seleccionados: EventoDTO[];
   eventsAvailable: boolean = true;
   pages: number[] = [];
+  filterUsed: boolean = false;
   constructor(private publicoService: PublicoService,private formBuilder: FormBuilder) {
     this.eventos = [];
     this.obtenerEventos(this.currentPage);
@@ -54,12 +55,16 @@ export class HomeComponent {
     });
   }
 
-  public filter() {
+  public filter(page: number) {
     const EventFilterDTO = this.filterForm.value as EventFilterDTO;
-    EventFilterDTO.page=0;
+    EventFilterDTO.page=page;
     this.publicoService.filtroEventos(EventFilterDTO).subscribe({
       next: (data) => {
-        this.eventos = data.reply
+        this.pages = new Array(data.reply.totalPages);
+        this.eventos = data.reply.events;
+        this.currentPage=EventFilterDTO.page;
+        this.filterUsed=true;
+        this.actualizarEventsAvailable();
       },
       error: (error) => {
         console.error(error);
@@ -69,13 +74,21 @@ export class HomeComponent {
 
   public nextPage() {
     this.currentPage++;
-    this.obtenerEventos(this.currentPage);
+    if (this.filterUsed) {
+      this.filter(this.currentPage)
+    } else {
+      this.obtenerEventos(this.currentPage);
+    }
     this.actualizarEventsAvailable();
   }
 
   public previousPage() {
     this.currentPage--;
-    this.obtenerEventos(this.currentPage);
+    if (this.filterUsed) {
+      this.filter(this.currentPage)
+    } else {
+      this.obtenerEventos(this.currentPage);
+    }
   }
 
   public actualizarEventsAvailable() {
