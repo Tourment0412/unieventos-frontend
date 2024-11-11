@@ -252,6 +252,7 @@ public confirmarEliminacion(index: number) {
         console.error('Error al verificar el cupón', error);
 
         if (error.error.reply === "You can't use a coupon you previously used") {
+          this.couponCode = '';
           Swal.fire({
             title: 'Cupón no válido',
             text: 'No puedes utilizar un cupón que ya has usado en otra compra.',
