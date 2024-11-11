@@ -60,6 +60,7 @@ export class HomeAdminComponent {
         this.currentPage=EventFilterDTO.page;
         this.filterUsed=true;
         this.actualizarEventsAvailable();
+        this.resetForm();
       },
       error: (error) => {
         console.error(error);
@@ -88,6 +89,10 @@ export class HomeAdminComponent {
 
   public actualizarEventsAvailable() {
     this.eventsAvailable = this.currentPage < this.pages.length-1;
+  }
+
+  public resetForm() {
+    this.filterForm.reset();
   }
 
 }
