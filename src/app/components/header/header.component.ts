@@ -29,4 +29,13 @@ export class HeaderComponent {
     this.tokenService.logout();
   }
 
+  public obtenerRutaSesion() {
+    if (this.tokenService.getRol()=="ADMIN") {
+      return "/home-admin";
+    } else {
+      return "";
+    }
+
+  }
+
 }
