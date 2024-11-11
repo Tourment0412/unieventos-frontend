@@ -19,6 +19,7 @@ export class HomeAdminComponent {
   eventos: [] = [];
   pages: number[] = [];
   eventsAvailable: boolean = true;
+  filterUsed: boolean = false;
   constructor(private adminService: AdminService,private formBuilder: FormBuilder,private publicoService: PublicoService) {
     this.eventos = [];
     this.createForm();
@@ -49,12 +50,16 @@ export class HomeAdminComponent {
     });
   }
 
-  public filter() {
+  public filter(page: number) {
     const EventFilterDTO = this.filterForm.value as EventFilterDTO;
-    EventFilterDTO.page=0;
+    EventFilterDTO.page=page;
     this.publicoService.filtroEventos(EventFilterDTO).subscribe({
       next: (data) => {
-        this.eventos = data.reply
+        this.pages = new Array(data.reply.totalPages);
+        this.eventos = data.reply.events;
+        this.currentPage=EventFilterDTO.page;
+        this.filterUsed=true;
+        this.actualizarEventsAvailable();
       },
       error: (error) => {
         console.error(error);
@@ -64,13 +69,21 @@ export class HomeAdminComponent {
 
   public nextPage() {
     this.currentPage++;
-    this.obtenerEventos(this.currentPage);
+    if (this.filterUsed) {
+      this.filter(this.currentPage)
+    } else {
+      this.obtenerEventos(this.currentPage);
+    }
     this.actualizarEventsAvailable();
   }
 
   public previousPage() {
     this.currentPage--;
-    this.obtenerEventos(this.currentPage);
+    if (this.filterUsed) {
+      this.filter(this.currentPage)
+    } else {
+      this.obtenerEventos(this.currentPage);
+    }
   }
 
   public actualizarEventsAvailable() {

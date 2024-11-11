@@ -38,4 +38,13 @@ export class HeaderComponent {
 
   }
 
+  public esSesionAdmin() {
+    if (this.tokenService.getRol()=="ADMIN") {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 }
