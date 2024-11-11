@@ -7,7 +7,7 @@
       </a>
     </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style={{organizarMargenSesion()}}>
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" [style]="organizarMargenSesion()">
       <li><a routerLink={{obtenerRutaSesion()}} class="nav-link px-2 nav-link-custom">Inicio</a></li>
       @if(isLogged && !esSesionAdmin()){
       <li><a routerLink="/historial" class="nav-link px-2 nav-link-custom">Historial</a></li>
@@ -40,7 +40,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
           <li><a class="dropdown-item" routerLink="/user-info">Ver información de perfil</a></li>
-          <li><a class="dropdown-item" routerLink="/cupones">Información sobre cupones</a></li>
+          <li><a class="dropdown-item" routerLink="/hay-cupones">Información sobre cupones</a></li>
           <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
         </ul>
       </div>
