@@ -31,7 +31,7 @@
                 <div class="col-12 d-flex justify-content-center">
                     <div class="form-group" style="max-width: 400px; width: 100%;">
                         <label>Phone: </label>
-                        <input type="number" class="form-control" formControlName="phone" />
+                        <input type="number" class="form-control" formControlName="phoneNumber" />
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
@@ -40,14 +40,22 @@
                         <input type="text" class="form-control" formControlName="address" />
                     </div>
                 </div>
+                @if(isEditing){
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="form-group" style="max-width: 400px; width: 100%;">
+                            <label>Password: </label>
+                            <input type="password" class="form-control" formControlName="password" />
+                        </div>
+                    </div>
+                }
                 <div class="col-12 d-flex justify-content-center">
                     @if(isEditing){
                     <button type="button" class="btn btn-save" (click)="saveChanges()">Save Changes</button>
-                    <button type="button" class="btn btn-back ms-2" (click)="saveChanges()">Back</button>
+                    <button type="button" class="btn btn-back ms-2" (click)="disableEditing()">Back</button>
                     }@else {
                     <button type="button" class="btn btn-update" (click)="enableEditing()">Update Account</button>
 
-                    <button type="button" class="btn btn-delete ms-2">Delete Account</button>
+                    <button type="button" class="btn btn-delete ms-2" (click)="deleteAccount()">Delete Account</button>
                     }
 
                 </div>

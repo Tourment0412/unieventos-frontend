@@ -44,7 +44,8 @@ export const routes: Routes = [
         { expectedRole: ["ADMIN"] } },
     { path: 'validar-cuenta',  component: VerificarCuentaComponent },
     { path: 'home-admin', component: HomeAdminComponent },
-    { path: 'user-info', component: UserInfoComponent},
+    { path: 'user-info', component: UserInfoComponent, canActivate: [RolesGuard], data:
+        { expectedRole: ["ADMIN", "CLIENT"] }},
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components
