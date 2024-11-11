@@ -10,6 +10,8 @@ import { UpdateCarItemDTO } from '../../dto/update-car-item-dto';
 import { CreateOrderDTO } from '../../dto/create-order-dto';
 import { MensajeDTO } from '../../dto/mensaje-dto';
 import { CouponItemClientDTO } from '../../dto/coupon-item-client-dto';
+import { PaymentResponseDTO } from '../../dto/payment-response-dto';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-car',
@@ -30,15 +32,23 @@ export class ShoppingCarComponent {
   orderId: string | null = null;
 
 
-  constructor(private clienteService: ClienteService, private tokenService: TokenService) {
+  constructor(private clienteService: ClienteService, private tokenService: TokenService, private route: ActivatedRoute) {
     this.obtenerItemsCarrito();
     this.obtenerCuponesDisponibles();
+    this.route.queryParams.subscribe(params => {
+      const paymentStatus = params['status'];
+      if (paymentStatus) {
+        this.verificarEstadoPago(paymentStatus);
+      }
+    });
+
   }
 
 
   crearOrden(): void {
     const clienteId = this.tokenService.getIDCuenta();
     const createOrderDTO: CreateOrderDTO = { clientId: clienteId, couponCode: this.couponCode };
+
 
     this.clienteService.crearOrden(createOrderDTO).subscribe({
       next: (response: MensajeDTO) => {
@@ -74,7 +84,8 @@ export class ShoppingCarComponent {
     if (this.orderId) {
       this.clienteService.realizarPago(this.orderId).subscribe({
         next: (response: MensajeDTO) => {
-          Swal.fire('Pago Exitoso', 'Tu pago se ha realizado exitosamente.', 'success');
+          const paymentUrl = response.reply.paymentUrl;
+          window.location.href = paymentUrl;
         },
         error: (error) => {
           console.error('Error al realizar el pago:', error);
@@ -84,6 +95,15 @@ export class ShoppingCarComponent {
     }
   }
 
+  public verificarEstadoPago(estado: string): void {
+    if (estado === 'success') {
+      Swal.fire('Pago Exitoso', 'Tu pago ha sido procesado exitosamente.', 'success');
+    } else if (estado === 'failure') {
+      Swal.fire('Pago Fallido', 'Hubo un problema con tu pago. Inténtalo nuevamente.', 'error');
+    } else if (estado === 'pending') {
+      Swal.fire('Pago Pendiente', 'Tu pago está en proceso. Te notificaremos cuando se complete.', 'info');
+    }
+  }
 
   obtenerItemsCarrito(): void {
     console.log("Obteniendo items del carrito...");
