@@ -28,7 +28,6 @@ export const routes: Routes = [
         { expectedRole: ["ADMIN"] }  },
     { path: 'card', component: CardComponent},
     { path: 'cambiar-password', component: CambiarPasswordComponent},
-    { path: 'editar-perfil', component: EditarPerfilComponent},
     { path: "gestion-eventos", component: GestionEventosComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN"] } },
     { path: 'detalle-evento/:id', component: DetalleEventoComponent },
