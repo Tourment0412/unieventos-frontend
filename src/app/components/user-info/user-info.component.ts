@@ -5,6 +5,7 @@ import { InfoCuentaDTO } from '../../dto/info-cuenta-dto';
 import { AccountService } from '../../services/account.service';
 import { ActualizarCuentaDTO } from '../../dto/actualizar-cuenta-dto';
 import Swal from 'sweetalert2';
+import { S } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-user-info',
@@ -89,6 +90,21 @@ export class UserInfoComponent {
     const cuentaActualizar= this.userInforForm.value as ActualizarCuentaDTO;
     cuentaActualizar.id = this.account!.id;
 
+    console.log(cuentaActualizar);
+    
+
+    if(cuentaActualizar.password === ''){
+      Swal.fire({
+        title: 'Error',
+        text: 'La contraseña no puede estar vacía',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      })
+      this.resetForm();
+      this.loadAccountData();
+      return;
+    }
+
     this.accountService.actualizarCuenta(cuentaActualizar).subscribe({
       next: (data) => {
         
@@ -100,6 +116,8 @@ export class UserInfoComponent {
         })
         this.isEditing = false;
         this.userInforForm.disable();
+        this.resetForm();
+        this.loadAccountData();
       }, error: (error) => {
         Swal.fire({
           title: 'Error',
@@ -138,4 +156,11 @@ export class UserInfoComponent {
       },
     });
   }
+
+
+  public resetForm() {
+    this.userInforForm.reset();
+  }
+
+
 }

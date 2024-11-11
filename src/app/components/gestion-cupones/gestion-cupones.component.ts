@@ -174,16 +174,14 @@ export class GestionCuponesComponent {
     });
   }
 
-  generarCodigoCupon(): string {
-    return `CUPON${this.cupones.length + 1}`; // Ejemplo de generación de código
-  }
+ 
 
   resetForm() {
     this.crearCuponForm.reset();
     this.crearCuponForm.patchValue({
-      nombre: '',
-      descuento: 0,
-      fechaVencimiento: '', // Dejarlo vacío para que no haya problemas con el formato
+      name: '',
+      discount: 0,
+      expirationDate: '', // Dejarlo vacío para que no haya problemas con el formato
     });
     this.cuponSeleccionado = null;
   }
