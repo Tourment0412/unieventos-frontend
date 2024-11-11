@@ -34,5 +34,9 @@ export class PublicoService {
     return this.http.post<MensajeDTO>(`${this.publicoURL}/event/filter-events`, eventFilterDTO);
   }
 
+  public realizarPago(idOrden: string): Observable<MensajeDTO> {
+    return this.http.post<MensajeDTO>(`${this.publicoURL}/order/receive-notification`, {});
+  }
+
   //TODO preguntar lo del recibir noitficacion
 }

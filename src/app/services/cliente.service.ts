@@ -57,4 +57,10 @@ export class ClienteService {
     return this.http.post<MensajeDTO>(`${this.clienteURL}/order/make-payment/${idOrden}`, {});
   }
 
+  public obtenerEstadoOrden(orderId: string): Observable<MensajeDTO> {
+    return this.http.get<MensajeDTO>(`${this.clienteURL}/order/status/${orderId}`);
+  }
+
+  
+
 }
