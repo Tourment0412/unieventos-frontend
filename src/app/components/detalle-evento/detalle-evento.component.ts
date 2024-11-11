@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormsModule } from '@ang
 import { NgModule } from '@angular/core';
 import Swal from 'sweetalert2';
 import { CarItemDTO } from '../../dto/car-item-dto';
+import { UpdateCarItemDTO } from '../../dto/update-car-item-dto';
 import { TokenService } from '../../services/token.service';
 
 @Component({
@@ -114,6 +115,14 @@ export class DetalleEventoComponent  {
   }
 
   agregarAlCarrito(localidad: any, index: number): void {
+    // Verificar si la cantidad es mayor que cero
+    const cantidad = this.localidadesCantidad[index].quantity;
+    if (cantidad <= 0) {
+      Swal.fire("Error!", "Debe seleccionar al menos una entrada", "error");
+      return;
+    }
+
+    // Crear el objeto del carrito
     const carItem: CarItemDTO = {
       idUser: this.obtenerIdUsuario(),
       idEvent: this.evento?.id ?? '',
@@ -121,20 +130,48 @@ export class DetalleEventoComponent  {
       eventName: this.evento?.name ?? '',
       price: localidad.price,
       eventType: this.evento?.type ?? '',
-      quantity: this.localidadesCantidad[index].quantity,
-      total: localidad.price * this.localidadesCantidad[index].quantity,
+      quantity: cantidad,
+      total: localidad.price * cantidad,
     };
 
-    this.clienteService.agregarItemCarrito(carItem).subscribe({
-      next: data => {
-        Swal.fire("Exito!", "Se ha agregado el item al carrito", "success");
-      },
-      error: error => {
-        Swal.fire("Error!", error.error.respuesta, "error");
-      }
-    })
+    this.clienteService.obtenerItemsCarrito(this.obtenerIdUsuario()).subscribe({
+      next: (response: MensajeDTO) => {
+        const items: CarItemDTO[] = response.reply;
+        const existingItem = items.find(item => item.idEvent === carItem.idEvent && item.locationName === carItem.locationName);
+        if (existingItem) {
+          const updatedItem: UpdateCarItemDTO = {
+            idUser: carItem.idUser,
+            idEvent: carItem.idEvent,
+            locationName: carItem.locationName,
+            amount: existingItem.quantity + carItem.quantity,
+          };
 
+          this.clienteService.actualizarItemCarrito(updatedItem).subscribe({
+            next: () => {
+              Swal.fire("Éxito!", "La cantidad ha sido actualizada en el carrito", "success");
+            },
+            error: (error) => {
+              Swal.fire("Error!", "Hubo un error al actualizar el carrito", "error");
+            }
+          });
+        } else {
+          this.clienteService.agregarItemCarrito(carItem).subscribe({
+            next: () => {
+              Swal.fire("Éxito!", "Se ha agregado el item al carrito", "success");
+            },
+            error: (error) => {
+              Swal.fire("Error!", error.error.respuesta, "error");
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error("Error al obtener los items del carrito", error);
+        Swal.fire("Error!", "Hubo un problema al verificar el carrito", "error");
+      }
+    });
   }
+
 
   private obtenerIdUsuario(): string {
     return this.tokenService.getIDCuenta();

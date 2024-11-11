@@ -21,11 +21,13 @@
             <td>{{ item.eventType }}</td>
             <td>{{ item.price | currency }}</td>
             <td>
-              <input type="number" class="form-control" [value]="item.quantity" min="1" (change)="actualizarCantidad(item, $event)" />
+              <input type="number" class="form-control"
+                     [value]="item.quantity" min="1"
+                     (change)="actualizarCantidad(item, $event)" />
             </td>
             <td>{{ item.price * item.quantity | currency:'COP' }}</td>
             <td>
-              <button class="btn btn-danger btn-sm" type="button" (click)="eliminarItem(i)">Eliminar</button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="confirmarEliminacion(i)">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -42,8 +44,12 @@
           <div class="mb-3">
             <label for="couponCode" class="form-label">Código de Cupón</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="couponCode" #couponInput placeholder="Ingresa tu cupón" />
-              <button class="btn btn-primary" type="button" (click)="aplicarDescuento(couponInput.value)">Aplicar</button>
+              <input type="text" class="form-control" id="couponCode" [(ngModel)]="couponCode" placeholder="Ingresa tu código de cupón" />
+              <button class="btn btn-primary" type="button" (click)="aplicarCupon()">Aplicar</button>
+            </div>
+            <!-- Mostrar mensaje de error si el cupón es inválido -->
+            <div *ngIf="cuponInvalido" class="text-danger mt-2">
+              El cupón no es válido o ha expirado.
             </div>
           </div>
           <div class="mb-3">
