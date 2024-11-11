@@ -6,6 +6,7 @@ import { CarItemDTO } from '../dto/car-item-dto';
 import { DeleteCarDetailDTO } from '../dto/delete-car-detail-dto';
 import { UpdateCarItemDTO } from '../dto/update-car-item-dto';
 import { CreateOrderDTO } from '../dto/create-order-dto';
+import { ValideCouponDTO } from '../dto/valide-coupon-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +46,8 @@ export class ClienteService {
   }
 
 
-  public obtenerInfoCupon(code: string): Observable<MensajeDTO> {
-    return this.http.get<MensajeDTO>(`${this.clienteURL}/coupon/get-info-code/${code}`);
+  public obtenerInfoCupon(valideCouponDTO: ValideCouponDTO): Observable<MensajeDTO> {
+    return this.http.post<MensajeDTO>(`${this.clienteURL}/coupon/get-info-code`, valideCouponDTO);
   }
 
   public crearOrden(createOrderDTO: CreateOrderDTO): Observable<MensajeDTO> {
@@ -61,6 +62,6 @@ export class ClienteService {
     return this.http.get<MensajeDTO>(`${this.clienteURL}/order/status/${orderId}`);
   }
 
-  
+
 
 }

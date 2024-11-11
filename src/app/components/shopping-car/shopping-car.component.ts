@@ -11,6 +11,7 @@ import { CreateOrderDTO } from '../../dto/create-order-dto';
 import { MensajeDTO } from '../../dto/mensaje-dto';
 import { CouponItemClientDTO } from '../../dto/coupon-item-client-dto';
 import { PaymentResponseDTO } from '../../dto/payment-response-dto';
+import { ValideCouponDTO } from '../../dto/valide-coupon-dto';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -47,11 +48,10 @@ export class ShoppingCarComponent {
 
   crearOrden(): void {
     const clienteId = this.tokenService.getIDCuenta();
-    const createOrderDTO: CreateOrderDTO = { clientId: clienteId, couponCode: this.couponCode };
-
+    console.log("Creando orden para el cupon:", this.couponCode);
+    const createOrderDTO: CreateOrderDTO = { clientId: clienteId, couponCode: this.couponCode || '' };
 
     this.clienteService.crearOrden(createOrderDTO).subscribe({
-
       next: (response: MensajeDTO) => {
         this.orderId = response.reply;
         this.confirmarPago();
@@ -223,17 +223,22 @@ public confirmarEliminacion(index: number) {
       return;
     }
 
-    this.clienteService.obtenerInfoCupon(this.couponCode).subscribe({
+    const valideCouponDTO: ValideCouponDTO = {
+      codeCoupon: this.couponCode,
+      idUser: this.tokenService.getIDCuenta()
+    };
+
+    this.clienteService.obtenerInfoCupon(valideCouponDTO).subscribe({
       next: (data) => {
         const response: MensajeDTO = data;
         if (response && response.reply) {
           const couponInfo: CouponItemClientDTO = response.reply as CouponItemClientDTO;
 
           if (couponInfo) {
-            this.descuento = couponInfo.discount*this.subtotal;
+            this.descuento = couponInfo.discount * this.subtotal;
             this.cuponInvalido = false;
             this.calcularTotales();
-            Swal.fire('Éxito', `Cupón aplicado. Descuento: ${couponInfo.discount*100}%`, 'success');
+            Swal.fire('Éxito', `Cupón aplicado. Descuento: ${couponInfo.discount * 100}%`, 'success');
           } else {
             this.cuponInvalido = true;
             Swal.fire('Error', 'El cupón no es válido o ha expirado', 'error');
@@ -245,10 +250,22 @@ public confirmarEliminacion(index: number) {
       },
       error: (error) => {
         console.error('Error al verificar el cupón', error);
-        this.cuponInvalido = true;
-        Swal.fire('Error', 'Hubo un problema al verificar el cupón', 'error');
+
+        if (error.error.reply === "You can't use a coupon you previously used") {
+          Swal.fire({
+            title: 'Cupón no válido',
+            text: 'No puedes utilizar un cupón que ya has usado en otra compra.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+          });
+        } else {
+          this.cuponInvalido = true;
+          Swal.fire('Error', 'Hubo un problema al verificar el cupón', 'error');
+        }
       }
     });
   }
+
+
 
 }
