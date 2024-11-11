@@ -11,24 +11,36 @@
           <div class="card-body">
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre del Cupón</label>
-              <input type="text" id="nombre" formControlName="nombre" class="form-control" required>
+              <input type="text" id="nombre" formControlName="name" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="descuento" class="form-label">Descuento (%)</label>
-              <input type="number" id="descuento" formControlName="descuento" class="form-control" required>
+              <input type="number" id="descuento" formControlName="discount" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
-              <input type="date" id="fechaVencimiento" formControlName="fechaVencimiento" class="form-control" required>
+              <input type="datetime-local" id="fechaVencimiento" formControlName="expirationDate" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="tipo" class="form-label">Tipo</label>
-              <select id="tipo" formControlName="tipo" class="form-select" required>
-                <option value="" disabled selected>Seleccione un tipo</option>
-                <option value="Porcentaje">Porcentaje</option>
-                <option value="Monto Fijo">Monto Fijo</option>
+              <select formControlName="type" class="form-select">
+                <option value="">Seleccione un tipo</option>
+                @for (item of tipos; track $index) {
+                  <option value={{item}}>{{ item }}</option>
+                }
               </select>
             </div>
+            @if (cuponSeleccionado) {
+              <div class="mb-3">
+                <label for="Estado" class="form-label">Estado</label>
+                <select formControlName="status" class="form-select">
+                  <option value="">Seleccione un estado</option>
+                  @for (item of estados; track $index) {
+                    <option value={{item}}>{{ item }}</option>
+                  }
+                </select>
+              </div>
+            }
             <button type="submit" class="btn btn-custom custom-button">{{ cuponSeleccionado ? 'Actualizar Cupón' : 'Crear Cupón' }}</button>
             <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="cuponSeleccionado">Cancelar</button>
           </div>
@@ -57,23 +69,36 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let cupon of cupones; let i = index" (click)="seleccionarCupon(cupon)" style="cursor: pointer;">
-                    <td>{{ cupon.codigo }}</td>
-                    <td>{{ cupon.nombre }}</td>
-                    <td>{{ cupon.descuento }}</td>
-                    <td>{{ cupon.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ cupon.code }}</td>
+                    <td>{{ cupon.name }}</td>
+                    <td>{{ cupon.discount*100 }}</td>
+                    <td>{{ cupon.expirationDate}}</td>
                     <td>
-                      <span [ngClass]="{'text-success': cupon.estado === 'Activo', 'text-danger': cupon.estado === 'Inactivo'}">
-                        {{ cupon.estado }}
+                      <span [ngClass]="{'text-success': cupon.status === 'AVAILABLE', 'text-danger': cupon.status === 'NOT_AVAILABLE'}">
+                        {{ cupon.status }}
                       </span>
                     </td>
-                    <td>{{ cupon.tipo }}</td>
+                    <td>{{ cupon.type }}</td>
                     <td>
-                      <button class="btn btn-danger btn-sm" (click)="eliminarCupon(cupon.codigo); $event.stopPropagation()">Eliminar</button>
+                      <button class="btn btn-danger btn-sm" (click)="eliminarCupon(cupon.id); $event.stopPropagation()">Eliminar</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                  <li class="page-item" [class.disabled]="currentPage===0"><a class="page-link" (click)="previousPage()">Previous</a></li>
+                  @for (item of pages; track $index) {
+                  <li class="page-item"><a class="page-link" (click)="cargarCupones($index)">{{$index+1}}</a>
+                  </li>
+                  }
+                  <li class="page-item" [class.disabled]="!couponsAvailable"><a class="page-link"
+                          (click)="couponsAvailable ? nextPage() : null" >
+                          Next</a></li>
+              </ul>
+          </nav>
           </div>
         </div>
       </div>

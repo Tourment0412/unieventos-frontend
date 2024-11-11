@@ -42,7 +42,7 @@ export class LoginComponent {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: error.error.reply.message,
+          text: error.error.reply,
         });
       },
 

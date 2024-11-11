@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TokenService } from '../../services/token.service';
 import { InfoCuentaDTO } from '../../dto/info-cuenta-dto';
 import { AccountService } from '../../services/account.service';
@@ -33,7 +33,17 @@ export class UserInfoComponent {
       phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(10)]],
       address: [{ value: '', disabled: true }, [Validators.required]],
       password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
-    });
+      confirmaPassword: ['', [Validators.required]]
+    },
+    { validators: this.passwordsMatchValidator } as AbstractControlOptions);
+  }
+
+  passwordsMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmaPassword = formGroup.get('confirmaPassword')?.value;
+    // Si las contraseñas no coinciden, devuelve un error, de lo contrario, null
+    return password == confirmaPassword ? null : { passwordsMismatch: true };
+
   }
 
   enableEditing() {

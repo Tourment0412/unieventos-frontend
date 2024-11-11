@@ -45,7 +45,7 @@ export class correoRecuperacionComponent {
       error: error => {
         Swal.fire({
           title: 'Error',
-          text: error.error.respuesta,
+          text: error.error.reply,
           icon: 'error',
           confirmButtonText: 'Aceptar'
         })

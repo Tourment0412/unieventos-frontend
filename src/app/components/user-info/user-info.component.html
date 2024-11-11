@@ -47,6 +47,22 @@
                             <input type="password" class="form-control" formControlName="password" />
                         </div>
                     </div>
+
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="form-group" style="max-width: 400px; width: 100%;">
+                            <label>Repeat password: </label>
+                        <input type="password" class="form-control" formControlName="confirmaPassword" />
+                        </div>
+                    </div>
+                    
+                    @if (userInforForm.hasError('passwordsMismatch')) {
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="form-group" style="max-width: 400px; width: 100%;">
+                              <div class="alert alert-danger" role="alert">Las contraseñas no coinciden</div>
+                            </div>
+                          </div>
+    
+                    }
                 }
                 <div class="col-12 d-flex justify-content-center">
                     @if(isEditing){

@@ -109,7 +109,7 @@ export class CreateEventComponent {
         this.router.navigate(['/gestion-eventos']);
       },
       error: error => {
-        Swal.fire("Error!", error.error.respuesta, "error");
+        Swal.fire("Error!", error.error.reply, "error");
       }
     })
 
@@ -123,7 +123,7 @@ export class CreateEventComponent {
         this.router.navigate(['/gestion-eventos']);
       },
       error: error => {
-        Swal.fire("Error!", error.error.respuesta, "error");
+        Swal.fire("Error!", error.error.reply, "error");
       }
     });
   }
@@ -251,7 +251,7 @@ export class CreateEventComponent {
         console.log(data.reply);
       },
       error: (error) => {
-        Swal.fire("Error!", error.error.respuesta, "error");
+        Swal.fire("Error!", error.error.reply, "error");
       }
     });
   }
