@@ -42,12 +42,16 @@ export class ShoppingCarComponent  {
     this.total = this.subtotal - this.descuento;
   }
 
-  actualizarCantidad(item: CarItemDTO, cantidad: number): void {
-    if (cantidad > 0) {
-      item.quantity = cantidad;
-      this.calcularTotales();
+  actualizarCantidad(item: any, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const nuevaCantidad = inputElement ? +inputElement.value : 1;
+
+    if (nuevaCantidad > 0) {
+        item.quantity = nuevaCantidad;
+        this.calcularTotales(); 
     }
-  }
+}
+
 
   eliminarItem(index: number): void {
     this.itemsCarrito.splice(index, 1);
@@ -55,8 +59,7 @@ export class ShoppingCarComponent  {
   }
 
   aplicarDescuento(codigo: string): void {
-    // Aquí puedes implementar la lógica para aplicar un descuento con un código
-    // Por ahora asumiremos un descuento fijo de 10%
+
     this.descuento = this.subtotal * 0.1;
     this.calcularTotales();
   }

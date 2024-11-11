@@ -21,7 +21,7 @@
             <td>{{ item.eventType }}</td>
             <td>{{ item.price | currency }}</td>
             <td>
-              <input type="number" class="form-control" [value]="item.quantity" min="1" (change)="actualizarCantidad(item, $event.target.value)" />
+              <input type="number" class="form-control" [value]="item.quantity" min="1" (change)="actualizarCantidad(item, $event)" />
             </td>
             <td>{{ item.price * item.quantity | currency:'COP' }}</td>
             <td>
