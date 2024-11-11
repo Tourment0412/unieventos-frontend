@@ -60,7 +60,7 @@
             <label for="totalToPay" class="form-label">Total a Pagar</label>
             <input type="text" class="form-control" id="totalToPay" [value]="total | currency" readonly />
           </div>
-          <button class="btn btn-success" type="button">Realizar Pago</button>
+          <button class="btn btn-success" type="button" (click)="crearOrden()">Realizar Pago</button>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { DeleteCarDetailDTO } from '../../dto/delete-car-detail-dto';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UpdateCarItemDTO } from '../../dto/update-car-item-dto';
+import { CreateOrderDTO } from '../../dto/create-order-dto';
 import { MensajeDTO } from '../../dto/mensaje-dto';
 import { CouponItemClientDTO } from '../../dto/coupon-item-client-dto';
 
@@ -18,7 +19,7 @@ import { CouponItemClientDTO } from '../../dto/coupon-item-client-dto';
   imports: [CommonModule, FormsModule],
 
 })
-export class ShoppingCarComponent  {
+export class ShoppingCarComponent {
   itemsCarrito: CarItemDTO[] = [];
   subtotal: number = 0;
   descuento: number = 0;
@@ -26,11 +27,61 @@ export class ShoppingCarComponent  {
   couponCode: string = '';
   cuponesDisponibles: CouponItemClientDTO[] = [];
   cuponInvalido: boolean = false;
+  orderId: string | null = null;
 
 
   constructor(private clienteService: ClienteService, private tokenService: TokenService) {
     this.obtenerItemsCarrito();
     this.obtenerCuponesDisponibles();
+  }
+
+
+  crearOrden(): void {
+    const clienteId = this.tokenService.getIDCuenta();
+    const createOrderDTO: CreateOrderDTO = { clientId: clienteId, couponCode: this.couponCode };
+
+    this.clienteService.crearOrden(createOrderDTO).subscribe({
+      next: (response: MensajeDTO) => {
+        this.orderId = response.reply;
+        this.confirmarPago();
+      },
+      error: (error) => {
+        console.error('Error al crear la orden:', error);
+        Swal.fire('Error', 'No se pudo crear la orden. Intenta nuevamente.', 'error');
+      }
+    });
+  }
+
+  confirmarPago(): void {
+    Swal.fire({
+      title: '¿Deseas pagar ahora?',
+      text: 'Puedes pagar ahora o guardar la orden para después.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Pagar ahora',
+      cancelButtonText: 'Guardar para después'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.realizarPago();
+      } else {
+        Swal.fire('Orden Guardada', 'La orden ha sido guardada como "No Pagada".', 'info');
+        this.obtenerItemsCarrito();
+      }
+    });
+  }
+
+  realizarPago(): void {
+    if (this.orderId) {
+      this.clienteService.realizarPago(this.orderId).subscribe({
+        next: (response: MensajeDTO) => {
+          Swal.fire('Pago Exitoso', 'Tu pago se ha realizado exitosamente.', 'success');
+        },
+        error: (error) => {
+          console.error('Error al realizar el pago:', error);
+          Swal.fire('Error', 'No se pudo procesar el pago. Intenta nuevamente.', 'error');
+        }
+      });
+    }
   }
 
 
