@@ -18,7 +18,7 @@
         aria-label="Third slide"
       ></li>
     </ol>
-  
+
     <div class="carousel-inner" role="listbox" title="Carousel slides">
       <div class="carousel-item active">
         <div role="option">
@@ -67,7 +67,7 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  
+
    <!-- Filtros de Búsqueda -->
    <div class="d-flex justify-content-between align-items-center my-3 p-3 filter-bar">
     <input
@@ -90,5 +90,18 @@
     </select>
     <button class="btn btn-primary" type="button">Aplicar filtros</button>
   </div>
-  
+
   <app-card-grid [events]="eventos"></app-card-grid>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="currentPage===0"><a class="page-link" (click)="previousPage()">Previous</a></li>
+    @for (item of pages; track $index) {
+      <li class="page-item"><a class="page-link" (click)="obtenerEventos($index)">{{$index+1}}</a>
+      </li>
+    }
+    <li class="page-item" [class.disabled]="!eventsAvailable"><a class="page-link"
+                                                                 (click)="eventsAvailable ? nextPage() : null" >
+      Next</a></li>
+  </ul>
+</nav>
