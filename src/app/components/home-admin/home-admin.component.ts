@@ -20,7 +20,7 @@ export class HomeAdminComponent {
   pages: number[] = [];
   eventsAvailable: boolean = true;
   filterUsed: boolean = false;
-  constructor(private adminService: AdminService,private formBuilder: FormBuilder,private publicoService: PublicoService) {
+  constructor(private adminService: AdminService,private formBuilder: FormBuilder) {
     this.eventos = [];
     this.createForm();
     this.obtenerEventos(0);
@@ -53,7 +53,7 @@ export class HomeAdminComponent {
   public filter(page: number) {
     const EventFilterDTO = this.filterForm.value as EventFilterDTO;
     EventFilterDTO.page=page;
-    this.publicoService.filtroEventos(EventFilterDTO).subscribe({
+    this.adminService.filtroEventosAdmin(EventFilterDTO).subscribe({
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);
         this.eventos = data.reply.events;

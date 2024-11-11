@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CrearEventoDTO } from '../dto/crear-evento-dto';
 import { EditarEventoDTO } from '../dto/editar-evento-dto';
 import { CouponItemDTO } from '../dto/coupon-item-dto';
+import {EventFilterDTO} from '../dto/event-filter-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,10 @@ export class AdminService {
 
   public eliminarCupon(id: string): Observable<MensajeDTO> {
     return this.http.delete<MensajeDTO>(`${this.adminURL}/coupon/delete/${id}`);
+  }
+
+  public filtroEventosAdmin(eventFilterDTO: EventFilterDTO): Observable<MensajeDTO>{
+    return this.http.post<MensajeDTO>(`${this.adminURL}/event/filter-events`, eventFilterDTO);
   }
 
 
