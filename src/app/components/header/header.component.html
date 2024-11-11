@@ -7,13 +7,14 @@
       </a>
     </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style={{organizarMargenSesion()}}>
       <li><a routerLink={{obtenerRutaSesion()}} class="nav-link px-2 nav-link-custom">Inicio</a></li>
-      @if(!esSesionAdmin()){
+      @if(isLogged && !esSesionAdmin()){
       <li><a routerLink="/historial" class="nav-link px-2 nav-link-custom">Historial</a></li>
       }
       @if(esSesionAdmin()){
       <li><a routerLink="/gestion-eventos" class="nav-link px-2 nav-link-custom">Gestión de eventos</a></li>
+        <li><a routerLink="/gestion-cupones" class="nav-link px-2 nav-link-custom">Gestión de cupones</a></li>
       }
     </ul>
 
