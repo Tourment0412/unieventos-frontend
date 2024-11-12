@@ -32,6 +32,7 @@ export class ShoppingCarComponent {
   cuponInvalido: boolean = false;
   orderId: string | null = null;
 
+  isLoading: boolean=false;
 
   constructor(private clienteService: ClienteService, private tokenService: TokenService, private route: ActivatedRoute) {
     this.obtenerItemsCarrito();
@@ -50,14 +51,19 @@ export class ShoppingCarComponent {
     const clienteId = this.tokenService.getIDCuenta();
     console.log("Creando orden para el cupon:", this.couponCode);
     const createOrderDTO: CreateOrderDTO = { clientId: clienteId, couponCode: this.couponCode || '' };
+    this.isLoading = true;
 
     this.clienteService.crearOrden(createOrderDTO).subscribe({
       next: (response: MensajeDTO) => {
         this.orderId = response.reply;
+        this.isLoading = false;
         this.confirmarPago();
+
       },
       error: (error) => {
+
         console.error('Error al crear la orden:', error);
+        this.isLoading = false;
         Swal.fire('Error', 'No se pudo crear la orden. Intenta nuevamente.', 'error');
       }
     });

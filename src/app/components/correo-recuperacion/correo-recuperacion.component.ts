@@ -43,6 +43,7 @@ export class correoRecuperacionComponent {
         this.router.navigate(['/cambiar-password']);
       },
       error: error => {
+        this.isLoading = false;
         Swal.fire({
           title: 'Error',
           text: error.error.reply,

@@ -71,6 +71,7 @@ export class RegisterComponent {
         this.router.navigate(['/validar-cuenta']);
       },
       error: (error) => {
+        this.isLoading = false;
         Swal.fire({
           title: 'Error',
           text: error.error.respuesta,
