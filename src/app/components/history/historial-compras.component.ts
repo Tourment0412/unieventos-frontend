@@ -8,6 +8,7 @@ import { OrderItemDTO } from '../../dto/order-item-dto';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { GiftDTO } from '../../dto/gift-dto';
+import { MensajeDTO } from '../../dto/mensaje-dto';
 
 @Component({
   selector: 'app-historial-compras',
@@ -190,6 +191,51 @@ enviarEntradasAmigo() {
     });
   }
 
+  pagarOrdenesNoPagadas() {
+    const comprasNoPagadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() !== 'approved');
+    const comprasPagadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() == 'approved');
 
+    if (comprasNoPagadas.length === 0) {
+      Swal.fire("Atención", "No has seleccionado ninguna compra no pagada.", "info");
+      return;
+    }
+
+    if (comprasPagadas.length > 0) {
+      Swal.fire("Atención", "Selecciona unicamente compras no pagadas.", "info");
+      return;
+    }
+
+    if (comprasNoPagadas.length > 1) {
+      Swal.fire("Atención", "Solo se puede pagar una orden a la vez. Por favor, selecciona solo una compra.", "info");
+      return;
+    }
+
+    Swal.fire({
+      title: '¿Estás seguro de que deseas pagar la orden seleccionada?',
+      text: "Este proceso no puede ser revertido.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Pagar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        const compra = comprasNoPagadas[0];
+        this.clienteService.realizarPago(compra.id).subscribe({
+          next: (response: MensajeDTO) => {
+            const paymentUrl = response.reply.paymentUrl;
+            window.location.href = paymentUrl;
+          },
+          error: (error) => {
+            console.error('Error al realizar el pago:', error);
+            Swal.fire('Error', 'No se pudo procesar el pago. Intenta nuevamente.', 'error');
+            this.isLoading = false;
+          }
+        });
+      } else {
+        Swal.fire("Cancelado", "El proceso de pago ha sido cancelado.", "info");
+      }
+    });
+  }
 
 }
