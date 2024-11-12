@@ -123,8 +123,27 @@ enviarEntradasAmigo() {
 
   cancelarCompras() {
     const comprasACancelar = this.historialCompras.filter(compra => compra.seleccionado);
+
+    if (comprasACancelar.length === 0) {
+      Swal.fire("Atención", "No has seleccionado ninguna compra para cancelar.", "info");
+      return;
+    }
+
     comprasACancelar.forEach(compra => {
-      compra.estado = 'Cancelado';
+      this.clienteService.cancelarOrder(compra.id).subscribe({
+        next: (response) => {
+          if (!response.error) {
+            compra.estado = 'Cancelado';
+            Swal.fire("Cancelación exitosa", `La compra con ID ${compra.id} ha sido cancelada.`, "success");
+            this.listarHistorialOrdenesCompra();
+          } else {
+            Swal.fire("Error", `No se pudo cancelar la compra con ID ${compra.id}.`, "error");
+          }
+        },
+        error: () => {
+          Swal.fire("Error", `Ocurrió un problema al intentar cancelar la compra con ID ${compra.id}.`, "error");
+        }
+      });
     });
 
     this.historialCompras = [...this.historialCompras];

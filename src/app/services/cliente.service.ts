@@ -67,6 +67,10 @@ export class ClienteService {
     return this.http.post<MensajeDTO>(`${this.clienteURL}/send-gift`, gift);
   }
 
+  public cancelarOrder(orderId: String): Observable<MensajeDTO> {
+    return this.http.delete<MensajeDTO>(`${this.clienteURL}/order/cancel/${orderId}`);
+  }
+
 
 
 }
