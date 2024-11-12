@@ -67,7 +67,18 @@ todosSeleccionados() {
 }
 
 enviarEntradasAmigo() {
-  const comprasAprobadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() === 'approved');
+    const comprasAprobadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() === 'approved');
+    const comprasNoPagadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() !== 'approved');
+
+    if (comprasAprobadas.length === 0) {
+      Swal.fire("Atención", "Selecciona al menos una compra aprobada para enviar como regalo.", "info");
+      return;
+    }
+
+
+    if (comprasNoPagadas.length > 0) {
+      Swal.fire("Aviso", "Algunas órdenes seleccionadas no están aprobadas y no se enviarán como regalo.", "warning");
+    }
 
   if (comprasAprobadas.length === 0) {
     Swal.fire("Atención", "Selecciona al menos una compra aprobada para enviar como regalo.", "info");
@@ -103,8 +114,12 @@ enviarEntradasAmigo() {
               this.isLoading = false;
             }
           },
-          error: () => {
-            Swal.fire("Error", "Hubo un problema al enviar el regalo.", "error");
+          error: (error) => {
+            if(error.error.reply === "You cannot give tickets more than once"){
+              Swal.fire("Error", "No puedes regalar nuevamente estas entradas.", "error")
+            }else{
+              Swal.fire("Error", "Hubo un problema al enviar el regalo.", "error");
+            }
             this.isLoading = false;
           }
         });
