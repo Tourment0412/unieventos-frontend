@@ -191,6 +191,10 @@ enviarEntradasAmigo() {
     });
   }
 
+  hayCompraSeleccionadaNoPagada(): boolean {
+    return this.comprasSeleccionadas.some(compra => compra.estado.toLowerCase() === 'no pagada');
+  }
+
   pagarOrdenesNoPagadas() {
     const comprasNoPagadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() !== 'approved');
     const comprasPagadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() == 'approved');

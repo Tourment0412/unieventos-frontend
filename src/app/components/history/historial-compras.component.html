@@ -30,9 +30,8 @@
         <button
           type="button"
           class="btn btn-success anim-e me-2"
-          *ngIf="hayComprasSeleccionadas()"
           (click)="pagarOrdenesNoPagadas()"
-          [disabled]="isLoading">
+          [disabled]="isLoading || !hayCompraSeleccionadaNoPagada()">
           <i class="fa-solid fa-credit-card me-2"></i>
           <span *ngIf="isLoading">Procesando...</span>
           <span *ngIf="!isLoading">Pagar Ordenes No Pagadas</span>
