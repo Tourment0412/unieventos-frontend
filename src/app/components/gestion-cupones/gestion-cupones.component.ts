@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Validators, FormBuilder } from '@angular/forms';
 import { CouponItemDTO } from '../../dto/coupon-item-dto';
@@ -44,12 +44,22 @@ export class GestionCuponesComponent {
 
   private couponForm() {
     this.crearCuponForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      discount: ['', [Validators.required, Validators.maxLength(10)]],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      discount: ['', [Validators.required,this.numberLengthValidator(1,3),Validators.min(0), Validators.max(100)]],
       expirationDate: ['', [Validators.required]],
       type: ['', [Validators.required]],
       status: ['']
     });
+  }
+
+  numberLengthValidator(minLength: number, maxLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && (value.toString().length < minLength || value.toString().length > maxLength)) {
+        return { numberLength: true };
+      }
+      return null;
+    };
   }
 
   cargarCupones(page: number) {

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TokenService } from '../../services/token.service';
 import { InfoCuentaDTO } from '../../dto/info-cuenta-dto';
 import { AccountService } from '../../services/account.service';
 import { ActualizarCuentaDTO } from '../../dto/actualizar-cuenta-dto';
 import Swal from 'sweetalert2';
 import { S } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-info',
@@ -20,20 +21,22 @@ export class UserInfoComponent {
   userInforForm!: FormGroup;
   isEditing: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private tokenService: TokenService, private accountService: AccountService) {
-    // Create the form group when the component is initialized.
-    this.obtenerInformacionUsuario();
+  constructor(private formBuilder: FormBuilder, private tokenService: TokenService, 
+    private accountService: AccountService, private router: Router) { 
     this.createForm();
+    this.obtenerInformacionUsuario();
   }
+
+  
 
   private createForm() {
     this.userInforForm = this.formBuilder.group({
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       dni: [{ value: '', disabled: true }, [Validators.required]],
       name: [{ value: '', disabled: true }, [Validators.required]],
-      phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(10)]],
-      address: [{ value: '', disabled: true }, [Validators.required]],
-      password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
+      phoneNumber: [{ value: '', disabled: true }, [Validators.required, this.numberLengthValidator(10, 15)]],
+      address: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(255)]],
+      password: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(7)]],
       confirmaPassword: ['', [Validators.required]]
     },
     { validators: this.passwordsMatchValidator } as AbstractControlOptions);
@@ -46,12 +49,24 @@ export class UserInfoComponent {
     return password == confirmaPassword ? null : { passwordsMismatch: true };
 
   }
+  numberLengthValidator(minLength: number, maxLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && (value.toString().length < minLength || value.toString().length > maxLength)) {
+        return { numberLength: true };
+      }
+      return null;
+    };
+  }
 
   enableEditing() {
     this.isEditing = true;
     Object.keys(this.userInforForm.controls).forEach(controlName => {
       if (controlName !== 'email' && controlName !== 'dni') {
         this.userInforForm.controls[controlName].enable();
+      }
+      if(controlName === 'password' || controlName === 'confirmaPassword'){
+        this.userInforForm.controls[controlName].setValue('');
       }
     });
   }
@@ -81,19 +96,28 @@ export class UserInfoComponent {
   }
 
   public disableEditing() {
-    this.loadAccountData();
+    
     this.isEditing = false;
-    this.userInforForm.disable();
+    this.resetForm();
+    Object.keys(this.userInforForm.controls).forEach(controlName => {
+      if (controlName !== 'email' && controlName !== 'dni') {
+        this.userInforForm.controls[controlName].disable();
+      }
+      if(controlName === 'password' || controlName === 'confirmaPassword'){
+        this.userInforForm.controls[controlName].setValue('');
+      }
+    });
+    this.loadAccountData();
   }
   saveChanges() {
     
     const cuentaActualizar= this.userInforForm.value as ActualizarCuentaDTO;
     cuentaActualizar.id = this.account!.id;
 
-    console.log(cuentaActualizar);
+    console.log( "datos ",cuentaActualizar);
     
 
-    if(cuentaActualizar.password === ''){
+    if(!cuentaActualizar.password || cuentaActualizar.password === ''){
       Swal.fire({
         title: 'Error',
         text: 'La contraseña no puede estar vacía',
@@ -101,7 +125,7 @@ export class UserInfoComponent {
         confirmButtonText: 'Aceptar'
       })
       this.resetForm();
-      this.loadAccountData();
+      this.obtenerInformacionUsuario();
       return;
     }
 
@@ -114,10 +138,9 @@ export class UserInfoComponent {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
-        this.isEditing = false;
-        this.userInforForm.disable();
+        this.disableEditing();
         this.resetForm();
-        this.loadAccountData();
+        
       }, error: (error) => {
         Swal.fire({
           title: 'Error',

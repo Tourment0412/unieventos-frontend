@@ -3,12 +3,18 @@
         <div class="card-header p-0 position-relative">
             <img src="https://firebasestorage.googleapis.com/v0/b/unieventos-images-service.appspot.com/o/ba7126cf-6171-41ec-b834-fff95312797b-tickets.png?alt=media&token=b5d0ffcb-db1f-4886-894b-1ffb14f2da61"
                 alt="Banner" class="img-fluid card-banner">
-            <i class="fa-solid fa-user-plus icon-overlay"></i>
+            <i class="fa-solid fa-user icon-overlay"></i>
         </div>
         <div class="card-body p-4">
-            <h5 class="mb-0 text-center">
-                Registro de un nuevo cliente
-            </h5>
+            @if(isEditing){
+                <h5 class="mb-0 text-center">
+                    Edicion de Informacion de Perfil
+                </h5>
+            }@else {
+                <h5 class="mb-0 text-center">
+                    Informacion de Perfil
+                </h5>
+            }
             <form class="row g-3 justify-content-center" [formGroup]="userInforForm">
                 <div class="col-12 d-flex justify-content-center">
                     <div class="form-group" style="max-width: 400px; width: 100%;">
