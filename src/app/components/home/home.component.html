@@ -85,26 +85,23 @@
     aria-label="Buscar por ciudad"
     formControlName="city"
   />
-  <select class="form-select me-2" aria-label="Filtrar por tipo" formControlName="evenType">
+  <select class="form-select me-2" aria-label="Filtrar por tipo" formControlName="eventType">
     <option selected>Tipo de evento</option>
-    <option value="concert">Concierto</option>
-    <option value="conference">Conferencia</option>
-    <option value="exhibition">Exhibición</option>
+    @for (item of tipos; track $index) {
+      <option value={{item}}>{{ item }}</option>
+    }
   </select>
   <button class="btn btn-primary" type="submit">Aplicar filtros</button>
 </form>
 
 <app-card-grid [events]="eventos"></app-card-grid>
 
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" class="d-flex justify-content-center">
   <ul class="pagination">
     <li class="page-item" [class.disabled]="currentPage===0"><a class="page-link" (click)="previousPage()">Previous</a></li>
     @for (item of pages; track $index) {
-      <li class="page-item"><a class="page-link" (click)="obtenerEventos($index)">{{$index+1}}</a>
-      </li>
+      <li class="page-item"><a class="page-link" (click)="obtenerEventos($index)">{{$index+1}}</a></li>
     }
-    <li class="page-item" [class.disabled]="!eventsAvailable"><a class="page-link"
-                                                                 (click)="eventsAvailable ? nextPage() : null" >
-      Next</a></li>
+    <li class="page-item" [class.disabled]="!eventsAvailable"><a class="page-link" (click)="eventsAvailable ? nextPage() : null">Next</a></li>
   </ul>
 </nav>

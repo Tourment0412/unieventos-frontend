@@ -23,9 +23,11 @@ export class HomeComponent {
   eventsAvailable: boolean = true;
   pages: number[] = [];
   filterUsed: boolean = false;
+  tipos: string[]=[];
   constructor(private publicoService: PublicoService,private formBuilder: FormBuilder) {
     this.eventos = [];
     this.obtenerEventos(this.currentPage);
+    this.obtenerTipos();
     this.createForm();
 
     this.seleccionados = [];
@@ -47,22 +49,34 @@ export class HomeComponent {
     });
   }
 
+  public obtenerTipos() {
+    this.publicoService.listarTipos().subscribe({
+      next: (data) => {
+        this.tipos = data.reply;
+      },
+      error: (error) => {
+        console.error(error);
+    }});
+  }
+
   createForm() {
     this.filterForm = this.formBuilder.group({
       name: [''],
       city: [''],
-      evenType: [''],
+      eventType: [''],
     });
   }
 
   public filter(page: number) {
-    const EventFilterDTO = this.filterForm.value as EventFilterDTO;
-    EventFilterDTO.page=page;
-    this.publicoService.filtroEventos(EventFilterDTO).subscribe({
+    const eventFilterDTO = this.filterForm.value as EventFilterDTO;
+    eventFilterDTO.page=page;
+    console.log(eventFilterDTO);
+    
+    this.publicoService.filtroEventos(eventFilterDTO).subscribe({
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);
         this.eventos = data.reply.events;
-        this.currentPage=EventFilterDTO.page;
+        this.currentPage=eventFilterDTO.page;
         this.filterUsed=true;
         this.actualizarEventsAvailable();
         this.resetForm();

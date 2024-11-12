@@ -33,7 +33,8 @@ export const routes: Routes = [
 
     { path: "gestion-eventos", component: GestionEventosComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN"] } },
-    { path: 'detalle-evento/:id', component: DetalleEventoComponent },
+    { path: 'detalle-evento/:id', component: DetalleEventoComponent , canActivate: [RolesGuard], data:
+        { expectedRole: ["CLIEMT"] }},
     { path: 'editar-evento/:id', component: CreateEventComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["ADMIN"] } },
     { path: 'shopping-car', component: ShoppingCarComponent , canActivate: [RolesGuard], data:

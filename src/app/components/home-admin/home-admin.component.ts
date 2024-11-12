@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { CardGridComponent } from '../card-grid/card-grid.component';
 
 import { AdminService } from '../../services/admin.service';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PublicoService} from '../../services/publico.service';
-import {EventFilterDTO} from '../../dto/event-filter-dto';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PublicoService } from '../../services/publico.service';
+import { EventFilterDTO } from '../../dto/event-filter-dto';
 
 @Component({
   selector: 'app-home-admin',
   standalone: true,
-  imports: [CardGridComponent,FormsModule,ReactiveFormsModule],
+  imports: [CardGridComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './home-admin.component.html',
   styleUrl: './home-admin.component.css'
 })
@@ -20,9 +20,12 @@ export class HomeAdminComponent {
   pages: number[] = [];
   eventsAvailable: boolean = true;
   filterUsed: boolean = false;
-  constructor(private adminService: AdminService,private formBuilder: FormBuilder) {
+
+  tipos: string[] = [];
+  constructor(private adminService: AdminService, private formBuilder: FormBuilder, private publicoService: PublicoService) {
     this.eventos = [];
     this.createForm();
+    this.obtenerTipos();
     this.obtenerEventos(0);
   }
 
@@ -30,7 +33,7 @@ export class HomeAdminComponent {
     this.filterForm = this.formBuilder.group({
       name: [''],
       city: [''],
-      evenType: [''],
+      eventType: [''],
     });
   }
 
@@ -41,7 +44,7 @@ export class HomeAdminComponent {
         console.log(data);
         this.pages = new Array(data.reply.totalPages);
         this.eventos = data.reply.events;
-        this.currentPage=page;
+        this.currentPage = page;
         this.actualizarEventsAvailable();
       },
       error: (error) => {
@@ -50,15 +53,29 @@ export class HomeAdminComponent {
     });
   }
 
+  public obtenerTipos() {
+    this.publicoService.listarTipos().subscribe({
+      next: (data) => {
+        this.tipos = data.reply;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+
+  }
+
   public filter(page: number) {
-    const EventFilterDTO = this.filterForm.value as EventFilterDTO;
-    EventFilterDTO.page=page;
-    this.adminService.filtroEventosAdmin(EventFilterDTO).subscribe({
+    const eventFilterDTO = this.filterForm.value as EventFilterDTO;
+    eventFilterDTO.page = page;
+    console.log(eventFilterDTO);
+    
+    this.adminService.filtroEventosAdmin(eventFilterDTO).subscribe({
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);
         this.eventos = data.reply.events;
-        this.currentPage=EventFilterDTO.page;
-        this.filterUsed=true;
+        this.currentPage = eventFilterDTO.page;
+        this.filterUsed = true;
         this.actualizarEventsAvailable();
         this.resetForm();
       },
@@ -88,7 +105,7 @@ export class HomeAdminComponent {
   }
 
   public actualizarEventsAvailable() {
-    this.eventsAvailable = this.currentPage < this.pages.length-1;
+    this.eventsAvailable = this.currentPage < this.pages.length - 1;
   }
 
   public resetForm() {
