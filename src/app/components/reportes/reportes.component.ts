@@ -34,7 +34,7 @@ export class ReportesComponent {
 
 
   codigoEvento: string = '';
-  totalRescaudado: string = '';
+  totalRecaudado: string = '';
   totalCupones: string = '';
   localidadReportes: LocalidadReporte[] = [];
   constructor(private route: ActivatedRoute,private adminService: AdminService) {
@@ -42,7 +42,7 @@ export class ReportesComponent {
       this.codigoEvento = params['id'];
       this.adminService.obtenerReporte(this.codigoEvento).subscribe({
         next: (data) => {
-          this.totalRescaudado=data.reply.totalSales;
+          this.totalRecaudado=data.reply.totalSales;
           this.totalCupones=data.reply.totalTickets;
           let tam = data.reply.percentageSoldByLocation.length;
           for (let i = 0; i < tam; i++) {
