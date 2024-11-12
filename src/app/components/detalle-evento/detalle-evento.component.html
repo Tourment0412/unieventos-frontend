@@ -47,6 +47,7 @@
               <h5 class="card-title">{{ localidad.name }}</h5>
               <p class="card-text">Precio: {{ localidad.price | currency }}</p>
               <p class="card-text">Capacidad: {{ localidad.maxCapacity }}</p>
+              <p class="card-text">Entradas Vendidas: {{ localidad.ticketsSold }}</p>
 
               <div class="mb-3">
                 <label for="quantity-{{ localidad.name }}" class="form-label">Cantidad de entradas</label>
