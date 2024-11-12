@@ -60,6 +60,10 @@ export class AdminService {
     return this.http.post<MensajeDTO>(`${this.adminURL}/event/filter-events`, eventFilterDTO);
   }
 
+  public obtenerReporte(id: string): Observable<MensajeDTO> {
+    return this.http.get<MensajeDTO>(`${this.adminURL}/event/reports-info/${id}`);
+  }
+
 
   //TODO add other methods that need to be implemented for the Admin
   //TODO maybe gonna do another home component for the admin that gonna re use the cardgrid component
