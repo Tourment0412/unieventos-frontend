@@ -20,6 +20,7 @@ export class HistorialComprasComponent implements OnInit {
 
   historialCompras: any[] = [];
   comprasSeleccionadas: any[] = [];
+  isLoading: boolean=false;
   constructor(private clienteService: ClienteService, private tokenService: TokenService, private router: Router, private dataService: DataService) {}
 
   ngOnInit() {
@@ -73,6 +74,7 @@ enviarEntradasAmigo() {
     return;
   }
 
+
   Swal.fire({
     title: 'Introduce el correo de tu amigo',
     input: 'email',
@@ -90,17 +92,20 @@ enviarEntradasAmigo() {
           friendEmail: friendEmail,
           idOrder: compra.id
         };
-
+        this.isLoading = true;
         this.clienteService.sendGift(gift).subscribe({
           next: (response) => {
             if (!response.error) {
               Swal.fire("Enviado", `Las entradas fueron enviadas a ${friendEmail}`, "success");
+              this.isLoading = false;
             } else {
               Swal.fire("Error", "No se pudo enviar el regalo. Inténtalo de nuevo.", "error");
+              this.isLoading = false;
             }
           },
           error: () => {
             Swal.fire("Error", "Hubo un problema al enviar el regalo.", "error");
+            this.isLoading = false;
           }
         });
       });
