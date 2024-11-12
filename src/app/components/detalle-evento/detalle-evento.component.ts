@@ -52,7 +52,7 @@ export class DetalleEventoComponent  {
       status: [''],
       coverImage: [''],
       localitiesImage: [''],
-      locations: this.formBuilder.array([])  // El array de localidades
+      locations: this.formBuilder.array([]) 
     });
   }
 
