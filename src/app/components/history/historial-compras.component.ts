@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { OrderItemDTO } from '../../dto/order-item-dto';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
+import { GiftDTO } from '../../dto/gift-dto';
 
 @Component({
   selector: 'app-historial-compras',
@@ -64,10 +65,50 @@ todosSeleccionados() {
   return this.historialCompras.every(compra => compra.seleccionado);
 }
 
-  enviarEntradasAmigo() {
-    console.log("Entradas enviadas:", this.comprasSeleccionadas);
-    // Aquí puedes implementar la lógica de envío de entradas
+enviarEntradasAmigo() {
+  const comprasAprobadas = this.comprasSeleccionadas.filter(compra => compra.estado.toLowerCase() === 'approved');
+
+  if (comprasAprobadas.length === 0) {
+    Swal.fire("Atención", "Selecciona al menos una compra aprobada para enviar como regalo.", "info");
+    return;
   }
+
+  Swal.fire({
+    title: 'Introduce el correo de tu amigo',
+    input: 'email',
+    inputLabel: 'Correo del destinatario',
+    inputPlaceholder: 'nombre@ejemplo.com',
+    showCancelButton: true,
+    confirmButtonText: 'Enviar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed && result.value) {
+      const friendEmail = result.value;
+
+      comprasAprobadas.forEach((compra) => {
+        const gift: GiftDTO = {
+          friendEmail: friendEmail,
+          idOrder: compra.id
+        };
+
+        this.clienteService.sendGift(gift).subscribe({
+          next: (response) => {
+            if (!response.error) {
+              Swal.fire("Enviado", `Las entradas fueron enviadas a ${friendEmail}`, "success");
+            } else {
+              Swal.fire("Error", "No se pudo enviar el regalo. Inténtalo de nuevo.", "error");
+            }
+          },
+          error: () => {
+            Swal.fire("Error", "Hubo un problema al enviar el regalo.", "error");
+          }
+        });
+      });
+    } else if (result.isDismissed) {
+      Swal.fire("Cancelado", "No se envió el regalo.", "info");
+    }
+  });
+}
 
   verDetalles(idOrden: string) {
     console.log("Detalles de la compra:", idOrden);

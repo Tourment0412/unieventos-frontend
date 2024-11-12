@@ -40,13 +40,13 @@
 }
 
 /* Estilos de los botones */
-.btn-group .btn-outline-secondary {
+.btn-group .btn-outline-primary {
     border-color: #c794fa;
     color: #c794fa;
     transition: all 0.3s ease;
 }
 
-.btn-group .btn-outline-secondary:hover {
+.btn-group .btn-outline-primary:hover {
     background-color: #c794fa; /* Fondo morado claro */
     color: white; /* Texto blanco en hover */
     border-color: #c794fa;

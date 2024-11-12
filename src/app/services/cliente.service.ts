@@ -7,6 +7,7 @@ import { DeleteCarDetailDTO } from '../dto/delete-car-detail-dto';
 import { UpdateCarItemDTO } from '../dto/update-car-item-dto';
 import { CreateOrderDTO } from '../dto/create-order-dto';
 import { ValideCouponDTO } from '../dto/valide-coupon-dto';
+import { GiftDTO } from '../dto/gift-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,10 @@ export class ClienteService {
 
   public obtenerEstadoOrden(orderId: string): Observable<MensajeDTO> {
     return this.http.get<MensajeDTO>(`${this.clienteURL}/order/status/${orderId}`);
+  }
+
+  public sendGift(gift: GiftDTO): Observable<MensajeDTO> {
+    return this.http.post<MensajeDTO>(`${this.clienteURL}/send-gift`, gift);
   }
 
 
