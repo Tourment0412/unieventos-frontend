@@ -20,6 +20,7 @@ import { RolesGuard } from './guards/roles.service';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { HayCuponesComponent } from './components/hay-cupones/hay-cupones.component';
+import {ReportesComponent} from './components/reportes/reportes.component';
 
 
 export const routes: Routes = [
@@ -51,6 +52,8 @@ export const routes: Routes = [
     { path: 'order-details/:id', component: OrderDetailsComponent },
     { path: 'hay-cupones', component: HayCuponesComponent, canActivate: [RolesGuard], data:
         { expectedRole: ["CLIENT"] }},
+  { path: 'reportes/:id', component: ReportesComponent, canActivate: [RolesGuard], data:
+      { expectedRole: ["ADMIN"] }},
 
     { path: '**', pathMatch: "full", redirectTo: '' }
     //Add more routes here for the other pages and components

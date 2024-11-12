@@ -1,1 +1,45 @@
-<p>reportes works!</p>
+
+<h5 class="h5 mb-0">Total recaudado:{{totalRecaudado}}</h5><br>
+<h5 class="h5 mb-0">Total entredas:{{totalCupones}}</h5>
+<div class="card-body p-5">
+
+    <div class="card-header ps-5 pt-4 pb-4">
+        <h5 class="mb-0"><i class="fa-solid fa-location-dot me-3"></i>Localidades</h5>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad de ventas</th>
+                <th>Porcentaje de vendido</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            @for (item of localidadReportes; track $index) {
+            <tr>
+                <td>
+                    <p>{{item.nombre}}</p>
+                </td>
+                <td>
+                    <p>{{item.cantidadVentas}}</p>
+                </td>
+                <td>
+                    <p>{{item.porcentaje}}%</p>
+                </td>
+                <td>
+                    <p>{{item.totalVendido}}</p>
+                </td>
+            }
+            </tbody>
+        </table>
+        <div class="btnDiv">
+            <button type="button" class="btn btn-custom">Generar PDF</button>
+        </div>
+
+    </div>
+
+
+</div>

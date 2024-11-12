@@ -20,11 +20,21 @@
         <!-- Botón para cancelar compras -->
         <button
           type="button"
-          class="btn btn-danger anim-e"
+          class="btn btn-danger anim-e me-2"
           (click)="cancelarCompras()"
           [disabled]="!hayComprasSeleccionadas()"
         >
           <i class="fa-solid fa-ban me-1"></i> Cancelar compras
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-success anim-e me-2"
+          (click)="pagarOrdenesNoPagadas()"
+          [disabled]="isLoading || !hayCompraSeleccionadaNoPagada()">
+          <i class="fa-solid fa-credit-card me-2"></i>
+          <span *ngIf="isLoading">Procesando...</span>
+          <span *ngIf="!isLoading">Pagar Ordenes No Pagadas</span>
         </button>
       </div>
 
