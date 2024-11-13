@@ -1,16 +1,17 @@
-<div id="content-to-pdf" class="container">
+<div id="content-to-pdf" class="container my-5">
   <!-- Resumen del Reporte -->
-  <div class="row my-4">
+  <div class="card my-auto shadow-sm">
     <div class="col text-center">
       <h3 class="h-100 mb-3" style="color: #65558f;">Reporte de Ventas</h3>
       <h5 class="text-muted" style="color: #65558f;">Total Recaudado:
-        <span class="fw-bold" style="color: #c794fa;">{{totalRecaudado | currency}}</span>
+        <span class="fw-bold" style="color: #c794fa;">{{ totalRecaudado | currency }}</span>
       </h5>
       <h5 class="text-muted" style="color: #65558f;">Total Entradas Vendidas:
-        <span class="fw-bold" style="color: #c794fa;">{{totalCupones}}</span>
+        <span class="fw-bold" style="color: #c794fa;">{{ totalCupones }}</span>
       </h5>
     </div>
   </div>
+
 
   <!-- Sección de Localidades -->
   <div class="card my-4 shadow-sm">
@@ -31,10 +32,10 @@
           <tbody>
             <!-- Iteración de localidades -->
             <tr *ngFor="let item of localidadReportes; trackBy: trackByIndex">
-              <td>{{item.nombre}}</td>
-              <td>{{item.cantidadVentas}}</td>
-              <td>{{item.porcentaje | number: '1.0-2'}}%</td>
-              <td>{{item.totalVendido | currency}}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.cantidadVentas }}</td>
+              <td>{{ item.porcentaje | number: '1.0-2' }}%</td>
+              <td>{{ item.totalVendido | currency }}</td>
             </tr>
           </tbody>
         </table>
@@ -42,8 +43,20 @@
     </div>
   </div>
 
+  <!-- Sección de Estadísticas de Ventas -->
+  <div class="card my-3 shadow-sm">
+    <div class="card-header" style="background-color: #b08bd1; color: white;">
+      <h5 class="mb-0">Estadísticas de Ventas</h5>
+    </div>
+    <div class="card-body">
+      <div class="d-flex justify-content-center">
+        <canvas id="ventasChart"></canvas>
+      </div>
+    </div>
+  </div>
+
   <!-- Botón de Generar PDF -->
-  <div class="btnDiv">
+  <div class="d-flex justify-content-center mt-4">
     <button type="button" class="btn btn-custom btn-lg" (click)="generarPDF()">
       <i class="fas fa-file-pdf me-2"></i>Generar PDF
     </button>
