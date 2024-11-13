@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {AdminService} from "../../services/admin.service";
+import * as jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 class LocalidadReporte {
   nombre: string;
@@ -31,8 +33,7 @@ export class ReportesComponent {
 
 
 
-
-
+  
   codigoEvento: string = '';
   totalRecaudado: string = '';
   totalCupones: string = '';
@@ -61,6 +62,26 @@ export class ReportesComponent {
         },
       })
     });
+  }
+
+  generarPDF(): void {
+    const element = document.getElementById('content-to-pdf');
+
+    // Obtener fecha y hora actual
+    const fechaActual = new Date();
+    const anio = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es de 0-11, sumamos 1
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const hora = String(fechaActual.getHours()).padStart(2, '0');
+    const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+    const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+    const fechaHora = `${anio}_${mes}_${dia} T${hora}_${minutos}_${segundos}`;
+    const nombreArchivo = `ReporteEvento_${fechaHora}.pdf`;
+    const options = {
+      filename: nombreArchivo,
+      jsPDF: { format: 'a4' }
+    };
+    html2pdf().set(options).from(element).save();
   }
 
 }
