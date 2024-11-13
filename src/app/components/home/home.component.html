@@ -86,7 +86,7 @@
     formControlName="city"
   />
   <select class="form-select me-2" aria-label="Filtrar por tipo" formControlName="eventType">
-    <option selected>Tipo de evento</option>
+    <option value="OTHER" selected>OTHER</option>
     @for (item of tipos; track $index) {
       <option value={{item}}>{{ item }}</option>
     }

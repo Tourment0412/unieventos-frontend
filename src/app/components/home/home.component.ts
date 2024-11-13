@@ -63,7 +63,7 @@ export class HomeComponent {
     this.filterForm = this.formBuilder.group({
       name: [''],
       city: [''],
-      eventType: [''],
+      eventType: ['OTHER'],
     });
   }
 
