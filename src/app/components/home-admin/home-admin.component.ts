@@ -5,6 +5,7 @@ import { AdminService } from '../../services/admin.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PublicoService } from '../../services/publico.service';
 import { EventFilterDTO } from '../../dto/event-filter-dto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home-admin',
@@ -70,6 +71,13 @@ export class HomeAdminComponent {
     eventFilterDTO.page = page;
     console.log(eventFilterDTO);
     
+    if( eventFilterDTO.eventType == null || eventFilterDTO.eventType == ""){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Seleccione un tipo de evento'
+      })
+    }
     this.adminService.filtroEventosAdmin(eventFilterDTO).subscribe({
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);

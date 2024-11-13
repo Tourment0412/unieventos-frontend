@@ -6,6 +6,7 @@ import {RouterModule} from '@angular/router';
 import {LoginDTO} from '../../dto/login-dto';
 import {EventFilterDTO} from '../../dto/event-filter-dto';
 import {EventoDTO} from '../../dto/eventoDTO';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,8 @@ export class HomeComponent {
   pages: number[] = [];
   filterUsed: boolean = false;
   tipos: string[]=[];
+
+  typeSelected: boolean = false;
   constructor(private publicoService: PublicoService,private formBuilder: FormBuilder) {
     this.eventos = [];
     this.obtenerEventos(this.currentPage);
@@ -71,7 +74,13 @@ export class HomeComponent {
     const eventFilterDTO = this.filterForm.value as EventFilterDTO;
     eventFilterDTO.page=page;
     console.log(eventFilterDTO);
-    
+    if (eventFilterDTO.eventType == null || eventFilterDTO.eventType == "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Seleccione un tipo de evento'
+      })
+    }
     this.publicoService.filtroEventos(eventFilterDTO).subscribe({
       next: (data) => {
         this.pages = new Array(data.reply.totalPages);
