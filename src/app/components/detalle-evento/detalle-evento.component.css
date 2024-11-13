@@ -1,0 +1,11 @@
+.btn-custom {
+  background-color: #c794fa; /* Color similar al de tu diseño */
+  color: white;
+  border-radius: 5px; /* Borde redondeado */
+  font-size: 1rem;
+}
+
+.btn-custom:hover {
+  background-color: #b08bd1; /* Color de fondo al hacer hover */
+  border-color: #65558f;
+}
