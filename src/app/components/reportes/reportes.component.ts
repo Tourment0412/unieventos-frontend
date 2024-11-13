@@ -33,7 +33,7 @@ export class ReportesComponent {
 
 
 
-  
+
   codigoEvento: string = '';
   totalRecaudado: string = '';
   totalCupones: string = '';
