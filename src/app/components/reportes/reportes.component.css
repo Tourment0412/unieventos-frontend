@@ -1,15 +1,24 @@
+/* Estilos generales */
 .table {
   background-color: #ffffff;
   color: #c794fa;
 }
+
 .h5 {
   text-align: center;
+  color: #65558f; /* Color para los títulos */
 }
+
+/* Encabezado de la tabla */
 .table th {
   background-color: #b08bd1;
   color: white;
   font-weight: normal;
+  text-align: center; /* Centra los textos en el encabezado */
 }
+
+
+/* Filas de la tabla */
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f7f3f9;
 }
@@ -17,13 +26,42 @@
   background-color: #eae3f1;
 }
 
+/* Estilos para el botón personalizado */
 .btn-custom {
-  background-color: #65558f; /* Color personalizado del botón de registro */
+  background-color: #65558f;
   border-color: #65558f;
   color: white;
+
+  font-size: 16px;
+
+  transition: background-color 0.3s ease;
 }
 
+.btn-custom:hover {
+  background-color: #b08bd1; /* Color al pasar el mouse */
+}
+
+/* Divisor del botón de generación de PDF */
 .btnDiv {
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: center;
+}
+
+/* Estilos para la tarjeta y el contenedor */
+.card-body {
+  background-color: #ffffff;
+  border: 1px solid #eae3f1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.card-header {
+  background-color: #b08bd1;
+  color: white;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+}
+
+.table-responsive {
+  margin-top: 15px;
 }
