@@ -40,18 +40,22 @@ export class HomeAdminComponent {
 
   //This cero must be changed for a number variable to work correctly with pagination.
   public obtenerEventos(page: number) {
-    this.adminService.listarEventosAdmin(page).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.pages = new Array(data.reply.totalPages);
-        this.eventos = data.reply.events;
-        this.currentPage = page;
-        this.actualizarEventsAvailable();
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+    if (this.filterUsed) {
+      this.filter(page);
+    } else {
+      this.adminService.listarEventosAdmin(page).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.pages = new Array(data.reply.totalPages);
+          this.eventos = data.reply.events;
+          this.currentPage = page;
+          this.actualizarEventsAvailable();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
   }
 
   public obtenerTipos() {
@@ -70,7 +74,7 @@ export class HomeAdminComponent {
     const eventFilterDTO = this.filterForm.value as EventFilterDTO;
     eventFilterDTO.page = page;
     console.log(eventFilterDTO);
-    
+
     if( eventFilterDTO.eventType == null || eventFilterDTO.eventType == ""){
       Swal.fire({
         icon: 'error',
@@ -85,7 +89,7 @@ export class HomeAdminComponent {
         this.currentPage = eventFilterDTO.page;
         this.filterUsed = true;
         this.actualizarEventsAvailable();
-        this.resetForm();
+        //this.resetForm();
       },
       error: (error) => {
         console.error(error);
