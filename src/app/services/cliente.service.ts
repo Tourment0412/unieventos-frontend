@@ -14,7 +14,7 @@ import { GiftDTO } from '../dto/gift-dto';
 })
 export class ClienteService {
 
-  private clienteURL = "http://localhost:8080/api/client";
+  private clienteURL = "https://unieventos-backend.onrender.com/api/client";
   constructor(private http: HttpClient) { }
 
 

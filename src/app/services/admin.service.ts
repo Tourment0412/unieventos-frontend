@@ -12,7 +12,7 @@ import {EventFilterDTO} from '../dto/event-filter-dto';
 })
 export class AdminService {
 
-  private adminURL = "http://localhost:8080/api/admin";
+  private adminURL = "https://unieventos-backend.onrender.com/api/admin";
   constructor(private http: HttpClient) { }
   public crearEvento(crearEventoDTO: CrearEventoDTO): Observable<MensajeDTO> {
     return this.http.post<MensajeDTO>(`${this.adminURL}/event/create`, crearEventoDTO);

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/unieventos-frontend/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

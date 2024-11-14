@@ -9,7 +9,7 @@ import { EventFilterDTO } from '../dto/event-filter-dto';
 })
 export class PublicoService {
 
-  private publicoURL = "http://localhost:8080/api/public";
+  private publicoURL = "https://unieventos-backend.onrender.com/api/public";
   constructor(private http: HttpClient) { }
   //TODO hacer este metodo en el backend para obtener los diferentes tipos de eventos (Hasta el controlador)
   public listarTipos(): Observable<MensajeDTO> {

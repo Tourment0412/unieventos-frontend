@@ -10,7 +10,7 @@ import { CreateOrderDTO } from '../dto/create-order-dto';
 })
 export class AccountService {
 
-  private accountURL = "http://localhost:8080/api/account";
+  private accountURL = "https://unieventos-backend.onrender.com/api/account";
   constructor(private http: HttpClient) { }
 
 

@@ -14,7 +14,7 @@ import { TokenDTO } from '../dto/token-dto';
 })
 export class AuthService {
 
-  private authURL = "http://localhost:8080/api/auth";
+  private authURL = "https://unieventos-backend.onrender.com/api/auth";
 
   constructor(private http: HttpClient) {
 
