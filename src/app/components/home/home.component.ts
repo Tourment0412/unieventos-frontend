@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  evenTypeValue:String="";
+
   currentPage: number = 0;
   filterForm!: FormGroup;
   eventos: [] = [];
@@ -38,22 +38,18 @@ export class HomeComponent {
 
   //This cero must be changed for a number variable to work correctly with pagination.
   public obtenerEventos(page: number) {
-    if (this.filterUsed) {
-      this.filter(page);
-    } else {
-      this.publicoService.listarEventos(page).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.pages = new Array(data.reply.totalPages);
-          this.eventos = data.reply.events;
-          this.currentPage = page;
-          this.actualizarEventsAvailable();
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-    }
+    this.publicoService.listarEventos(page).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.pages = new Array(data.reply.totalPages);
+        this.eventos = data.reply.events;
+        this.currentPage=page;
+        this.actualizarEventsAvailable();
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   public obtenerTipos() {
@@ -92,7 +88,7 @@ export class HomeComponent {
         this.currentPage=eventFilterDTO.page;
         this.filterUsed=true;
         this.actualizarEventsAvailable();
-        //this.resetForm();
+        this.resetForm();
       },
       error: (error) => {
         console.error(error);
