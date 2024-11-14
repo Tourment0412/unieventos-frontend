@@ -34,7 +34,7 @@ export class RegisterComponent {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
       address: ['', [Validators.required, Validators.maxLength(255)]],
-      phone: ['', [Validators.required, this.numberLengthValidator(10, 15)]],
+      phoneNumber: ['', [Validators.required, this.numberLengthValidator(10, 15)]],
       password: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(7)]],
       confirmaPassword: ['', [Validators.required]]
     },
@@ -56,6 +56,8 @@ export class RegisterComponent {
   public register() {
     this.isLoading = true;
     const crearCuenta = this.registerForm.value as CrearCuentaDTO;
+    console.log(crearCuenta);
+    
     this.authService.crearCuenta(crearCuenta).subscribe({
       next: (data) => {
         this.isLoading = false;

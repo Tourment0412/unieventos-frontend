@@ -140,6 +140,7 @@ export class UserInfoComponent {
         })
         this.disableEditing();
         this.resetForm();
+        this.obtenerInformacionUsuario();
         
       }, error: (error) => {
         Swal.fire({
