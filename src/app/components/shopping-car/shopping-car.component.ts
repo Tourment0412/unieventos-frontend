@@ -55,16 +55,23 @@ export class ShoppingCarComponent {
 
     this.clienteService.crearOrden(createOrderDTO).subscribe({
       next: (response: MensajeDTO) => {
+
         this.orderId = response.reply;
         this.isLoading = false;
         this.confirmarPago();
 
       },
       error: (error) => {
-
+        console.log("El error es: " ,error.error.reply);
         console.error('Error al crear la orden:', error);
-        this.isLoading = false;
+
+       if (error.error.reply?.includes('OperationNotAllowedException: Date not valid')) {
+        Swal.fire('Error', 'No se pudo crear la orden. La fecha válida para la compra ha expirado.', 'error');
+      } else {
         Swal.fire('Error', 'No se pudo crear la orden. Intenta nuevamente.', 'error');
+      }
+        this.isLoading = false;
+
       }
     });
   }
