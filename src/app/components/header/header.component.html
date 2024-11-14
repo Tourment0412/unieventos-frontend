@@ -1,14 +1,14 @@
 <div class="container">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
     <div class="col-md-3 mb-2 mb-md-0">
-      <a routerLink={{obtenerRutaSesion()}} class="d-inline-flex link-body-emphasis text-decoration-none align-items-center nav-link-custom">
+      <a  class="d-inline-flex link-body-emphasis text-decoration-none align-items-center nav-link-custom" (click)="llevarIncioSesion()">
         <i class="fa-solid fa-ticket fs-3"></i>
         <span class="fs-4 ms-3 me-3">{{title}}</span>
       </a>
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" [style]="organizarMargenSesion()">
-      <li><a routerLink={{obtenerRutaSesion()}} class="nav-link px-2 nav-link-custom">Inicio</a></li>
+      <li><a class="nav-link px-2 nav-link-custom" (click)="llevarIncioSesion()">Inicio</a></li>
       @if(isLogged && !esSesionAdmin()){
       <li><a routerLink="/historial" class="nav-link px-2 nav-link-custom">Historial</a></li>
       }
@@ -41,7 +41,7 @@
         @if (esSesionAdmin()) {
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li><a class="dropdown-item" routerLink="/user-info">Ver información de perfil</a></li>
-            
+
             <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
           </ul>
         }@else {

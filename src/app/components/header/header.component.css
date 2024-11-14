@@ -25,6 +25,7 @@
 }
 .nav-link-custom:hover {
   color: #d9bbf8;
+  cursor: pointer;
 }
 
 .dropdown-menu {

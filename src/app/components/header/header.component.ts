@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TokenService } from '../../services/token.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ export class HeaderComponent {
   isLogged = false;
   email: string = "";
 
-  constructor(private tokenService: TokenService) {
+  constructor(private tokenService: TokenService,private router: Router) {
     this.title = 'Unieventos';
     this.isLogged = this.tokenService.isLogged();
     if (this.isLogged) {
@@ -29,11 +30,27 @@ export class HeaderComponent {
     this.tokenService.logout();
   }
 
-  public obtenerRutaSesion() {
+  public llevarIncioSesion() {
+    let ruta;
+    let rutaAlterna="/register";
     if (this.tokenService.getRol()=="ADMIN") {
-      return "/home-admin";
+      ruta="/home-admin";
     } else {
-      return "";
+      if (this.tokenService.getRol()=="CLIENT") {
+        rutaAlterna="/historial";
+      }
+      ruta="/";
+    }
+    console.log(this.router.url);
+    console.log("-");
+    console.log(ruta);
+    console.log(this.router.url === ruta);
+    if (this.router.url === ruta) {
+      this.router.navigateByUrl(rutaAlterna, { skipLocationChange: true }).then(() => {
+        this.router.navigate([ruta]);
+      });
+    } else {
+      this.router.navigate([ruta]);
     }
 
   }
