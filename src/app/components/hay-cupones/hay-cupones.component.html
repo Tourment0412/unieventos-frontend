@@ -23,7 +23,10 @@
       }
 
     </div>
-    <nav aria-label="Page navigation example">
+
+    
+
+    <nav class="d-flex justify-content-center" aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item" [class.disabled]="currentPage===0"><a class="page-link" (click)="previousPage()">Previous</a></li>
             @for (item of pages; track $index) {
