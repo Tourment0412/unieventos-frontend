@@ -59,7 +59,9 @@ export class VerificarCuentaComponent {
   }
 
   public reenviarCodigo() {
-    this.authService.reenviarCodigoVerificacion(this.email).subscribe({
+    this.isLoading=true;
+    const emailToSend= this.verificarCuentaForm.get('email')?.value;
+    this.authService.reenviarCodigoVerificacion(emailToSend).subscribe({
       next: (data) => {
         Swal.fire({
           title: 'Código reenviado',
@@ -67,6 +69,7 @@ export class VerificarCuentaComponent {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
+        this.isLoading=false;
       },
       error: (error) => {
         if(this.email === '') {
@@ -76,6 +79,7 @@ export class VerificarCuentaComponent {
             icon: 'error',
             confirmButtonText: 'Aceptar'
           })
+          this.isLoading=false;
         } else {
           Swal.fire({
             title: 'Error',
@@ -83,6 +87,7 @@ export class VerificarCuentaComponent {
             icon: 'error',
             confirmButtonText: 'Aceptar'
           });
+          this.isLoading=false;
         }
 
       }
