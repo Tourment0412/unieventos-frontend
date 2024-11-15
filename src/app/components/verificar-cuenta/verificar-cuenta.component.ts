@@ -44,6 +44,7 @@ export class VerificarCuentaComponent {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
+        this.isLoading=false;
       },
       error: error => {
         Swal.fire({
@@ -52,6 +53,7 @@ export class VerificarCuentaComponent {
           icon: 'error',
           confirmButtonText: 'Aceptar'
         })
+        this.isLoading=false;
       }
     });
   }
