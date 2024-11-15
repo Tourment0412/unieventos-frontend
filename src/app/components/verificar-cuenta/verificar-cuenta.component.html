@@ -16,12 +16,12 @@
           <input type="text" class="form-control" formControlName="registrationValidationCode" />
         </div>
         <div class="col-12 text-center">
-          <button type="submit" class="btn btn-custom custom-button" [disabled]="verificarCuentaForm.invalid">
+          <button type="submit" class="btn btn-custom custom-button" [disabled]="verificarCuentaForm.invalid || isLoading">
             <i class="fa-solid fa-plus me-2"></i>Verificar Cuenta
           </button>
         </div>
         <div class="text-center mb-3">
-          <button type="button" class="btn btn-secondary" (click)="reenviarCodigo()">
+          <button type="button" class="btn btn-secondary" [disabled]="verificarCuentaForm.invalid || isLoading" (click)="reenviarCodigo()">
             Reenviar Código de Validacion
           </button>
         </div>

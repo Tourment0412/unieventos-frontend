@@ -6,13 +6,13 @@ import { Validators } from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import { CrearCuentaDTO } from '../../dto/crear-cuenta-dto';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

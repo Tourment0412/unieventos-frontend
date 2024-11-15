@@ -41,17 +41,21 @@
 
                 }
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-custom custom-button" [disabled]="registerForm.invalid || isLoading">
+                    <button type="submit" class="btn btn-custom custom-button"
+                        [disabled]="registerForm.invalid || isLoading">
                         <i class="fa-solid fa-plus me-2"></i>Registrarse
                     </button>
                 </div>
+                <div class="col-12 text-center mt-3">
+                    <a routerLink="/validar-cuenta" class="btn btn-link">¿Desea reenviar codigo de validación?</a>
+                </div>
                 @if(isLoading){
-                    <div class="d-flex justify-content-center">
-                      <div class="spinner-border" role="status">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
-                      </div>
                     </div>
-                  }
+                </div>
+                }
             </form>
         </div>
     </div>
