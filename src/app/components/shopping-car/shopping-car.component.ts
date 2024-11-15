@@ -110,6 +110,7 @@ export class ShoppingCarComponent {
   }
 
   public verificarEstadoPago(estado: string): void {
+    console.log("Verificando estado del pago:", estado);
     switch (estado) {
       case 'success':
         Swal.fire({
