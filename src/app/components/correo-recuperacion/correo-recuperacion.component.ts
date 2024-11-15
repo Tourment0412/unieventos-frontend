@@ -43,13 +43,24 @@ export class correoRecuperacionComponent {
         this.router.navigate(['/cambiar-password']);
       },
       error: error => {
+        if(this.recoveryForm.get('email')?.value === '') {
+          this.isLoading = false;
+          Swal.fire({
+            title: 'Error',
+            text: 'No se ha ingresado un correo electronico',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          })
+        }else{
+          Swal.fire({
+            title: 'Error',
+            text: error.error.reply,
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          })
+        }
         this.isLoading = false;
-        Swal.fire({
-          title: 'Error',
-          text: error.error.reply,
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        })
+
       }
     })
   }
