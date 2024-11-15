@@ -110,14 +110,41 @@ export class ShoppingCarComponent {
   }
 
   public verificarEstadoPago(estado: string): void {
-    if (estado === 'success') {
-      Swal.fire('Pago Exitoso', 'Tu pago ha sido procesado exitosamente.', 'success');
-    } else if (estado === 'failure') {
-      Swal.fire('Pago Fallido', 'Hubo un problema con tu pago. Inténtalo nuevamente.', 'error');
-    } else if (estado === 'pending') {
-      Swal.fire('Pago Pendiente', 'Tu pago está en proceso. Te notificaremos cuando se complete.', 'info');
+    switch (estado) {
+      case 'success':
+        Swal.fire({
+          title: 'Pago Exitoso',
+          text: 'Tu pago ha sido procesado exitosamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        break;
+      case 'failure':
+        Swal.fire({
+          title: 'Pago Fallido',
+          text: 'Hubo un problema con tu pago. Inténtalo nuevamente.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+        break;
+      case 'pending':
+        Swal.fire({
+          title: 'Pago Pendiente',
+          text: 'Tu pago está en proceso. Te notificaremos cuando se complete.',
+          icon: 'info',
+          confirmButtonText: 'Aceptar'
+        });
+        break;
+      default:
+        Swal.fire({
+          title: 'Estado desconocido',
+          text: 'Hubo un problema al verificar el estado del pago.',
+          icon: 'warning',
+          confirmButtonText: 'Aceptar'
+        });
     }
   }
+
 
   obtenerItemsCarrito(): void {
     console.log("Obteniendo items del carrito...");
