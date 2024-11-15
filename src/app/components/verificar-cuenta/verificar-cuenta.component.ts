@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service';
 import { ActivateAccountDTO } from '../../dto/activate-account-dto';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verificar-cuenta',
@@ -17,9 +18,7 @@ export class VerificarCuentaComponent {
   verificarCuentaForm!: FormGroup;
   email: string;
   isLoading: boolean=false;
-
-  constructor(private formbuilder: FormBuilder, private dataService: DataService, private authService: AuthService) {
-
+  constructor(private formbuilder: FormBuilder, private dataService: DataService, private authService: AuthService, private router: Router) {
     this.email = this.dataService.getData();
     this.createForm();
   }
@@ -44,6 +43,7 @@ export class VerificarCuentaComponent {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
+        this.router.navigate(['/login']);
         this.isLoading=false;
       },
       error: error => {
