@@ -8,7 +8,7 @@ export class DataService {
   private data: any;
 
   constructor(){
-    this.data = "Default";
+    this.data = "";
   }
 
   setData(data: any) {
