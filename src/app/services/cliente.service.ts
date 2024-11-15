@@ -51,6 +51,10 @@ export class ClienteService {
     return this.http.post<MensajeDTO>(`${this.clienteURL}/coupon/get-info-code`, valideCouponDTO);
   }
 
+  public obtenerInfoCuponId(idCoupon: String): Observable<MensajeDTO> {
+    return this.http.get<MensajeDTO>(`${this.clienteURL}/coupon/get-info/${idCoupon}`);
+  }
+
   public crearOrden(createOrderDTO: CreateOrderDTO): Observable<MensajeDTO> {
     return this.http.post<MensajeDTO>(`${this.clienteURL}/order/create`, createOrderDTO);
   }

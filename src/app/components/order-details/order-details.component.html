@@ -3,7 +3,6 @@
     <h5 class="mb-0">Detalles de la Orden</h5>
   </div>
   <div class="card-body">
-    <!-- Información del Cliente con relieve -->
     <div class="row">
       <div class="col-md-6">
         <div class="card shadow-sm mb-3">
@@ -11,30 +10,28 @@
             <h6 class="mb-0">Información del Cliente:</h6>
           </div>
           <div class="card-body">
-            <p><strong>Cliente ID:</strong> {{ order.clientId }}</p>
+            <p><strong>Cliente:</strong> {{ nombreCliente }}</p>
             <p><strong>Fecha de la Orden:</strong> {{ order.orderDate | date }}</p>
-            <p><strong>Estado:</strong> {{ order.status }}</p>
+            <p><strong>Estado:</strong> {{ order.status ? order.status : 'No Pagada' }}</p>
           </div>
         </div>
       </div>
 
-      <!-- Detalles del Pago con relieve -->
       <div class="col-md-6">
         <div class="card shadow-sm mb-3">
           <div class="card-header bg-light">
             <h6 class="mb-0">Detalles del Pago:</h6>
           </div>
           <div class="card-body">
-            <p><strong>Tipo de Pago:</strong> {{ order.paymentType }}</p>
-            <p><strong>Fecha de Pago:</strong> {{ order.paymentDate ? (order.paymentDate | date) : 'No pagado' }}</p>
+            <p><strong>Tipo de Pago:</strong> {{ order.paymentType ? order.paymentType : 'N/A' }}</p>
+            <p><strong>Fecha de Pago:</strong> {{ order.paymentDate ? (order.paymentDate | date) : 'N/A' }}</p>
             <p><strong>Total:</strong> ${{ order.total.toFixed(2) }}</p>
-            <p><strong>Cupón:</strong> {{ order.couponId || 'Ninguno' }}</p>
+            <p><strong>Cupón:</strong> {{ coupon? coupon.name : 'Ninguno' }}</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Detalles de los Ítems -->
     <h6 class="mt-4">Detalles de los Ítems:</h6>
     <div class="table-responsive">
       <table class="table table-striped table-bordered">
@@ -49,7 +46,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of order.items">
-            <td>{{ item.eventId }}</td>
+            <td>{{ eventos[item.eventId] || 'Cargando...' }}</td>
             <td>{{ item.locationName }}</td>
             <td>{{ item.quantity }}</td>
             <td>${{ item.price.toFixed(2) }}</td>
