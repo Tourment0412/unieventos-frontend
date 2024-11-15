@@ -1,28 +1,18 @@
 <div class="container">
-
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     @for (item of events; track $index) {
     <div class="col">
-      <div class="card shadow-sm">
-        <!-- <div class="card-title">{{item.name}} </div>-->
-        <img class="card-img-top"
-          src={{item.coverImage}}
-          alt="Event cover image" width="100%" height="225">
+      <div class="card shadow-sm" (click)="irADetalleEvento(item.id)">
+        <img class="card-img-top" src={{item.coverImage}} alt="Event cover image" width="100%" height="225">
         <div class="card-body">
           <div class="card-title fw-bold">{{item.name}}</div>
           <p class="card-text"> {{item.address}}, {{item.city}} </p>
           <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-primary" (click)="irADetalleEvento(item.id)">View</button>
-            </div>
             <small class="text-body-secondary"> {{item.date | date:'fullDate'}} </small>
           </div>
         </div>
       </div>
     </div>
     }
-
-
   </div>
-
 </div>
