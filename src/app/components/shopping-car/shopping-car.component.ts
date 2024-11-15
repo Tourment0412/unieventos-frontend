@@ -35,14 +35,15 @@ export class ShoppingCarComponent {
   isLoading: boolean=false;
 
   constructor(private clienteService: ClienteService, private tokenService: TokenService, private route: ActivatedRoute) {
-    this.obtenerItemsCarrito();
-    this.obtenerCuponesDisponibles();
-    this.route.queryParams.subscribe(params => {
-      const paymentStatus = params['status'];
-      if (paymentStatus) {
-        this.verificarEstadoPago(paymentStatus);
-      }
-    });
+  this.obtenerItemsCarrito();
+  this.obtenerCuponesDisponibles();
+  this.route.queryParams.subscribe(params => {
+    const paymentStatus = params['status'];
+    if (paymentStatus) {
+      console.log('Payment status:', paymentStatus[0]);
+      this.verificarEstadoPago(paymentStatus[0]);
+    }
+  });
 
   }
 
