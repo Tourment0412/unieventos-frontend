@@ -58,4 +58,35 @@ export class VerificarCuentaComponent {
     });
   }
 
+  public reenviarCodigo() {
+    this.authService.reenviarCodigoVerificacion(this.email).subscribe({
+      next: (data) => {
+        Swal.fire({
+          title: 'Código reenviado',
+          text: 'El código de verificación ha sido reenviado a su correo electrónico',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      },
+      error: (error) => {
+        if(this.email === '') {
+          Swal.fire({
+            title: 'Error',
+            text: 'No se ha ingresado un correo electrónico',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: error.error.reply,
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+
+      }
+    });
+  }
+
 }

@@ -45,5 +45,7 @@ export class AuthService {
     return this.http.put<MensajeDTO>(`${this.authURL}/change-password`, cambiarContra);
   }
 
-
+  public reenviarCodigoVerificacion (email: string): Observable<MensajeDTO> {
+    return this.http.put<MensajeDTO>(`${this.authURL}/resend-validation/${email}`, {});
+  }
 }
