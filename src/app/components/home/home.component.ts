@@ -88,7 +88,7 @@ export class HomeComponent {
         this.currentPage=eventFilterDTO.page;
         this.filterUsed=true;
         this.actualizarEventsAvailable();
-        this.resetForm();
+        //this.resetForm();
       },
       error: (error) => {
         console.error(error);
