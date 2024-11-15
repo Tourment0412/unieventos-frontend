@@ -15,12 +15,11 @@
 }
 
 .btn-custom {
-  background-color: #65558f; /* Color personalizado del botón de registro */
+  background-color: #65558f;
   border-color: #65558f;
   color: white;
 }
 
-/* Colores personalizados */
 .text-success {
   color: green;
 }

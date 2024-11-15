@@ -1,10 +1,8 @@
-/* Contenedor general */
 .container {
   max-width: 90%;
   margin: auto;
 }
 
-/* Botones */
 .btn-primary {
   background-color: #65558f;
   border-color: #65558f;
@@ -20,7 +18,6 @@
   transition: transform 0.3s;
 }
 
-/* Estilo de la tabla */
 .table {
   background-color: #ffffff;
   color: #65558f;
@@ -37,7 +34,6 @@
   background-color: #eae3f1;
 }
 
-/* Enlace de "Ver detalle" */
 .table a {
   color: #65558f;
   text-decoration: none;

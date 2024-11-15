@@ -1,6 +1,6 @@
 /* Barra de filtros */
 .filter-bar {
-  background-color: #f8f9fa; /* Color claro para contraste */
+  background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -21,9 +21,9 @@
 }
 
 #carouselId .carousel-inner img {
-  width: 1000px; /* Cambia el ancho según lo necesites */
-  height: 350px; /* Cambia la altura según lo necesites */
-  object-fit: cover; /* Ajusta cómo la imagen se adapta al contenedor */
+  width: 1000px;
+  height: 350px;
+  object-fit: cover;
 }
 li::marker {
   color: transparent;

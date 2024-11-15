@@ -1,10 +1,9 @@
-/* Estilo general del contenedor */
+
 .container {
   max-width: 90%;
   margin: auto;
 }
 
-/* Botones */
 .btn-success {
   background-color: #c794fa;
   border-color: #c794fa;
@@ -25,13 +24,11 @@
   border-color: black;
 }
 
-/* Animación de efecto en hover para botón de eliminación */
 .btn-danger.anim-e:hover {
   transform: scale(1.05);
   transition: transform 0.3s;
 }
 
-/* Estilos de la tabla */
 .table {
   background-color: #ffffff;
   color: #c794fa;
@@ -48,7 +45,6 @@
   background-color: #eae3f1;
 }
 
-/* Enlace de "Ver detalle" */
 .table a {
   color: #c794fa;
   text-decoration: none;

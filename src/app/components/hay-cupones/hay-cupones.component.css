@@ -1,19 +1,19 @@
 .badge-unique {
     background-color: blue;
     color: white;
-    border-radius: 0.25rem; /* Adjust the value as needed */
-    padding: 0.25rem 0.5rem; /* Adjust the value as needed */
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
     display: inline-block;
   }
-  
+
   .badge-multiple {
     background-color: lightgreen;
     color: black;
-    border-radius: 0.25rem; /* Adjust the value as needed */
-    padding: 0.25rem 0.5rem; /* Adjust the value as needed */
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
     display: inline-block;
   }
-  
+
   .badge-text {
     font-size: 0.75rem; /* Adjust the value as needed */
   }

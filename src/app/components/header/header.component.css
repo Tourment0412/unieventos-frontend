@@ -2,12 +2,12 @@
 
 /* Estilos personalizados para los botones */
 .btn-custom-primary {
-  background-color: #c794fa; /* Color personalizado del botón de registro */
+  background-color: #c794fa;
   border-color: #c794fa;
   color: white;
 }
 .btn-custom-primary:hover {
-  background-color: #d9bbf8; /* Color al pasar el cursor */
+  background-color: #d9bbf8;
   border-color: #d9bbf8;
 }
 

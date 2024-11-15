@@ -6,7 +6,7 @@
 .card-header {
     padding: 0;
     position: relative;
-    height: 200px; /* Adjust the height as needed */
+    height: 200px;
 }
 
 .card-banner {
@@ -20,8 +20,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3rem; /* Adjust the size as needed */
-    color: #f3eef8; /* Adjust the color as needed */
+    font-size: 3rem;
+    color: #f3eef8;
 }
 
 .card-body {
@@ -45,7 +45,7 @@
 }
 
 .btn-update:hover {
-    background-color: #7a6fa3; /* Lighter shade of the original color */
+    background-color: #7a6fa3;
 }
 
 .btn-delete {
@@ -58,10 +58,10 @@
 }
 
 .btn-delete:hover {
-    background-color: #ff4d4d; /* Lighter shade of the original color */
+    background-color: #ff4d4d;
 }
 .btn-save {
-    background-color: #28a745; /* Green color */
+    background-color: #28a745;
     color: white;
     border-radius: 20px;
     padding: 10px 20px;
@@ -70,11 +70,11 @@
 }
 
 .btn-save:hover {
-    background-color: #5cd65c; /* Lighter shade of green */
+    background-color: #5cd65c;
 }
 
 .btn-back {
-    background-color: #4f504f; /* Green color */
+    background-color: #4f504f;
     color: white;
     border-radius: 20px;
     padding: 10px 20px;

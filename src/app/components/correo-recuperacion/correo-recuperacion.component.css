@@ -1,19 +1,17 @@
 /* Contenedor principal de ambos componentes */
 .main-container {
   display: flex;
-  flex-direction: column; /* Alinear los elementos verticalmente */
-  align-items: center; /* Centrar horizontalmente */
+  flex-direction: column;
+  align-items: center;
   margin: auto;
-  width: 400px; /* Ancho fijo */
+  width: 400px;
 }
 
-/* Contenedor para los círculos decorativos */
 .decorative-circles {
-  position: relative; /* Mantener la posición relativa */
-  margin-bottom: 20px; /* Espacio entre los círculos y el formulario */
+  position: relative;
+  margin-bottom: 20px;
 }
 
-/* Estilo para los círculos decorativos */
 .circle {
   width: 30px;
   height: 30px;
@@ -21,49 +19,44 @@
   position: absolute;
 }
 
-/* Posición de los círculos decorativos en la parte superior */
+
 .circle-one {
-  top: 20px; /* Ajustar según sea necesario */
-  left: calc(50% - 40px); /* Alinear a la izquierda del centro */
+  top: 20px;
+  left: calc(50% - 40px);
   background-color: #65558f;
 }
 
 .circle-two {
-  top: 20px; /* Mantener alineado con el círculo uno */
-  left: calc(50% + 40px); /* Alinear a la derecha del centro */
+  top: 20px;
+  left: calc(50% + 40px);
   background-color: #c1bbd2;
 }
 
-/* Línea decorativa */
 .line {
   position: absolute;
-  top: 35px; /* Justo debajo de los círculos */
-  left: calc(50% - 30px); /* Centrado entre los círculos */
-  height: 2px; /* Grosor de la línea */
-  width: 60px; /* Longitud de la línea */
-  background-color: #65558f; /* Color de la línea */
+  top: 35px;
+  left: calc(50% - 30px);
+  height: 2px;
+  width: 60px;
+  background-color: #65558f;
 }
 
-/* Fondo y bordes de la tarjeta */
 .card {
   background-color: rgba(255, 12, 12, 0.5);
   border: none;
   border-radius: 20px;
 }
 
-/* Título */
 .card-title {
   color: #65558f;
   font-weight: bold;
-  text-align: center; /* Centrar el título */
+  text-align: center;
 }
 
-/* Labels */
 .form-label {
   color: #65558f;
 }
 
-/* Inputs */
 .form-control {
   border-color: #65558f;
 }
@@ -73,9 +66,8 @@
   box-shadow: 0 0 5px rgba(101, 85, 143, 0.5);
 }
 
-/* Estilo para el botón */
 .btn-custom {
-  background-color: #65558f; /* Color personalizado del botón de registro */
+  background-color: #65558f;
   border-color: #65558f;
   color: white;
 }
@@ -84,15 +76,13 @@
   background-color: #52407e;
 }
 
-/* Espaciado para la sección de cambio de contraseña */
 .changePasswordDiv {
-  margin-top: 50px; /* Ajusta el valor según sea necesario */
+  margin-top: 50px;
 }
 
-/* Opcional: Ajustar el formulario */
 .correoRecuperacion {
-  background-color: #c1bbd2; /* Fondo del formulario */
-  padding: 20px; /* Espaciado interno */
-  border-radius: 15px; /* Bordes redondeados del formulario */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  background-color: #c1bbd2;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

@@ -1,69 +1,62 @@
-/* card.component.css */
 
-/* Configuración básica del mat-card */
 mat-card {
-  max-width: 400px; /* Ancho máximo de la tarjeta */
-  margin: 20px auto; /* Centra la tarjeta horizontalmente */
-  border: 1px solid #857e81; /* Borde de color gris oscuro */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  background-color: #f8f4fa; /* Fondo ligeramente claro */
-  color: #857e81; /* Color de texto principal */
-  transition: transform 0.3s ease; /* Suaviza la transición */
+  max-width: 400px;
+  margin: 20px auto;
+  border: 1px solid #857e81;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f4fa;
+  color: #857e81;
+  transition: transform 0.3s ease;
 }
 
 mat-card:hover {
-  transform: scale(1.02); /* Efecto de agrandamiento al pasar el cursor */
+  transform: scale(1.02);
 }
 
-/* Configuración de imagen dentro de la tarjeta */
 mat-card img {
-  width: 100%; /* Imagen ocupa todo el ancho de la tarjeta */
-  height: auto; /* Mantiene la proporción de la imagen */
-  border-radius: 8px 8px 0 0; /* Bordes redondeados en la parte superior */
+  width: 100%;
+  height: auto;
+  border-radius: 8px 8px 0 0;
 }
 
-/* Configuración de acciones dentro de la tarjeta */
 mat-card-actions {
   display: flex;
-  flex-direction: row; /* Los botones en una fila */
-  justify-content: flex-end; /* Alinea los botones a la derecha */
+  flex-direction: row;
+  justify-content: flex-end;
   padding: 16px;
 }
 
-/* Configuración específica para botones */
 button {
-  background-color: #c794fa; /* Color principal del botón */
-  color: white; /* Color del texto */
-  border-radius: 4px; /* Bordes ligeramente redondeados */
-  padding: 8px 16px; /* Espaciado interno */
-  margin-left: 8px; /* Margen entre los botones */
-  transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+  background-color: #c794fa;
+  color: white;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #a56cdb; /* Oscurece el botón al hacer hover */
+  background-color: #a56cdb;
 }
 
-/* Encabezado de la tarjeta */
 mat-card-header {
   background-color: #d9bbf8;
   padding: 16px;
-  border-radius: 8px 8px 0 0; /* Bordes redondeados en la parte superior */
+  border-radius: 8px 8px 0 0;
 }
 
 mat-card-title {
   font-size: 1.5rem;
-  color: #857e81; /* Color del título */
+  color: #857e81;
   font-weight: bold;
 }
 
 mat-card-subtitle {
   font-size: 1rem;
-  color: #c794fa; /* Color del subtítulo */
+  color: #c794fa;
 }
 
-/* Estilos del contenido de la tarjeta */
 mat-card-content p {
   font-size: 1rem;
   color: #857e81;
