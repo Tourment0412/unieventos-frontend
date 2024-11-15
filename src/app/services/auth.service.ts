@@ -40,6 +40,7 @@ export class AuthService {
     return this.http.put<MensajeDTO>(`${this.authURL}/send-recover/${email}`, {});
   }
 
+  //Prueba
   public cambiarContrasenia(cambiarContra: CambiarContraDTO): Observable<MensajeDTO> {
     return this.http.put<MensajeDTO>(`${this.authURL}/change-password`, cambiarContra);
   }
