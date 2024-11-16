@@ -2,7 +2,7 @@
 .card {
   margin-top: 20px;
   border: 1px solid #e0e0e0;
-  border-radius: 8px; /* Bordes redondeados */
+  border-radius: 8px;
 }
 
 .card-header {
@@ -15,41 +15,38 @@
 
 .card-body {
   padding: 15px;
-  background-color: white; /* Fondo blanco para el cuerpo de la tarjeta */
+  background-color: white;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 
-/* Estilo para la tabla */
 table th, table td {
   text-align: center;
   padding: 12px;
-  border: 1px solid #ddd; /* Bordes suaves para las celdas */
+  border: 1px solid #ddd;
   vertical-align: middle;
 }
 
 table th {
-  background-color: #c794fa; /* Color de fondo de los encabezados */
-  color: white; /* Color de texto en los encabezados */
+  background-color: #c794fa;
+  color: white;
 }
 
 table td {
-  background-color: #f9f9f9; /* Fondo suave para las celdas */
+  background-color: #f9f9f9;
 }
 
-/* Estilo para las filas de la tabla */
 table tbody tr:nth-child(even) {
-  background-color: #f2f2f2; /* Color de fondo para filas pares */
+  background-color: #f2f2f2;
 }
 
 table tbody tr:hover {
-  background-color: #e0e0e0; /* Color de fondo al pasar el ratón por encima */
+  background-color: #e0e0e0;
 }
 
-/* Estilo para los botones */
 button {
-  background-color: #b08bd1; /* Color de fondo para los botones */
-  color: white; /* Color del texto del botón */
+  background-color: #b08bd1;
+  color: white;
   border: none;
   border-radius: 4px;
   padding: 10px 20px;
@@ -58,43 +55,36 @@ button {
 }
 
 button:hover {
-  background-color: #c794fa; /* Color cuando el botón es hover */
+  background-color: #c794fa;
 }
 
-/* Estilo de las secciones dentro de las tarjetas */
 .card .card-body .card {
   margin-top: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Colores de fondo para la página */
 body {
   background-color: #f4f4f9;
 }
 
-/* Estilo de los encabezados principales */
 h5, h6 {
   color: #b08bd1;
   font-weight: weight;
 }
 
-/* Estilo de los títulos dentro de las tarjetas */
 .card-header h6 {
   font-size: 1.1rem;
 }
 
-/* Estilo para las filas de la tabla */
 table tr:nth-child(odd) td {
   background-color: white;
 }
 
-/* Estilo para los párrafos en las tarjetas */
 .card-body p {
   font-size: 1rem;
   color: #333;
 }
 
-/* Separadores entre las secciones dentro de la tarjeta */
 .card-body .card {
   margin-top: 20px;
 }

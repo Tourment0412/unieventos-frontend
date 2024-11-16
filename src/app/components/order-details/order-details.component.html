@@ -49,8 +49,8 @@
             <td>{{ eventos[item.eventId] || 'Cargando...' }}</td>
             <td>{{ item.locationName }}</td>
             <td>{{ item.quantity }}</td>
+            <td>${{ (item.price/order.items.length).toFixed(2) }}</td>
             <td>${{ item.price.toFixed(2) }}</td>
-            <td>${{ (item.price * item.quantity).toFixed(2) }}</td>
           </tr>
         </tbody>
       </table>
